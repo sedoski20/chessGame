@@ -1,4 +1,6 @@
-#pragma once
+#ifndef POSITION_H
+#define POSITION_H
+
 #include <string>
 
 class Position 
@@ -15,3 +17,5 @@ public:
 	bool operator==(const Position &other);
 };
 
+
+#endif // POSITION_H

@@ -1,3 +1,6 @@
+#ifndef PIECE_H
+#define PIECE_H
+
 #include "position.h"
 #include <string>
 #include <vector>
@@ -21,3 +24,4 @@ public:
 													   const std::vector<Position> & opponentPieces) = 0;
 };
 
+#endif //PIECE_H
