@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../../src/pawn.h"
 #include <algorithm>
+#include "pawn.h"
 
 
 int main(int argc, char* argv[])
@@ -81,6 +81,7 @@ TEST(PawnTestCase, MovingTest2)
 }
 TEST(PawnTestCase, PossibleMovements1)
 {
+	//3 Possible movements available
 	Position initial_position(1, 0);
 	Pawn pawn(initial_position, movementDirection::MOVING_UP);
 
@@ -112,9 +113,9 @@ TEST(PawnTestCase, PossibleMovements1)
 	EXPECT_EQ(found_m3, true);
 
 }
-
 TEST(PawnTestCase, PossibleMovements2)
 {
+	//1 Possible movements available
 	Position initial_position(0, 0);
 	Pawn pawn(initial_position, movementDirection::MOVING_DOWN);
 	Position second_position(5, 4);
@@ -134,4 +135,21 @@ TEST(PawnTestCase, PossibleMovements2)
 	bool found_m1 = (iterator != std::end(possible_movements));
 	EXPECT_EQ(found_m1, true);
 
+}
+TEST(PawnTestCase, PossibleMovements3)
+{
+	//No Possible movements available
+	Position initial_position(3, 2);
+	Pawn pawn(initial_position, movementDirection::MOVING_DOWN);
+	Position second_position(4, 2);
+	pawn.move(second_position);
+
+	Position opponent(3, 2);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+	opponent_pieces.push_back(opponent);
+
+	std::vector<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
+	EXPECT_EQ(int(possible_movements.size()), 0);
 }
