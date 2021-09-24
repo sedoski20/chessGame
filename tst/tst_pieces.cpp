@@ -1,18 +1,11 @@
 #include <gtest/gtest.h>
 #include <algorithm>
-#include "pawn.h"
-
-
-int main(int argc, char* argv[])
-{
-	testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
-}
+#include "../src/pawn.h"
 
 TEST(PawnTestCase, ConstructorTest1)
 {
 	Position initial_position(0, 0);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 	
 	EXPECT_EQ(pawn.getCurrentPosition().row, 0);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 0);
@@ -20,7 +13,7 @@ TEST(PawnTestCase, ConstructorTest1)
 TEST(PawnTestCase, ConstructorTest2)
 {
 	Position initial_position(4, 5);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP); 	
+	Pawn pawn(initial_position); 	
 
 	EXPECT_EQ(pawn.getCurrentPosition().row, 4);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 5);
@@ -28,7 +21,7 @@ TEST(PawnTestCase, ConstructorTest2)
 TEST(PawnTestCase, ConstructorTest3)
 {
 	Position initial_position(-1, 5);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	EXPECT_EQ(pawn.getCurrentPosition().row, 0);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 0);
@@ -36,7 +29,7 @@ TEST(PawnTestCase, ConstructorTest3)
 TEST(PawnTestCase, ConstructorTest4)
 {
 	Position initial_position(4, -1);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	EXPECT_EQ(pawn.getCurrentPosition().row, 0);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 0);
@@ -44,7 +37,7 @@ TEST(PawnTestCase, ConstructorTest4)
 TEST(PawnTestCase, ConstructorTest5)
 {
 	Position initial_position(9, 2);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	EXPECT_EQ(pawn.getCurrentPosition().row, 0);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 0);
@@ -52,7 +45,7 @@ TEST(PawnTestCase, ConstructorTest5)
 TEST(PawnTestCase, ConstructorTest6)
 {
 	Position initial_position(2, 9);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	EXPECT_EQ(pawn.getCurrentPosition().row, 0);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 0);
@@ -60,7 +53,7 @@ TEST(PawnTestCase, ConstructorTest6)
 TEST(PawnTestCase, MovingTest1)
 {
 	Position initial_position(1, 1);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	Position new_position(2, 3);
 	pawn.move(new_position);
@@ -71,7 +64,7 @@ TEST(PawnTestCase, MovingTest1)
 TEST(PawnTestCase, MovingTest2)
 {
 	Position initial_position(1, 1);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	Position new_position(1, 5);
 	pawn.move(new_position);
@@ -83,7 +76,7 @@ TEST(PawnTestCase, PossibleMovements1)
 {
 	//3 Possible movements available
 	Position initial_position(1, 0);
-	Pawn pawn(initial_position, movementDirection::MOVING_UP);
+	Pawn pawn(initial_position);
 
 	Position opponent(2, 1);
 	std::vector<Position> opponent_pieces;
@@ -117,7 +110,7 @@ TEST(PawnTestCase, PossibleMovements2)
 {
 	//1 Possible movements available
 	Position initial_position(0, 0);
-	Pawn pawn(initial_position, movementDirection::MOVING_DOWN);
+	Pawn pawn(initial_position);
 	Position second_position(5, 4);
 	pawn.move(second_position);
 
@@ -140,7 +133,7 @@ TEST(PawnTestCase, PossibleMovements3)
 {
 	//No Possible movements available
 	Position initial_position(3, 2);
-	Pawn pawn(initial_position, movementDirection::MOVING_DOWN);
+	Pawn pawn(initial_position);
 	Position second_position(4, 2);
 	pawn.move(second_position);
 
