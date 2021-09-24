@@ -1,11 +1,15 @@
 #include "pawn.h"
 #include <algorithm>
 
-Pawn::Pawn(Position intialPosition, movementDirection direction)
+Pawn::Pawn(Position intialPosition)
 {
 	this->currentPosition = intialPosition;
-	this->direction = direction;
 	this->isFirstMovement = true;
+
+	if(intialPosition.row == 1)
+		this->direction = movementDirection::MOVING_UP;
+	else
+		this->direction = movementDirection::MOVING_DOWN;
 }
 
 std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & selfPieces, const std::vector<Position> & opponentPieces)

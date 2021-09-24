@@ -3,17 +3,10 @@
 
 #include "piece.h"
 
-
-enum class movementDirection
-{
-	MOVING_UP,
-	MOVING_DOWN
-};
-
 class Pawn : public Piece
 {
 public:
-	Pawn(Position intialPosition, movementDirection direction);
+	Pawn(Position intialPosition);
 	std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 	bool move(Position positon);
 
