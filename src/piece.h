@@ -5,8 +5,11 @@
 #include <string>
 #include <vector>
 
-#pragma once
-
+enum class movementDirection
+{
+	MOVING_UP,
+	MOVING_DOWN
+};
 
 class Piece
 {
@@ -17,9 +20,9 @@ protected:
 public: 
 	Piece();
 	Piece(Position initialPostion);
-	Position getCurrentPosition();
-	bool move(Position positon);
 	void destroy();
+	virtual bool move(Position positon);
+	virtual Position getCurrentPosition();
 	virtual std::vector<Position> getPossibleMovements(const std::vector<Position> & selfPieces,
 													   const std::vector<Position> & opponentPieces) = 0;
 };
