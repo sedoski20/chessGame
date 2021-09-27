@@ -12,12 +12,6 @@ private:
     void getHorizontalMovements(std::vector<Position> & movements, const std::vector<Position> & selfPieces, const std::vector<Position>& opponentPieces);
     void getVerticalMovements(std::vector<Position> & movements, const std::vector<Position> & selfPieces, const std::vector<Position>& opponentPieces);
     
-
-    
-
 };
-
-
-
 
 #endif // ROOK_H

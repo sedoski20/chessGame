@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include "../src/pawn.h"
+#include "../src/rook.h"
 
 TEST(PawnTestCase, ConstructorTest1)
 {
@@ -145,4 +146,15 @@ TEST(PawnTestCase, PossibleMovements3)
 
 	std::vector<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
 	EXPECT_EQ(int(possible_movements.size()), 0);
+}
+
+TEST(RookTestCase, ConstructorTest1)
+{
+	Position initial_position(3, 2);
+	Rook rook1(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	std::vector<Position> possible_movements = rook1.getPossibleMovements(self_pieces, opponent_pieces);
 }
