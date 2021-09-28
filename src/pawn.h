@@ -6,7 +6,7 @@
 class Pawn : public Piece
 {
 public:
-	Pawn(Position intialPosition);
+	Pawn(Position initialPosition);
 	std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 	bool move(Position positon);
 

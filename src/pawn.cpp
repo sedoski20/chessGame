@@ -1,12 +1,11 @@
 #include "pawn.h"
 #include <algorithm>
 
-Pawn::Pawn(Position intialPosition)
+Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 {
-	this->currentPosition = intialPosition;
 	this->isFirstMovement = true;
 
-	if(intialPosition.row == 1)
+	if(initialPosition.row == 1)
 		this->direction = movementDirection::MOVING_UP;
 	else
 		this->direction = movementDirection::MOVING_DOWN;
