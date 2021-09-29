@@ -22,5 +22,14 @@
         ]
     },
     "testExplorer.useNativeTesting": false,
-    "testMate.cpp.test.executables": "{build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST,tst}*"
+    "catch2TestExplorer.executables": [
+        {
+            "name": "${filename} (${relDirpath})",
+            "pattern": "{build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST,tst}*",
+            "cwd": "${absDirpath}",
+            "env": {
+                "C2TESTEXECUTABLEPATH": "${absPath}"
+            }
+        }
+    ],
 }
