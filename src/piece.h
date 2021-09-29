@@ -20,6 +20,7 @@ protected:
 public: 
 	Piece();
 	Piece(Position initialPostion);
+	static bool hasPieceOnPosition(const std::vector<Position>& pieces, const Position position);
 	void destroy();
 	virtual bool move(Position positon);
 	virtual Position getCurrentPosition();
