@@ -35,7 +35,7 @@ std::string Position::toString()
 	return position;
 }
 
-bool Position::operator==(const Position& other)
+bool Position::operator==(const Position& other) const
 {
 	if(this->row != other.row)
 		return false;

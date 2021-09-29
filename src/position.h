@@ -14,7 +14,7 @@ public:
 	Position( int row,  int column);
 	bool isValidPosition();
 	std::string toString();
-	bool operator==(const Position &other);
+	bool operator==(const Position &other) const;
 };
 
 
