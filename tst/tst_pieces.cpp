@@ -3,6 +3,40 @@
 #include "../src/pawn.h"
 #include "../src/rook.h"
 
+TEST(PieceTestCase, hasPieceOnPosition1)
+{
+	Position m1(2, 0);
+	Position m2(2, 1);
+	Position m3(3, 0);
+
+	std::vector<Position> pieces;
+	pieces.push_back(m1);
+	pieces.push_back(m2);
+	pieces.push_back(m3);
+
+	Position check(2,0);
+
+	bool result = Piece::hasPieceOnPosition(pieces, check);
+	EXPECT_EQ(result, true);
+}
+
+TEST(PieceTestCase, hasPieceOnPosition2)
+{
+	Position m1(2, 0);
+	Position m2(2, 1);
+	Position m3(3, 0);
+
+	std::vector<Position> pieces;
+	pieces.push_back(m1);
+	pieces.push_back(m2);
+	pieces.push_back(m3);
+
+	Position check(4,1);
+
+	bool result = Piece::hasPieceOnPosition(pieces, check);
+	EXPECT_EQ(result, false);
+}
+
 TEST(PawnTestCase, ConstructorTest1)
 {
 	Position initial_position(0, 0);
@@ -151,10 +185,150 @@ TEST(PawnTestCase, PossibleMovements3)
 TEST(RookTestCase, ConstructorTest1)
 {
 	Position initial_position(3, 2);
-	Rook rook1(initial_position);
+	Rook rook(initial_position);
+
+	EXPECT_EQ(rook.getCurrentPosition().row, 3);
+	EXPECT_EQ(rook.getCurrentPosition().column, 2);
+}
+
+TEST(RookTestCase, PossibleMovements1)
+{
+	Position initial_position(3, 2);
+	Rook rook(initial_position);
 
 	std::vector<Position> opponent_pieces;
 	std::vector<Position> self_pieces;
 
-	std::vector<Position> possible_movements = rook1.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	//Horizontal check
+	for(int i = 0; i < 8; i++)
+	{
+		if(i == 2)
+			continue;
+
+		Position expected(3, i);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, true);
+	}
+
+	//Vertical check
+	for(int i = 0; i < 8; i++)
+	{
+		if(i == 3)
+			continue;
+
+		Position expected(i, 2);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, true);
+	}
+}
+
+TEST(RookTestCase, PossibleMovements2)
+{
+	Position initial_position(5, 4);
+	Rook rook(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	self_pieces.push_back(Position(7, 4));
+	self_pieces.push_back(Position(2, 4));
+	opponent_pieces.push_back(Position(5, 2));
+	opponent_pieces.push_back(Position(5, 7));
+
+	std::vector<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 8);
+
+	//Horizontal check
+	for(int i = 0; i < 8; i++)
+	{
+		bool result = true;
+
+		if(i < 2 || i == 4)
+			result = false;
+
+		Position expected(5, i);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, result);
+		
+		// std::cout << "Horizontal: " << std::endl;
+		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+	}
+
+	//Vertical check
+	for(int i = 0; i < 8; i++)
+	{
+		bool result = true;
+
+		if(i <= 2 || i == 5 || i == 7)
+			result = false;
+
+		Position expected(i, 4);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, result);
+
+		// std::cout << "Vertical: " << std::endl;
+		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+	}
+}
+
+TEST(RookTestCase, PossibleMovements3)
+{
+	Position initial_position(2, 2);
+	Rook rook(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	opponent_pieces.push_back(Position(1, 2));
+	opponent_pieces.push_back(Position(2, 1));
+	opponent_pieces.push_back(Position(3, 2));
+	opponent_pieces.push_back(Position(2, 3));
+
+	std::vector<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 4);
+
+	//Horizontal check
+	for(int i = 0; i < 8; i++)
+	{
+		bool result = true;
+
+		if(i < 1 || i == 2 || i > 3)
+			result = false;
+
+		Position expected(2, i);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, result);
+		
+		// std::cout << "Horizontal: " << std::endl;
+		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+	}
+
+	//Vertical check
+	for(int i = 0; i < 8; i++)
+	{
+		bool result = true;
+
+		if(i < 1 || i == 2 || i > 3)
+			result = false;
+
+		Position expected(i, 2);
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
+		bool found_m1 = (iterator != std::end(possible_movements));
+		EXPECT_EQ(found_m1, result);
+
+		// std::cout << "Vertical: " << std::endl;
+		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+	}
 }
