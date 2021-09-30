@@ -10,12 +10,6 @@ Position::Position(int row, int column)
 {
 	this->row = row;
 	this->column = column;
-
-	if (!isValidPosition())
-	{
-		this->row = 0;
-		this->column = 0;
-	}
 }
 
 bool Position::isValidPosition()
