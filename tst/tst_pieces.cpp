@@ -3,6 +3,7 @@
 #include "../src/pawn.h"
 #include "../src/rook.h"
 #include "../src/knight.h"
+#include "../src/bishop.h"
 
 TEST(PieceTestCase, hasPieceOnPosition1)
 {
@@ -20,7 +21,6 @@ TEST(PieceTestCase, hasPieceOnPosition1)
 	bool result = Piece::hasPieceOnPosition(pieces, check);
 	EXPECT_EQ(result, true);
 }
-
 TEST(PieceTestCase, hasPieceOnPosition2)
 {
 	Position m1(2, 0);
@@ -37,7 +37,6 @@ TEST(PieceTestCase, hasPieceOnPosition2)
 	bool result = Piece::hasPieceOnPosition(pieces, check);
 	EXPECT_EQ(result, false);
 }
-
 TEST(PawnTestCase, ConstructorTest1)
 {
 	Position initial_position(0, 0);
@@ -150,7 +149,6 @@ TEST(PawnTestCase, PossibleMovements3)
 	std::vector<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
 	EXPECT_EQ(int(possible_movements.size()), 0);
 }
-
 TEST(RookTestCase, ConstructorTest1)
 {
 	Position initial_position(3, 2);
@@ -159,7 +157,6 @@ TEST(RookTestCase, ConstructorTest1)
 	EXPECT_EQ(rook.getCurrentPosition().row, 3);
 	EXPECT_EQ(rook.getCurrentPosition().column, 2);
 }
-
 TEST(RookTestCase, PossibleMovements1)
 {
 	Position initial_position(3, 2);
@@ -195,7 +192,6 @@ TEST(RookTestCase, PossibleMovements1)
 		EXPECT_EQ(found_m1, true);
 	}
 }
-
 TEST(RookTestCase, PossibleMovements2)
 {
 	Position initial_position(5, 4);
@@ -248,7 +244,6 @@ TEST(RookTestCase, PossibleMovements2)
 		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
-
 TEST(RookTestCase, PossibleMovements3)
 {
 	Position initial_position(2, 2);
@@ -301,7 +296,6 @@ TEST(RookTestCase, PossibleMovements3)
 		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
-
 TEST(KnightTestCase, ConstructorTest1)
 {
 	Position initial_position(3, 2);
@@ -310,7 +304,6 @@ TEST(KnightTestCase, ConstructorTest1)
 	EXPECT_EQ(knight.getCurrentPosition().row, 3);
 	EXPECT_EQ(knight.getCurrentPosition().column, 2);
 }
-
 TEST(KnightTestCase, PossibleMovements1)
 {
 	Position initial_position(2, 2);
@@ -343,7 +336,6 @@ TEST(KnightTestCase, PossibleMovements1)
 		std::cout << "Linha: " << pos.row << " Coluna: " << pos.column << " Result: " << result << std::endl;
 	}
 }
-
 TEST(KnightTestCase, PossibleMovements2)
 {
 	Position initial_position(2, 2);
@@ -377,7 +369,6 @@ TEST(KnightTestCase, PossibleMovements2)
 		EXPECT_EQ(result, true);
 	}
 }
-
 TEST(KnightTestCase, PossibleMovements3)
 {
 	Position initial_position(2, 2);
@@ -400,7 +391,6 @@ TEST(KnightTestCase, PossibleMovements3)
 
 	EXPECT_EQ(possible_movements.size(), 0);
 }
-
 TEST(KnightTestCase, PossibleMovements4)
 {
 	Position initial_position(1, 2);
@@ -430,7 +420,6 @@ TEST(KnightTestCase, PossibleMovements4)
 		EXPECT_EQ(result, true);
 	}
 }
-
 TEST(KnightTestCase, PossibleMovements5)
 {
 	Position initial_position(1, 2);
@@ -455,6 +444,126 @@ TEST(KnightTestCase, PossibleMovements5)
 	expected.push_back(Position(0,4));
 	expected.push_back(Position(2,4));
 	expected.push_back(Position(3,3));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(BishopTestCase, ConstructorTest1)
+{
+	Position initial_position(4, 3);
+	Bishop bishop(initial_position);
+
+	EXPECT_EQ(bishop.getCurrentPosition().row, 4);
+	EXPECT_EQ(bishop.getCurrentPosition().column, 3);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	std::vector<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 13);
+
+}
+TEST(BishopTestCase, PossibleMovements1)
+{
+	Position initial_position(4, 3);
+	Bishop bishop(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	std::vector<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 13);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(1,0));
+	expected.push_back(Position(2,1));
+	expected.push_back(Position(3,2));
+	expected.push_back(Position(5,4));
+	expected.push_back(Position(6,5));
+	expected.push_back(Position(7,6));
+	expected.push_back(Position(7,0));
+	expected.push_back(Position(6,1));
+	expected.push_back(Position(5,2));
+	expected.push_back(Position(3,4));
+	expected.push_back(Position(2,5));
+	expected.push_back(Position(1,6));
+	expected.push_back(Position(0,7));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(BishopTestCase, PossibleMovements2)
+{
+	Position initial_position(4, 3);
+	Bishop bishop(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	opponent_pieces.push_back(Position(3,2));
+	self_pieces.push_back(Position(7,0));
+	self_pieces.push_back(Position(7,6));
+
+	std::vector<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 9);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(3,2));
+	expected.push_back(Position(5,4));
+	expected.push_back(Position(6,5));
+	expected.push_back(Position(6,1));
+	expected.push_back(Position(5,2));
+	expected.push_back(Position(3,4));
+	expected.push_back(Position(2,5));
+	expected.push_back(Position(1,6));
+	expected.push_back(Position(0,7));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(BishopTestCase, PossibleMovements3)
+{
+	Position initial_position(0, 0);
+	Bishop bishop(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	opponent_pieces.push_back(Position(6,6));
+
+	std::vector<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 6);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(1,1));
+	expected.push_back(Position(2,2));
+	expected.push_back(Position(3,3));
+	expected.push_back(Position(4,4));
+	expected.push_back(Position(5,5));
+	expected.push_back(Position(6,6));
 
 	for(Position pos : expected)
 	{
