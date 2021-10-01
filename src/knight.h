@@ -3,7 +3,7 @@
 
 #include "piece.h"
 
-class Knight : public Piece
+class Knight : virtual public Piece
 {
 private:
 

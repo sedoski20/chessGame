@@ -3,7 +3,7 @@
 
 #include "piece.h"
 
-class Pawn : public Piece
+class Pawn : virtual public Piece
 {
 public:
 	Pawn(Position initialPosition);

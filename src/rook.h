@@ -3,7 +3,7 @@
 
 #include "piece.h"
 
-class Rook : public Piece
+class Rook : virtual public Piece
 {
 public:
     Rook(Position initialPosition) : Piece(initialPosition){};

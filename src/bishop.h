@@ -2,7 +2,7 @@
 #define BISHOP_H
 
 #include "piece.h"
-class Bishop : public Piece
+class Bishop : virtual public Piece
 {    
 public:
     Bishop(Position initialPosition) : Piece(initialPosition){};
