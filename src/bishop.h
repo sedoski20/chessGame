@@ -8,7 +8,7 @@ public:
     Bishop(Position initialPosition) : Piece(initialPosition){};
     std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 
-private:
+protected:
     void getDiagonalMovements(std::vector<Position> & movements, const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 };
 
