@@ -4,6 +4,7 @@
 #include "../src/rook.h"
 #include "../src/knight.h"
 #include "../src/bishop.h"
+#include "../src/queen.h"
 
 TEST(PieceTestCase, hasPieceOnPosition1)
 {
@@ -564,6 +565,109 @@ TEST(BishopTestCase, PossibleMovements3)
 	expected.push_back(Position(4,4));
 	expected.push_back(Position(5,5));
 	expected.push_back(Position(6,6));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(QueenTestCase, ConstructorTest1)
+{
+	Position initial_position(4, 3);
+	Queen queen(initial_position);
+
+	EXPECT_EQ(queen.getCurrentPosition().row, 4);
+	EXPECT_EQ(queen.getCurrentPosition().column, 3);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	std::vector<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 27);
+}
+
+TEST(QueenTestCase, PossibleMovements1)
+{
+	Position initial_position(0, 1);
+	Queen queen(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	self_pieces.push_back(Position(0,6));
+	self_pieces.push_back(Position(1,0));
+	self_pieces.push_back(Position(3,4));
+	opponent_pieces.push_back(Position(7,1));
+
+	std::vector<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 14);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(0,0));
+	expected.push_back(Position(1,1));
+	expected.push_back(Position(2,1));
+	expected.push_back(Position(3,1));
+	expected.push_back(Position(4,1));
+	expected.push_back(Position(5,1));
+	expected.push_back(Position(6,1));
+	expected.push_back(Position(7,1));
+	expected.push_back(Position(1,2));
+	expected.push_back(Position(2,3));
+	expected.push_back(Position(0,2));
+	expected.push_back(Position(0,3));
+	expected.push_back(Position(0,4));
+	expected.push_back(Position(0,5));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(QueenTestCase, PossibleMovements2)
+{
+	Position initial_position(3, 2);
+	Queen queen(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	self_pieces.push_back(Position(5,0));
+	self_pieces.push_back(Position(1,0));
+	self_pieces.push_back(Position(3,4));
+	opponent_pieces.push_back(Position(5,2));
+	opponent_pieces.push_back(Position(5,4));
+	opponent_pieces.push_back(Position(1,4));
+
+	std::vector<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 14);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(0,2));
+	expected.push_back(Position(1,2));
+	expected.push_back(Position(1,4));
+	expected.push_back(Position(2,1));
+	expected.push_back(Position(2,2));
+	expected.push_back(Position(2,3));
+	expected.push_back(Position(3,0));
+	expected.push_back(Position(3,1));
+	expected.push_back(Position(3,3));
+	expected.push_back(Position(4,1));
+	expected.push_back(Position(4,2));
+	expected.push_back(Position(4,3));
+	expected.push_back(Position(5,2));
+	expected.push_back(Position(5,4));
 
 	for(Position pos : expected)
 	{
