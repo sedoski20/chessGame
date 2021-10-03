@@ -5,6 +5,7 @@
 #include "../src/knight.h"
 #include "../src/bishop.h"
 #include "../src/queen.h"
+#include "../src/king.h"
 
 TEST(PieceTestCase, hasPieceOnPosition1)
 {
@@ -590,7 +591,6 @@ TEST(QueenTestCase, ConstructorTest1)
 
 	EXPECT_EQ(possible_movements.size(), 27);
 }
-
 TEST(QueenTestCase, PossibleMovements1)
 {
 	Position initial_position(0, 1);
@@ -668,6 +668,86 @@ TEST(QueenTestCase, PossibleMovements2)
 	expected.push_back(Position(4,3));
 	expected.push_back(Position(5,2));
 	expected.push_back(Position(5,4));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(KingTestCase, ConstructorTest1)
+{
+	Position initial_position(4, 3);
+	King king(initial_position);
+
+	EXPECT_EQ(king.getCurrentPosition().row, 4);
+	EXPECT_EQ(king.getCurrentPosition().column, 3);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	std::vector<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 8);
+}
+TEST(KingTestCase, PossibleMovements1)
+{
+	Position initial_position(2, 2);
+	King king(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	self_pieces.push_back(Position(3,2));
+	self_pieces.push_back(Position(2,3));
+	opponent_pieces.push_back(Position(2,1));
+
+	std::vector<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 6);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(1,1));
+	expected.push_back(Position(1,2));
+	expected.push_back(Position(1,3));
+	expected.push_back(Position(2,1));
+	expected.push_back(Position(3,1));
+	expected.push_back(Position(3,3));
+
+	for(Position pos : expected)
+	{
+		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
+		bool result = (iterator != std::end(possible_movements));
+
+		EXPECT_EQ(result, true);
+	}
+}
+TEST(KingTestCase, PossibleMovements2)
+{
+	Position initial_position(1, 0);
+	King king(initial_position);
+
+	std::vector<Position> opponent_pieces;
+	std::vector<Position> self_pieces;
+
+	self_pieces.push_back(Position(0,1));
+	self_pieces.push_back(Position(1,1));
+	opponent_pieces.push_back(Position(0,0));
+	opponent_pieces.push_back(Position(2,1));
+
+	std::vector<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	std::vector<Position>::iterator iterator;
+
+	EXPECT_EQ(possible_movements.size(), 3);
+
+	std::vector<Position> expected;
+	expected.push_back(Position(0,0));
+	expected.push_back(Position(2,0));
+	expected.push_back(Position(2,1));
 
 	for(Position pos : expected)
 	{
