@@ -37,6 +37,8 @@ public:
 	virtual Position getCurrentPosition();
 	virtual std::vector<Position> getPossibleMovements(const std::vector<Position> & selfPieces,
 													   const std::vector<Position> & opponentPieces) = 0;
+
+	PieceType getType() const { return type; }
 };
 
 #endif //PIECE_H
