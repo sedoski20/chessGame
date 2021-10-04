@@ -5,7 +5,7 @@
 class Bishop : virtual public Piece
 {    
 public:
-    Bishop(Position initialPosition) : Piece(initialPosition){};
+    Bishop(Position initialPosition) : Piece(initialPosition){type = PieceType::BISHOP;};
     std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 
 protected:

@@ -5,7 +5,7 @@
 class King : public Piece
 {
 public:
-    King(Position initialPosition) : Piece(initialPosition){};
+    King(Position initialPosition) : Piece(initialPosition){type = PieceType::KING;};
     std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
 
 private:

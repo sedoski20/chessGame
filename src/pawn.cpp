@@ -4,6 +4,7 @@
 Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 {
 	this->isFirstMovement = true;
+	this->type = PieceType::PAWN;
 
 	if(initialPosition.row == 1)
 		this->direction = MovementDirection::MOVING_UP;

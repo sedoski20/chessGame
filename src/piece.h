@@ -5,10 +5,20 @@
 #include <string>
 #include <vector>
 
-enum class movementDirection
+enum class MovementDirection
 {
 	MOVING_UP,
 	MOVING_DOWN
+};
+
+enum class PieceType
+{
+	ROOK,
+	KNIGHT,
+	BISHOP, 
+	QUEEN,
+	KING,
+	PAWN
 };
 
 class Piece
@@ -16,6 +26,7 @@ class Piece
 
 protected: 
 	Position currentPosition;
+	PieceType type;
 
 public: 
 	Piece();
