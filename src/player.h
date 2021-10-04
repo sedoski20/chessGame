@@ -21,7 +21,7 @@ private:
     void createKing(int referenceRow);
 
 public:
-    Player(movementDirection direction, std::string playerName);
+    Player(MovementDirection direction, std::string playerName);
     bool selectPiece(Position position);
     bool movePiece(Position position);
     void updateScore();
@@ -32,6 +32,8 @@ public:
 
     int getActivePieces() const { return activePieces; }
     void setActivePieces(int activePieces_) { activePieces = activePieces_; }
+
+    std::vector<Piece *> getPieces() const;
 };
 
 
