@@ -6,9 +6,9 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 	this->isFirstMovement = true;
 
 	if(initialPosition.row == 1)
-		this->direction = movementDirection::MOVING_UP;
+		this->direction = MovementDirection::MOVING_UP;
 	else
-		this->direction = movementDirection::MOVING_DOWN;
+		this->direction = MovementDirection::MOVING_DOWN;
 }
 
 std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & selfPieces, const std::vector<Position> & opponentPieces)
@@ -83,7 +83,7 @@ std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & s
 	 //If the player starts with the pieces on the botton side (row = 0) the paws move up (sum 1 or 2 from row).
 	 //However, if the player starts on the top side, the paws move down (subtract 1 or 2 from row).
 	 int direction_factor;
-	 (this->direction == movementDirection::MOVING_UP) ? direction_factor = 1 : direction_factor = -1;
+	 (this->direction == MovementDirection::MOVING_UP) ? direction_factor = 1 : direction_factor = -1;
 	 
 	 return direction_factor;
  }

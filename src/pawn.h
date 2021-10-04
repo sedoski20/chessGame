@@ -12,7 +12,7 @@ public:
 
 private:
 	bool isFirstMovement;
-	movementDirection direction;
+	MovementDirection direction;
 	
 	void getPawnMovements(std::vector<Position> & movements, const std::vector<Position> & selfPieces, const std::vector<Position>& opponentPieces);
 	void getPawnAtacks(std::vector<Position> & movements, const std::vector<Position> & opponentPieces);
