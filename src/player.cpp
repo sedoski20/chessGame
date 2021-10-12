@@ -28,6 +28,7 @@ Player::Player(MovementDirection direction, std::string playerName)
     createPawns(second_row);
 
     this->activePieces = this->pieces.size();
+    this->selectedPiece = NULL;
 }
 
 void Player::createPawns(int referenceRow) 
@@ -83,14 +84,57 @@ void Player::createKing(int referenceRow)
     this->pieces.push_back(king);
 }
 
-bool Player::selectPiece(Position position)
+bool Player::findPiece(Position location, Piece *&piece) 
 {
-    
+    for(Piece * temp_piece : pieces)
+    {
+        if(temp_piece->getCurrentPosition() == location)
+        {
+            piece = temp_piece;
+            return true;
+        }
+    }
+
+    return false;
 }
 
-bool Player::movePiece(Position position) 
+bool Player::isPieceSelected() 
 {
-    
+    if(selectedPiece == NULL)
+        return false;
+
+    return true;
+}
+
+std::vector<Position> Player::getPositionsFromPieces() 
+{
+    std::vector<Position> positions;
+    for(Piece * piece : pieces)
+        positions.push_back(piece->getCurrentPosition());
+
+    return positions;
+}
+
+bool Player::selectPiece(Position position)
+{
+    selectedPiece = NULL;
+
+    //If there is no piece on position, return false
+    if(!findPiece(position, selectedPiece))
+        return false;
+
+    return true;
+}
+
+bool Player::moveSelectedPiece(Position destination) 
+{
+    if(!isPieceSelected())
+        return false;
+
+    if(!selectedPiece->move(destination))
+        return false;
+
+    return true;    
 }
 
 void Player::updateScore() 

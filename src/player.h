@@ -10,6 +10,8 @@ class Player : IPlayer
 private:
     std::vector<Piece*> pieces;
     std::string name;
+    Piece *selectedPiece;
+
     int score;
     int activePieces;
 
@@ -20,23 +22,29 @@ private:
     void createQueen(int referenceRow);
     void createKing(int referenceRow);
 
+    bool findPiece(Position location, Piece *&piece);
+
 public:
     Player(MovementDirection direction, std::string playerName);
-    bool selectPiece(Position position);
-    bool movePiece(Position position);
+
+    std::vector<Position> getPossibleMovements(std::vector<Position> &opponent_pieces);
+    std::vector<Piece *> getPieces() const;
+    std::vector<Position> getPositionsFromPieces();
+
+    bool moveSelectedPiece(Position destination);
     void updateScore();
 
     //Getters and setters
     std::string getName() const { return name; }
     void setName(const std::string &name_) { name = name_; }
 
+    Piece *getSelectedPiece() { return selectedPiece;}
+    bool selectPiece(Position position);
+    bool isPieceSelected();
+
     int getActivePieces() const { return activePieces; }
     void setActivePieces(int activePieces_) { activePieces = activePieces_; }
 
-    std::vector<Piece *> getPieces() const;
 };
-
-
-
 
 #endif //PLAYER_H
