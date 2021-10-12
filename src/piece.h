@@ -32,13 +32,15 @@ public:
 	Piece();
 	Piece(Position initialPostion);
 	static bool hasPieceOnPosition(const std::vector<Position>& pieces, const Position position);
+	static bool hasPieceOnPosition(const std::vector<Position*>& pieces, const Position position);
 	void destroy();
-	virtual bool move(Position positon);
+	virtual bool move(Position position);
 	virtual Position getCurrentPosition();
 	virtual std::vector<Position> getPossibleMovements(const std::vector<Position> & selfPieces,
 													   const std::vector<Position> & opponentPieces) = 0;
 
 	PieceType getType() const { return type; }
+
 };
 
 #endif //PIECE_H
