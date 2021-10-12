@@ -6,11 +6,10 @@
 #include "queen.h"
 #include "king.h"
 
-Player::Player(MovementDirection direction, std::string playerName) 
+Player::Player(MovementDirection direction)
 {
+    this->name = "";
     this->pieces.clear();
-    this->name = playerName;
-
     int first_row = 0;
     int second_row = 1;
 
@@ -30,6 +29,12 @@ Player::Player(MovementDirection direction, std::string playerName)
     this->activePieces = this->pieces.size();
     this->selectedPiece = NULL;
 }
+
+Player::Player(MovementDirection direction, std::string playerName) : Player::Player(direction)
+{
+    this->name = playerName;
+}
+
 
 void Player::createPawns(int referenceRow) 
 {
@@ -70,16 +75,14 @@ void Player::createBishops(int referenceRow)
 
 void Player::createQueen(int referenceRow) 
 {
-    int column;
-    if(referenceRow == 0) column = 4; else column = 3;
+    int column = 3;
     Queen *queen = new Queen(Position(referenceRow, column));
     this->pieces.push_back(queen);
 }
 
 void Player::createKing(int referenceRow) 
 {
-    int column;
-    if(referenceRow == 0) column = 3; else column = 4;
+    int column = 4;
     King *king = new King(Position(referenceRow, column));
     this->pieces.push_back(king);
 }

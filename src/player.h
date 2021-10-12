@@ -26,6 +26,7 @@ private:
 
 public:
     Player(MovementDirection direction, std::string playerName);
+    Player(MovementDirection direction);
 
     std::vector<Position> getPossibleMovements(std::vector<Position> &opponent_pieces);
     std::vector<Piece *> getPieces() const;
