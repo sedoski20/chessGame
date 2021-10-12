@@ -134,6 +134,7 @@ bool Player::moveSelectedPiece(Position destination)
     if(!selectedPiece->move(destination))
         return false;
 
+    selectedPiece = NULL;
     return true;    
 }
 

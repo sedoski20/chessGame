@@ -149,6 +149,62 @@ TEST(PlayerTestCase, selectingPiece1)
     EXPECT_EQ(true,            player.isPieceSelected());
     EXPECT_EQ(PieceType::KING, player.getSelectedPiece()->getType());
 }
+TEST(PlayerTestCase, movingPiece1)
+{
+    Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
+    EXPECT_EQ(player.getActivePieces(), 16);
+    EXPECT_EQ(false,           player.isPieceSelected());
+    bool result;
+
+
+    //Moving a pawn
+    EXPECT_EQ(true,            player.selectPiece(Position(1,5)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(Position(3,5)));
+    EXPECT_EQ(false,           player.isPieceSelected());
+    
+    result = false;
+
+    for(auto &piece :player.getPieces())
+    {
+        if(piece->getCurrentPosition() == Position(3,5))
+            if(piece->getType() == PieceType::PAWN)
+                result = true;
+    }
+
+    EXPECT_EQ(true, result);
+    
+    //Moving the pawn again
+    EXPECT_EQ(true,            player.selectPiece(Position(3,5)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(Position(4,5)));
+    EXPECT_EQ(false,           player.isPieceSelected());
+
+    result = false;
+
+    for(auto &piece :player.getPieces())
+    {
+        if(piece->getCurrentPosition() == Position(4,5))
+            if(piece->getType() == PieceType::PAWN)
+                result = true;
+    }
+
+    EXPECT_EQ(true, result);
+
+    //Moving the queen
+    EXPECT_EQ(true,            player.selectPiece(Position(0,4)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(Position(5,4)));
+    EXPECT_EQ(false,           player.isPieceSelected());
+
+    result = false;
+
+    for(auto &piece :player.getPieces())
+    {
+        if(piece->getCurrentPosition() == Position(5,4))
+            if(piece->getType() == PieceType::QUEEN)
+                result = true;
+    }
+
+    EXPECT_EQ(true, result);
+}
 
 
 
