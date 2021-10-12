@@ -123,5 +123,32 @@ TEST(PlayerTestCase, ConstructorTest2)
 
     EXPECT_EQ(count, 16);
 };
+TEST(PlayerTestCase, selectingPiece1)
+{
+    Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
+    EXPECT_EQ(player.getActivePieces(), 16);
+    EXPECT_EQ(false,           player.isPieceSelected());
+
+    //Selecting first ROOk
+    EXPECT_EQ(true,            player.selectPiece(Position(0,0)));
+    EXPECT_EQ(true,            player.isPieceSelected());
+    EXPECT_EQ(PieceType::ROOK, player.getSelectedPiece()->getType());
+
+    //Selecting empty position
+    EXPECT_EQ(false,           player.selectPiece(Position(4,4)));
+    EXPECT_EQ(false,           player.isPieceSelected());
+    EXPECT_EQ(nullptr,         player.getSelectedPiece());
+
+    //Selecting third pawn
+    EXPECT_EQ(true,            player.selectPiece(Position(1,2)));
+    EXPECT_EQ(true,            player.isPieceSelected());
+    EXPECT_EQ(PieceType::PAWN, player.getSelectedPiece()->getType());
+
+    //Selecting king pawn
+    EXPECT_EQ(true,            player.selectPiece(Position(0,3)));
+    EXPECT_EQ(true,            player.isPieceSelected());
+    EXPECT_EQ(PieceType::KING, player.getSelectedPiece()->getType());
+}
+
 
 
