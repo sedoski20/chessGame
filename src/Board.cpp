@@ -1,16 +1,11 @@
-#include "Board.h"
+#include "board.h"
 
-std::vector<Position> Board::getAvailablePositionsOnBoard()
+void Board::updateBoardStatus(std::vector<Position> & possibeMovements) 
 {
-    return std::vector<Position>();
+    
 }
 
-int Board::getValue()
+void Board::resetBoardStatus() 
 {
-    return this->value;
-}
-
-void Board::setValue(int value)
-{
-    this->value = value;
+    
 }

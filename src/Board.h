@@ -1,17 +1,34 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "IBoard.h"
-class Board :
-    public IBoard
-{
-public:
-    std::vector<Position> getAvailablePositionsOnBoard();
-    int getValue();
-    void setValue(int value);
-private:
-    int value;
+#include "iboard.h"
+#include "iplayer.h"
 
+enum class PositionStatus
+{
+    NORMAL,
+    HIGHLIGHTED,
+    ATTACK
+};
+
+class Board : public IBoard
+{
+
+private:
+    std::vector<Position> player1Pieces;
+    std::vector<Position> player2Pieces;
+    std::vector<PositionStatus> highlihtedPositions;
+
+public:
+    
+    std::vector<Position> getPlayer1Positions() { return player1Pieces; }
+    void setPlayer1Positions(std::vector<Position> & positions) { player1Pieces = positions; }
+
+    std::vector<Position> getPlayer2Positions() { return player2Pieces; }
+    void setPlayer2Positions(std::vector<Position> & positions) { player2Pieces = positions; }
+
+    void updateBoardStatus(std::vector<Position> & possibeMovements);
+    void resetBoardStatus();
 };
 
 
