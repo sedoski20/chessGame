@@ -5,6 +5,7 @@
 #include "bishop.h"
 #include "queen.h"
 #include "king.h"
+#include <algorithm>
 
 Player::Player(MovementDirection direction)
 {
@@ -109,7 +110,7 @@ bool Player::isPieceSelected()
     return true;
 }
 
-std::vector<Position> Player::getPositionsFromPieces() 
+std::vector<Position> Player::getPositions() 
 {
     std::vector<Position> positions;
     for(Piece * piece : pieces)
@@ -129,9 +130,12 @@ bool Player::selectPiece(Position position)
     return true;
 }
 
-bool Player::moveSelectedPiece(Position destination) 
+bool Player::moveSelectedPiece(std::vector<Position> &opponentPieces, Position destination) 
 {
     if(!isPieceSelected())
+        return false;
+
+    if(!isPossibleMovement(opponentPieces, destination))
         return false;
 
     if(!selectedPiece->move(destination))
@@ -143,10 +147,35 @@ bool Player::moveSelectedPiece(Position destination)
 
 void Player::updateScore() 
 {
-    
+    //TODO: implement
+}
+
+bool Player::receiveAttack(Position position) 
+{
+    //TODO: implement
+}
+
+bool Player::isAttack(Position position) 
+{
+    std::vector<Position>::iterator iterator;   
+
+    iterator = std::find(this->getPositions().begin(), this->getPositions().end(), position);
+    bool result = (iterator != std::end(this->getPositions()));
+
+    return result;
 }
 
 std::vector<Piece *> Player::getPieces() const
 {
     return this->pieces;
+}
+
+bool Player::getPossibleMovements(std::vector<Position> &opponentPieces, std::vector<Position> &possibleMovements) 
+{
+    //TODO: implement
+}
+
+bool Player::isPossibleMovement(std::vector<Position> &opponentPieces, Position destination) 
+{
+    //TODO: implement
 }

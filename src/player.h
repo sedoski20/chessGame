@@ -4,7 +4,7 @@
 #include "iplayer.h"
 #include "piece.h"
 
-class Player : IPlayer
+class Player : public IPlayer
 {
 
 private:
@@ -28,11 +28,14 @@ public:
     Player(MovementDirection direction, std::string playerName);
     Player(MovementDirection direction);
 
-    std::vector<Position> getPossibleMovements(std::vector<Position> &opponent_pieces);
+    bool getPossibleMovements(std::vector<Position> &opponentPieces, std::vector<Position> &possibleMovements);
+    bool isPossibleMovement(std::vector<Position> &opponentPieces, Position destination);
     std::vector<Piece *> getPieces() const;
-    std::vector<Position> getPositionsFromPieces();
+    std::vector<Position> getPositions();
 
-    bool moveSelectedPiece(Position destination);
+    bool moveSelectedPiece(std::vector<Position> &opponentPieces, Position destination);
+    bool receiveAttack(Position position);
+    bool isAttack(Position position);
     void updateScore();
 
     //Getters and setters
@@ -43,7 +46,7 @@ public:
     bool selectPiece(Position position);
     bool isPieceSelected();
 
-    int getActivePieces() const { return activePieces; }
+    int getActivePieces() { return activePieces; }
     void setActivePieces(int activePieces_) { activePieces = activePieces_; }
 
 };
