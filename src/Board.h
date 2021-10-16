@@ -15,19 +15,19 @@ class Board : public IBoard
 {
 
 private:
-    std::vector<Position> player1Pieces;
-    std::vector<Position> player2Pieces;
-    std::vector<PositionStatus> highlihtedPositions;
+    std::list<Position> player1Pieces;
+    std::list<Position> player2Pieces;
+    std::list<PositionStatus> highlihtedPositions;
 
 public:
-    
-    std::vector<Position> getPlayer1Positions() { return player1Pieces; }
-    void setPlayer1Positions(std::vector<Position> & positions) { player1Pieces = positions; }
 
-    std::vector<Position> getPlayer2Positions() { return player2Pieces; }
-    void setPlayer2Positions(std::vector<Position> & positions) { player2Pieces = positions; }
+    std::list<Position> getPlayer1Positions() { return player1Pieces; }
+    void setPlayer1Positions(std::list<Position> & positions) { player1Pieces = positions; }
 
-    void updateBoardStatus(std::vector<Position> & possibeMovements);
+    std::list<Position> getPlayer2Positions() { return player2Pieces; }
+    void setPlayer2Positions(std::list<Position> & positions) { player2Pieces = positions; }
+
+    void updateBoardStatus(std::list<Position> & possibeMovements);
     void resetBoardStatus();
 };
 

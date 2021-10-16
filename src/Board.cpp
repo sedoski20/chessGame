@@ -1,11 +1,11 @@
 #include "board.h"
 
-void Board::updateBoardStatus(std::vector<Position> & possibeMovements) 
+void Board::updateBoardStatus(std::list<Position> & possibeMovements) 
 {
     
 }
 
 void Board::resetBoardStatus() 
 {
-    
+
 }
