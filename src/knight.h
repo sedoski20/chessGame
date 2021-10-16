@@ -9,7 +9,7 @@ private:
 
 public:
     Knight(Position initialPosition) : Piece(initialPosition){type = PieceType::KNIGHT;};
-    std::vector<Position> getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces);
+    std::list<Position> getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces);
 };
 
 
