@@ -1,8 +1,8 @@
 #include "queen.h"
 
-std::vector<Position> Queen::getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces) 
+std::list<Position> Queen::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
-    std::vector<Position> movements;
+    std::list<Position> movements;
     this->getHorizontalMovements(movements, selfPieces, opponentPieces);
     this->getVerticalMovements(movements, selfPieces, opponentPieces);
     this->getDiagonalMovements(movements, selfPieces, opponentPieces);
