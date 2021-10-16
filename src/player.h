@@ -28,12 +28,12 @@ public:
     Player(MovementDirection direction, std::string playerName);
     Player(MovementDirection direction);
 
-    bool getPossibleMovements(std::list<Position> &opponentPieces, std::list<Position> &possibleMovements);
-    bool isPossibleMovement(std::list<Position> &opponentPieces, Position destination);
+    bool getPossibleMovements(std::list<Position> &opponentPositions, std::list<Position> &possibleMovements);
+    bool isPossibleMovement(std::list<Position> &opponentPositions, Position destination);
     std::list<Piece *> getPieces() const;
     std::list<Position> getPositions();
 
-    bool moveSelectedPiece(std::list<Position> &opponentPieces, Position destination);
+    bool moveSelectedPiece(std::list<Position> &opponentPositions, Position destination);
     bool receiveAttack(Position position);
     bool isAttack(Position position);
     void updateScore();

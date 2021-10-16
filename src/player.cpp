@@ -130,12 +130,12 @@ bool Player::selectPiece(Position position)
     return true;
 }
 
-bool Player::moveSelectedPiece(std::list<Position> &opponentPieces, Position destination) 
+bool Player::moveSelectedPiece(std::list<Position> &opponentPositions, Position destination) 
 {
     if(!isPieceSelected())
         return false;
 
-    if(!isPossibleMovement(opponentPieces, destination))
+    if(!isPossibleMovement(opponentPositions, destination))
         return false;
 
     if(!selectedPiece->move(destination))
@@ -152,7 +152,16 @@ void Player::updateScore()
 
 bool Player::receiveAttack(Position position) 
 {
-   //TODO: implement 
+   for(Piece * piece : pieces)
+   {
+       if(piece->getCurrentPosition() == position)
+       {
+            pieces.remove(piece);
+            return true;
+       }
+   }
+
+   return false;
 }
 
 bool Player::isAttack(Position position) 
@@ -170,12 +179,74 @@ std::list<Piece *> Player::getPieces() const
     return this->pieces;
 }
 
-bool Player::getPossibleMovements(std::list<Position> &opponentPieces, std::list<Position> &possibleMovements) 
+bool Player::getPossibleMovements(std::list<Position> &opponentPositions, std::list<Position> &possibleMovements) 
 {
-    //TODO: implement
+    if(!isPieceSelected())
+        return false;
+
+    Piece *piece = selectedPiece;
+
+    switch (piece->getType())
+    {
+        case PieceType::PAWN:
+        {
+            Pawn *pawn = dynamic_cast<Pawn*> (piece);
+            possibleMovements = pawn->getPossibleMovements(this->getPositions(), opponentPositions);
+            break;
+        } 
+
+        case PieceType::BISHOP: 
+        {
+            Bishop *bishop = dynamic_cast<Bishop*> (piece);
+            possibleMovements = bishop->getPossibleMovements(this->getPositions(), opponentPositions);
+            break;
+        }
+
+        case PieceType::KNIGHT: 
+        {
+            Knight *knight = dynamic_cast<Knight*> (piece);
+            possibleMovements = knight->getPossibleMovements(this->getPositions(), opponentPositions);
+            break;
+        }
+
+        case PieceType::ROOK: 
+        {
+            Rook *rook = dynamic_cast<Rook*> (piece);
+            possibleMovements = rook->getPossibleMovements(this->getPositions(), opponentPositions);
+            break; 
+        }
+
+        case PieceType::QUEEN: 
+        {
+            Queen *queen = dynamic_cast<Queen*> (piece);
+            possibleMovements = queen->getPossibleMovements(this->getPositions(), opponentPositions);
+            break; 
+        }
+
+        case PieceType::KING: 
+        {
+            King *king = dynamic_cast<King*> (piece);
+            possibleMovements = king->getPossibleMovements(this->getPositions(), opponentPositions);
+            break; 
+        }
+
+        default:
+            return false;
+    }
+
+    return true;
 }
 
-bool Player::isPossibleMovement(std::list<Position> &opponentPieces, Position destination) 
+bool Player::isPossibleMovement(std::list<Position> &opponentPositions, Position destination) 
 {
-    //TODO: implement
+    std::list<Position> possible_movements;
+    
+    if(!this->getPossibleMovements(opponentPositions, possible_movements))
+        return false;
+
+    for(Position pos : possible_movements)
+        if(pos == destination)
+            return true;
+
+    return false;
 }
