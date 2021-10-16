@@ -7,7 +7,7 @@ TEST(PlayerTestCase, ConstructorTest1)
     EXPECT_EQ(player.getName(), "Marcelo");
     EXPECT_EQ(player.getActivePieces(), 16);
 
-    std::vector<Piece *> pieces = player.getPieces();
+    std::list<Piece *> pieces = player.getPieces(); 
     int count = 0;
 
     for(auto& piece : pieces)
@@ -18,8 +18,8 @@ TEST(PlayerTestCase, ConstructorTest1)
         Position knight2(0,6);
         Position bishop1(0,2);
         Position bishop2(0,5);
-        Position king(0,3);
-        Position queen(0,4);
+        Position king(0,4);
+        Position queen(0,3);
 
         Position current_position = piece->getCurrentPosition();
 
@@ -68,7 +68,7 @@ TEST(PlayerTestCase, ConstructorTest2)
     EXPECT_EQ(player.getName(), "Anna Flavia");
     EXPECT_EQ(player.getActivePieces(), 16);
 
-    std::vector<Piece *> pieces = player.getPieces();
+    std::list<Piece *> pieces = player.getPieces(); 
     int count = 0;
 
     for(auto& piece : pieces)
@@ -145,13 +145,17 @@ TEST(PlayerTestCase, selectingPiece1)
     EXPECT_EQ(PieceType::PAWN, player.getSelectedPiece()->getType());
 
     //Selecting king pawn
-    EXPECT_EQ(true,            player.selectPiece(Position(0,3)));
+    EXPECT_EQ(true,            player.selectPiece(Position(0,4)));
     EXPECT_EQ(true,            player.isPieceSelected());
     EXPECT_EQ(PieceType::KING, player.getSelectedPiece()->getType());
 }
 TEST(PlayerTestCase, movingPiece1)
 {
     Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
+    Player opponent(MovementDirection::MOVING_DOWN, "Flavia Tamanini");
+
+    std::list<Position> opponent_positions = opponent.getPositions();
+
     EXPECT_EQ(player.getActivePieces(), 16);
     EXPECT_EQ(false,           player.isPieceSelected());
     bool result;
@@ -159,7 +163,7 @@ TEST(PlayerTestCase, movingPiece1)
 
     //Moving a pawn
     EXPECT_EQ(true,            player.selectPiece(Position(1,5)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(Position(3,5)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_positions, Position(3,5))); 
     EXPECT_EQ(false,           player.isPieceSelected());
     
     result = false;
@@ -175,7 +179,7 @@ TEST(PlayerTestCase, movingPiece1)
     
     //Moving the pawn again
     EXPECT_EQ(true,            player.selectPiece(Position(3,5)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(Position(4,5)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_positions, Position(4,5))); 
     EXPECT_EQ(false,           player.isPieceSelected());
 
     result = false;
@@ -189,16 +193,19 @@ TEST(PlayerTestCase, movingPiece1)
 
     EXPECT_EQ(true, result);
 
+    //Remove the pawn in front of queen
+    EXPECT_EQ(true, player.receiveAttack(Position(1,3)));
+
     //Moving the queen
-    EXPECT_EQ(true,            player.selectPiece(Position(0,4)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(Position(5,4)));
+    EXPECT_EQ(true,            player.selectPiece(Position(0,3)));
+    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_positions, Position(5,3))); 
     EXPECT_EQ(false,           player.isPieceSelected());
 
     result = false;
 
     for(auto &piece :player.getPieces())
     {
-        if(piece->getCurrentPosition() == Position(5,4))
+        if(piece->getCurrentPosition() == Position(5,3))
             if(piece->getType() == PieceType::QUEEN)
                 result = true;
     }
