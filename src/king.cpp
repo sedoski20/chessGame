@@ -1,8 +1,8 @@
 #include "king.h"
 
-std::vector<Position> King::getPossibleMovements(const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces) 
+std::list<Position> King::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
-    std::vector<Position> movements;
+    std::list<Position> movements;
     getVerticalMovements(movements, selfPieces, opponentPieces);
     getHorizontalMovements(movements, selfPieces, opponentPieces);
     getDiagonalMovements(movements, selfPieces, opponentPieces);
@@ -10,7 +10,7 @@ std::vector<Position> King::getPossibleMovements(const std::vector<Position>& se
     return movements;
 }
 
-void King::getDiagonalMovements(std::vector<Position> & movements, const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces) 
+void King::getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
@@ -37,7 +37,7 @@ void King::getDiagonalMovements(std::vector<Position> & movements, const std::ve
     
 }
 
-void King::getHorizontalMovements(std::vector<Position> & movements, const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces) 
+void King::getHorizontalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
@@ -54,7 +54,7 @@ void King::getHorizontalMovements(std::vector<Position> & movements, const std::
     
 }
 
-void King::getVerticalMovements(std::vector<Position> & movements, const std::vector<Position>& selfPieces, const std::vector<Position>& opponentPieces) 
+void King::getVerticalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
