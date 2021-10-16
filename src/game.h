@@ -22,6 +22,7 @@ private:
     IPlayer *getOpponentPlayer();
 
     IBoard *board;
+    Board board2;
     PlayerTurn turn;
 
     void updateTurn();

@@ -2,13 +2,12 @@
 
 Game::Game(IPlayer *player1, IPlayer *player2)
 {
-    Board board;
-    this->board = &board;
-
     this->player1 = player1;
     this->player2 = player2;
 
     this->turn = PlayerTurn::TURN_PLAYER1;
+ 
+    this->board = &board2;
     this->updateBoard();
 }
 
@@ -33,7 +32,7 @@ void Game::updateTurn()
 
 void Game::updateBoard() 
 {
-    std::vector<Position> player1, player2;
+    std::list<Position> player1, player2;
 
     player1 = getCurrentPlayer()->getPositions();
     player2 = getOpponentPlayer()->getPositions();
@@ -52,8 +51,8 @@ void Game::firstClick(Position position)
     //Click on self piece
     else
     {
-        std::vector<Position> opponent_pieces = getOpponentPlayer()->getPositions();
-        std::vector<Position> possible_movements;
+        std::list<Position> opponent_pieces = getOpponentPlayer()->getPositions();
+        std::list<Position> possible_movements;
         
         if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
             this->board->resetBoardStatus();
@@ -64,7 +63,7 @@ void Game::firstClick(Position position)
 
 void Game::secondClick(Position position) 
 {
-    std::vector<Position> opponent_pieces = this->getOpponentPlayer()->getPositions();
+    std::list<Position> opponent_pieces = this->getOpponentPlayer()->getPositions();
     
     if(!getCurrentPlayer()->moveSelectedPiece(opponent_pieces, position))
         return;
