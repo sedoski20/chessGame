@@ -1,19 +1,19 @@
 #include "rook.h"
 #include <iostream>
         
-std::vector<Position> Rook::getPossibleMovements(const std::vector<Position>& selfPieces, 
-                                const std::vector<Position>& opponentPieces) 
+std::list<Position> Rook::getPossibleMovements(const std::list<Position>& selfPieces, 
+                                const std::list<Position>& opponentPieces) 
 {
-    std::vector<Position> movements;
+    std::list<Position> movements;
     this->getHorizontalMovements(movements, selfPieces, opponentPieces);
     this->getVerticalMovements(movements, selfPieces, opponentPieces);
 
     return movements;
 }
 
-void Rook::getHorizontalMovements(std::vector<Position>& movements, 
-                                const std::vector<Position>& selfPieces, 
-                                const std::vector<Position>& opponentPieces) 
+void Rook::getHorizontalMovements(std::list<Position>& movements, 
+                                const std::list<Position>& selfPieces, 
+                                const std::list<Position>& opponentPieces) 
 {
     //Look from the current position to left, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.column - 1; i >= 0; i--)
@@ -48,9 +48,9 @@ void Rook::getHorizontalMovements(std::vector<Position>& movements,
     }
 }
 
-void Rook::getVerticalMovements(std::vector<Position>& movements, 
-                                const std::vector<Position>& selfPieces, 
-                                const std::vector<Position>& opponentPieces) 
+void Rook::getVerticalMovements(std::list<Position>& movements, 
+                                const std::list<Position>& selfPieces, 
+                                const std::list<Position>& opponentPieces) 
 {
     //Look from the current position to bottom, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.row - 1; i >= 0; i--)
