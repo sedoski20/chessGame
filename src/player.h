@@ -8,7 +8,7 @@ class Player : public IPlayer
 {
 
 private:
-    std::vector<Piece*> pieces;
+    std::list<Piece*> pieces;
     std::string name;
     Piece *selectedPiece;
 
@@ -28,12 +28,12 @@ public:
     Player(MovementDirection direction, std::string playerName);
     Player(MovementDirection direction);
 
-    bool getPossibleMovements(std::vector<Position> &opponentPieces, std::vector<Position> &possibleMovements);
-    bool isPossibleMovement(std::vector<Position> &opponentPieces, Position destination);
-    std::vector<Piece *> getPieces() const;
-    std::vector<Position> getPositions();
+    bool getPossibleMovements(std::list<Position> &opponentPieces, std::list<Position> &possibleMovements);
+    bool isPossibleMovement(std::list<Position> &opponentPieces, Position destination);
+    std::list<Piece *> getPieces() const;
+    std::list<Position> getPositions();
 
-    bool moveSelectedPiece(std::vector<Position> &opponentPieces, Position destination);
+    bool moveSelectedPiece(std::list<Position> &opponentPieces, Position destination);
     bool receiveAttack(Position position);
     bool isAttack(Position position);
     void updateScore();

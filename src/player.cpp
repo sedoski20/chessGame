@@ -110,9 +110,9 @@ bool Player::isPieceSelected()
     return true;
 }
 
-std::vector<Position> Player::getPositions() 
+std::list<Position> Player::getPositions() 
 {
-    std::vector<Position> positions;
+    std::list<Position> positions;
     for(Piece * piece : pieces)
         positions.push_back(piece->getCurrentPosition());
 
@@ -130,7 +130,7 @@ bool Player::selectPiece(Position position)
     return true;
 }
 
-bool Player::moveSelectedPiece(std::vector<Position> &opponentPieces, Position destination) 
+bool Player::moveSelectedPiece(std::list<Position> &opponentPieces, Position destination) 
 {
     if(!isPieceSelected())
         return false;
@@ -152,12 +152,12 @@ void Player::updateScore()
 
 bool Player::receiveAttack(Position position) 
 {
-    //TODO: implement
+   //TODO: implement 
 }
 
 bool Player::isAttack(Position position) 
 {
-    std::vector<Position>::iterator iterator;   
+    std::list<Position>::iterator iterator;   
 
     iterator = std::find(this->getPositions().begin(), this->getPositions().end(), position);
     bool result = (iterator != std::end(this->getPositions()));
@@ -165,17 +165,17 @@ bool Player::isAttack(Position position)
     return result;
 }
 
-std::vector<Piece *> Player::getPieces() const
+std::list<Piece *> Player::getPieces() const
 {
     return this->pieces;
 }
 
-bool Player::getPossibleMovements(std::vector<Position> &opponentPieces, std::vector<Position> &possibleMovements) 
+bool Player::getPossibleMovements(std::list<Position> &opponentPieces, std::list<Position> &possibleMovements) 
 {
     //TODO: implement
 }
 
-bool Player::isPossibleMovement(std::vector<Position> &opponentPieces, Position destination) 
+bool Player::isPossibleMovement(std::list<Position> &opponentPieces, Position destination) 
 {
     //TODO: implement
 }
