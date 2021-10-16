@@ -12,16 +12,16 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 		this->direction = MovementDirection::MOVING_DOWN;
 }
 
-std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & selfPieces, const std::vector<Position> & opponentPieces)
+std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces)
 {
-	std::vector<Position> possible_movements;
+	std::list<Position> possible_movements;
 	getPawnMovements(possible_movements, selfPieces, opponentPieces);
 	getPawnAtacks(possible_movements, opponentPieces);
 
 	return possible_movements;
 }
 
- void Pawn::getPawnMovements(std::vector<Position> & movements, const std::vector<Position> & selfPieces, const std::vector<Position> & opponentPieces)
+ void Pawn::getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces)
 {
 	Position possibleMovement(currentPosition.row, currentPosition.column);
 	int direction_factor = getDirectionFactor();
@@ -48,7 +48,7 @@ std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & s
 	}
 }
 
- void Pawn::getPawnAtacks(std::vector<Position> & movements, const std::vector<Position> & opponentPieces)
+ void Pawn::getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPieces)
  {
 	 Position possibleMovement(currentPosition.row, currentPosition.column);
 	 int direction_factor = getDirectionFactor();
@@ -68,9 +68,9 @@ std::vector<Position> Pawn::getPossibleMovements(const std::vector<Position> & s
 			 movements.push_back(possibleMovement);
  }
 
- bool Pawn::isSomePieceOnPosition(Position position, std::vector<Position> pieces)
+ bool Pawn::isSomePieceOnPosition(Position position, std::list<Position> pieces)
  {
-	 std::vector<Position>::iterator it = std::find(pieces.begin(), pieces.end(), position);
+	 std::list<Position>::iterator it = std::find(pieces.begin(), pieces.end(), position);
 
 	 if (it != pieces.end())
 		 return true;
