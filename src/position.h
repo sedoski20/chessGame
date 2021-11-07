@@ -17,5 +17,17 @@ public:
 	bool operator==(const Position &other) const;
 };
 
+enum class Status
+{
+    NORMAL,
+    HIGHLIGHTED,
+    ATTACK
+};
+
+struct PositionStatus
+{
+    Status status;
+    Position position;
+};
 
 #endif // POSITION_H
