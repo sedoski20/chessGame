@@ -4,7 +4,7 @@
 #include "iplayer.h"
 #include "iboard.h"
 #include "board.h"
-#include "position.h"
+#include "igame.h"
 
 enum class PlayerTurn
 {
@@ -12,7 +12,7 @@ enum class PlayerTurn
     TURN_PLAYER2
 };
 
-class Game
+class Game : public IGame
 {
 
 private:
@@ -34,6 +34,7 @@ public:
     Game(IPlayer *player1, IPlayer *player2);
     void selectPosition(Position position);
     void resetGame();
+    std::list<PositionStatus> getBoardStatus();
 };
 
 #endif // GAME_H

@@ -89,3 +89,13 @@ void Game::selectPosition(Position position)
         secondClick(position);
     }
 }
+
+void Game::resetGame() 
+{
+    
+}
+
+std::list<PositionStatus> Game::getBoardStatus() 
+{
+    return this->board->getBoardStatus();
+}
