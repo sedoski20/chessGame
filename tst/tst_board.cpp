@@ -6,8 +6,8 @@ TEST(BoardTestCase, ConstructorTestCase1)
 {
     Board board;
     EXPECT_EQ(board.getBoardStatus().size(), 0);
-    EXPECT_EQ(board.getPlayer1Positions().size(), 0);
-    EXPECT_EQ(board.getPlayer2Positions().size(), 0);
+    EXPECT_EQ(board.getPlayer1Pieces().size(), 0);
+    EXPECT_EQ(board.getPlayer2Pieces().size(), 0);
 }
 
 TEST(BoardTestCase, updateBoard)
