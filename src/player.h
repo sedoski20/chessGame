@@ -32,6 +32,7 @@ public:
     bool isPossibleMovement(std::list<Position> &opponentPositions, Position destination);
     std::list<Piece *> getPieces() const;
     std::list<Position> getPositions();
+    std::list<PieceInfo> getPiecesInfo();
 
     bool moveSelectedPiece(std::list<Position> &opponentPositions, Position destination);
     bool receiveAttack(Position position);

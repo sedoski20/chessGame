@@ -119,6 +119,22 @@ std::list<Position> Player::getPositions()
     return positions;
 }
 
+std::list<PieceInfo> Player::getPiecesInfo() 
+{
+    std::list<PieceInfo> piecesInfo;
+    
+    for(Piece * piece : pieces)
+    {   
+        PieceInfo pieceInfo;
+        pieceInfo.position = piece->getCurrentPosition();
+        pieceInfo.type = piece->getType();
+
+        piecesInfo.push_back(pieceInfo);
+    }    
+        
+    return piecesInfo;
+}
+
 bool Player::selectPiece(Position position)
 {
     selectedPiece = NULL;
@@ -133,16 +149,31 @@ bool Player::selectPiece(Position position)
 bool Player::moveSelectedPiece(std::list<Position> &opponentPositions, Position destination) 
 {
     if(!isPieceSelected())
+    {
         return false;
+    }
+
+    if(destination == selectedPiece->getCurrentPosition())
+    {
+        selectedPiece = NULL;
+        return false;
+    }
+
 
     if(!isPossibleMovement(opponentPositions, destination))
+    {
+        selectedPiece = NULL;
         return false;
+    }
 
     if(!selectedPiece->move(destination))
+    {
+        selectedPiece = NULL;
         return false;
+    }
 
     selectedPiece = NULL;
-    return true;    
+    return true;   
 }
 
 void Player::updateScore() 
@@ -234,6 +265,7 @@ bool Player::getPossibleMovements(std::list<Position> &opponentPositions, std::l
             return false;
     }
 
+    possibleMovements.push_back(piece->getCurrentPosition());
     return true;
 }
 
