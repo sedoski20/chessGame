@@ -35,6 +35,8 @@ public:
     void selectPosition(Position position);
     void resetGame();
     std::list<PositionStatus> getBoardStatus();
+    std::list<PieceInfo> getPlayer1Pieces();
+    std::list<PieceInfo> getPlayer2Pieces();
 };
 
 #endif // GAME_H
