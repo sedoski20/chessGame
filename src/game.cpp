@@ -32,13 +32,13 @@ void Game::updateTurn()
 
 void Game::updateBoard() 
 {
-    std::list<Position> player1, player2;
+    std::list<PieceInfo> player1_pieces, player2_pieces;
 
-    player1 = getCurrentPlayer()->getPositions();
-    player2 = getOpponentPlayer()->getPositions();
+    player1_pieces = player1->getPiecesInfo();
+    player2_pieces = player2->getPiecesInfo();
 
-    this->board->setPlayer1Positions(player1);
-    this->board->setPlayer2Positions(player2);
+    this->board->setPlayer1Pieces(player1_pieces);
+    this->board->setPlayer2Pieces(player2_pieces);
 }
 
 void Game::firstClick(Position position) 
@@ -64,6 +64,7 @@ void Game::firstClick(Position position)
 void Game::secondClick(Position position) 
 {
     std::list<Position> opponent_pieces = this->getOpponentPlayer()->getPositions();
+    board->resetBoardStatus();
     
     if(!getCurrentPlayer()->moveSelectedPiece(opponent_pieces, position))
         return;
@@ -71,7 +72,6 @@ void Game::secondClick(Position position)
     if(getCurrentPlayer()->isAttack(position))
         this->getOpponentPlayer()->receiveAttack(position);
 
-    board->resetBoardStatus();
     this->updateBoard();
     this->updateTurn();
 }
@@ -99,3 +99,14 @@ std::list<PositionStatus> Game::getBoardStatus()
 {
     return this->board->getBoardStatus();
 }
+
+std::list<PieceInfo> Game::getPlayer1Pieces() 
+{
+    return this->board->getPlayer1Pieces();
+}
+
+std::list<PieceInfo> Game::getPlayer2Pieces() 
+{
+    return this->board->getPlayer2Pieces();
+}
+
