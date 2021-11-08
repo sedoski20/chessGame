@@ -2,6 +2,12 @@
 #define IPLAYER_H
 #include "Piece.h"
 
+struct PieceInfo
+{
+	Position position;
+	PieceType type;
+};
+
 class IPlayer
 {
 private:
@@ -10,6 +16,7 @@ public:
     virtual int getActivePieces() = 0;
     virtual Piece *getSelectedPiece() = 0;
     virtual std::list<Position> getPositions() = 0;
+    virtual std::list<PieceInfo> getPiecesInfo() = 0;
     virtual bool isPieceSelected() = 0;
     virtual bool isAttack(Position position) = 0;
     virtual bool selectPiece(Position position) = 0;
