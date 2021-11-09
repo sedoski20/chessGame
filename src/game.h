@@ -34,6 +34,7 @@ public:
     Game(IPlayer *player1, IPlayer *player2);
     void selectPosition(Position position);
     void resetGame();
+    bool isPlayer1Turn();
     std::list<PositionStatus> getBoardStatus();
     std::list<PieceInfo> getPlayer1Pieces();
     std::list<PieceInfo> getPlayer2Pieces();

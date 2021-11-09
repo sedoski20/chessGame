@@ -95,6 +95,11 @@ void Game::resetGame()
     
 }
 
+bool Game::isPlayer1Turn() 
+{
+    return this->turn == PlayerTurn::TURN_PLAYER1;
+}
+
 std::list<PositionStatus> Game::getBoardStatus() 
 {
     return this->board->getBoardStatus();
