@@ -57,7 +57,7 @@ void Game::firstClick(Position position)
         if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
             this->board->resetBoardStatus();
 
-        this->board->updateBoardStatus(possible_movements);
+        this->board->updateBoardStatus(possible_movements, opponent_pieces);
     }
 }
 

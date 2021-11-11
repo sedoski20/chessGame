@@ -20,7 +20,7 @@ public:
     void setPlayer2Pieces(std::list<PieceInfo> & pieces) { player2Pieces = pieces; }
 
     std::list<PositionStatus> getBoardStatus ();
-    void updateBoardStatus(std::list<Position> & possibeMovements);
+    void updateBoardStatus(std::list<Position> & possibeMovements, std::list<Position> & opponnentPositions);
     
     void resetBoardStatus();
 };

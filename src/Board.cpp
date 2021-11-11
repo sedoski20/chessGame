@@ -1,4 +1,5 @@
 #include "board.h"
+#include <algorithm>
 
 Board::Board()
 {
@@ -7,15 +8,23 @@ Board::Board()
     player2Pieces.clear();
 }
 
-void Board::updateBoardStatus(std::list<Position> & possibeMovements) 
+void Board::updateBoardStatus(std::list<Position> & possibeMovements, std::list<Position> & opponnentPositions) 
 {
     this->resetBoardStatus();
+    std::list<Position>::iterator iterator;
 
     for (auto &movement : possibeMovements)
     {
         PositionStatus status;
         status.position = movement;
-        status.status = Status::HIGHLIGHTED;
+        
+        //Check if some opponent piece is one possible movement, if so, mark it as an attack
+        iterator = std::find(opponnentPositions.begin(), opponnentPositions.end(), movement);
+
+        if(iterator == std::end(opponnentPositions))
+            status.status = Status::HIGHLIGHTED;
+        else
+            status.status = Status::ATTACK;
         
         this->boardStatus.push_back(status); 
     }
