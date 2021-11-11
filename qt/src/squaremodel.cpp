@@ -125,3 +125,17 @@ void SquareModel::setIsHighlited(bool value)
     this->isHighlited = value;
     emit isHighlitedChanged();
 }
+
+bool SquareModel::getIsAttack() const
+{
+    return this->isAttack;
+}
+
+void SquareModel::setIsAttack(bool value)
+{
+    if(isAttack == value)
+        return;
+
+    this->isAttack = value;
+    emit isAttackChanged();
+}
