@@ -84,6 +84,9 @@ bool BoardModel::select(int index)
     {
         square = dynamic_cast<SquareModel*>(findSquare(position.position.row, position.position.column));
         square->setIsHighlited(true);
+
+        if(position.status == Status::ATTACK)
+            square->setIsAttack(true);
     }
 
     updatePieces();
@@ -132,6 +135,7 @@ void BoardModel::resetSquares()
     for(int i = 0;  i < squares.size(); i++ )
     {
         squares.at(i)->setIsHighlited(false);
+        squares.at(i)->setIsAttack(false);
         squares.at(i)->setIconPath("");
     }
 }
