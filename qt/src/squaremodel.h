@@ -8,6 +8,7 @@ class SquareModel : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isHighlited READ getIsHighlited WRITE setIsHighlited NOTIFY isHighlitedChanged)
+    Q_PROPERTY(bool isAttack READ getIsAttack WRITE setIsAttack NOTIFY isAttackChanged)
     Q_PROPERTY(int column READ getColumn NOTIFY columnChanged)
     Q_PROPERTY(int row READ getRow NOTIFY rowChanged)
     Q_PROPERTY(bool isBlack READ getIsBlack NOTIFY isBlackChanged)
@@ -17,6 +18,7 @@ class SquareModel : public QObject
 public:
     explicit SquareModel(const int row, const int _column);
     bool getIsHighlited() const;
+    bool getIsAttack() const;
     int getColumn() const;
     int getRow() const;
     bool getIsBlack() const;
@@ -25,6 +27,7 @@ public:
 
 private:
     bool isHighlited;
+    bool isAttack;
     bool isBlack;
     int column;
     int row;
@@ -35,6 +38,7 @@ private:
 
 signals:
     void isHighlitedChanged();
+    void isAttackChanged();
     void columnChanged();
     void rowChanged();
     void isBlackChanged();
@@ -42,7 +46,8 @@ signals:
     void iconPathChanged();
 
 public slots:
-    void setIsHighlited(bool);
+    void setIsHighlited(bool value);
+    void setIsAttack(bool value);
     void setColumn(int newColumn);
     void setRow(int newRow);
     void setIsBlack(bool newIsBlack);
