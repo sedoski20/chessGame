@@ -12,7 +12,7 @@ Rectangle
     width: board.width/8
     height: board.height/8
 
-    color: (boardModel.findSquare(index).isBlack) ? "#80232D" : "#FCFCEF"
+    color: (boardModel.findSquare(index).isBlack) ? "#80232D" : "white"
 
     MouseArea
     {
@@ -31,7 +31,20 @@ Rectangle
         height: square.height
         opacity: 0.8
         visible: boardModel.findSquare(index).isHighlited
-        color: "#f89434"
+        color: (boardModel.findSquare(index).isAttack) ? "#b32e3d" : "#f89434"
+        z: 1
+    }
+
+    Image
+    {
+        visible: boardModel.findSquare(index).isBlack
+        width: square.width
+        height: square.height
+        anchors.horizontalCenter: square.horizontalCenter
+        anchors.verticalCenter: square.verticalCenter
+        source: "/images/black_square.jfif"
+        opacity: 0.5
+
     }
 
     Image
@@ -40,6 +53,7 @@ Rectangle
         anchors.verticalCenter: square.verticalCenter
         id: pieceImage
         source: boardModel.findSquare(index).iconPath
+        z: 2
     }
 
 }
