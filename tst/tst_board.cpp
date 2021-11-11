@@ -15,13 +15,14 @@ TEST(BoardTestCase, updateBoard)
     Board board;
 
     std::list<Position> positions;
+    std::list<Position> opponent_positions;
 
     positions.push_back(Position(1, 1));
     positions.push_back(Position(2, 2));
     positions.push_back(Position(3, 3));
     positions.push_back(Position(4, 4));
 
-    board.updateBoardStatus(positions);
+    board.updateBoardStatus(positions, opponent_positions);
     EXPECT_EQ(board.getBoardStatus().size(), positions.size());
 
     std::list<PositionStatus> status = board.getBoardStatus();
@@ -40,13 +41,14 @@ TEST(BoardTestCase, resetBoardStatus)
     Board board;
 
     std::list<Position> positions;
+    std::list<Position> opponent_positions;
 
     positions.push_back(Position(1, 1));
     positions.push_back(Position(2, 2));
     positions.push_back(Position(3, 3));
     positions.push_back(Position(4, 4));
 
-    board.updateBoardStatus(positions);
+    board.updateBoardStatus(positions, opponent_positions);
     EXPECT_EQ(board.getBoardStatus().size(), positions.size());
 
     std::list<PositionStatus> status = board.getBoardStatus();
