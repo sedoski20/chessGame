@@ -12,7 +12,7 @@ Rectangle
     width: board.width/8
     height: board.height/8
 
-    color: (boardModel.findSquare(index).isBlack) ? "#80232D" : "white"
+    color: (boardModel.findSquare(index).isBlack) ? "#cfcfcf" : "white"
 
     MouseArea
     {
