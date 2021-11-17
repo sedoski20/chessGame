@@ -31,6 +31,15 @@ void Board::updateBoardStatus(std::list<Position> & possibeMovements, std::list<
 
 }
 
+void Board::addCheckToBaordStatus(Position & position) 
+{
+    PositionStatus status;
+    status.position = position;
+    status.status = Status::ATTACK;
+
+    this->boardStatus.push_back(status);
+}
+
 std::list<PositionStatus> Board::getBoardStatus ()
 {
     return this->boardStatus;

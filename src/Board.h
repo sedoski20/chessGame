@@ -21,6 +21,8 @@ public:
 
     std::list<PositionStatus> getBoardStatus ();
     void updateBoardStatus(std::list<Position> & possibeMovements, std::list<Position> & opponnentPositions);
+
+    void addCheckToBaordStatus(Position & position);
     
     void resetBoardStatus();
 };
