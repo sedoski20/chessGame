@@ -15,7 +15,7 @@ public:
 	virtual void setPlayer1Pieces(std::list<PieceInfo> & pieces) = 0;
 	virtual void setPlayer2Pieces(std::list<PieceInfo> & pieces) = 0;
 	virtual void resetBoardStatus() = 0;
-	virtual void addCheckToBaordStatus(Position & position) = 0;
+	virtual void addCheckToBoardStatus(Position & position) = 0;
 	virtual void updateBoardStatus(std::list<Position> & possibeMovements, std::list<Position> & opponnentPositions) = 0;
 };
 
