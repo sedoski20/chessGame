@@ -229,55 +229,7 @@ bool Player::getPossibleMovements(std::list<Piece *> &opponentPieces, std::list<
         opponent_positions.push_back(piece->getCurrentPosition());
 
     Piece *piece = selectedPiece;
-
-    switch (piece->getType())
-    {
-        case PieceType::PAWN:
-        {
-            Pawn *pawn = dynamic_cast<Pawn*> (piece);
-            possibleMovements = pawn->getPossibleMovements(this->getPositions(), opponent_positions);
-            break;
-        } 
-
-        case PieceType::BISHOP: 
-        {
-            Bishop *bishop = dynamic_cast<Bishop*> (piece);
-            possibleMovements = bishop->getPossibleMovements(this->getPositions(), opponent_positions);
-            break;
-        }
-
-        case PieceType::KNIGHT: 
-        {
-            Knight *knight = dynamic_cast<Knight*> (piece);
-            possibleMovements = knight->getPossibleMovements(this->getPositions(), opponent_positions);
-            break;
-        }
-
-        case PieceType::ROOK: 
-        {
-            Rook *rook = dynamic_cast<Rook*> (piece);
-            possibleMovements = rook->getPossibleMovements(this->getPositions(), opponent_positions);
-            break; 
-        }
-
-        case PieceType::QUEEN: 
-        {
-            Queen *queen = dynamic_cast<Queen*> (piece);
-            possibleMovements = queen->getPossibleMovements(this->getPositions(), opponent_positions);
-            break; 
-        }
-
-        case PieceType::KING: 
-        {
-            King *king = dynamic_cast<King*> (piece);
-            possibleMovements = king->getPossibleMovements(this->getPositions(), opponent_positions);
-            break; 
-        }
-
-        default:
-            return false;
-
-    }
+    possibleMovements = piece->getPossibleMovements(this->getPositions(), opponent_positions);
 
     removeUnsafeMovements(possibleMovements, opponentPieces);
     possibleMovements.push_back(piece->getCurrentPosition());
