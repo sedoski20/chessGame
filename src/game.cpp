@@ -51,19 +51,26 @@ void Game::firstClick(Position position)
     //Click on self piece
     else
     {
-        std::list<Position> opponent_pieces = getOpponentPlayer()->getPositions();
+        std::list<Piece *> opponent_pieces = getOpponentPlayer()->getPieces();
+        std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
         std::list<Position> possible_movements;
         
         if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
             this->board->resetBoardStatus();
 
-        this->board->updateBoardStatus(possible_movements, opponent_pieces);
+        this->board->updateBoardStatus(possible_movements, opponent_positions);
+
+        if(this->getCurrentPlayer()->getInCheck())
+        {
+            Position king_position = this->getCurrentPlayer()->getKingPosition();
+            this->board->addCheckToBaordStatus(king_position);
+        }
     }
 }
 
 void Game::secondClick(Position position) 
 {
-    std::list<Position> opponent_pieces = this->getOpponentPlayer()->getPositions();
+    std::list<Piece *> opponent_pieces = this->getOpponentPlayer()->getPieces();
     board->resetBoardStatus();
     
     if(!getCurrentPlayer()->moveSelectedPiece(opponent_pieces, position))
