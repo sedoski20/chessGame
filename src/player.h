@@ -14,6 +14,7 @@ private:
 
     int score;
     int activePieces;
+    bool inCheck;
 
     void createPawns(int referenceRow);
     void createRooks(int referenceRow);
@@ -23,21 +24,25 @@ private:
     void createKing(int referenceRow);
 
     bool findPiece(Position location, Piece *&piece);
+    bool isPossibleMovement(std::list<Piece *> &opponentPieces, Position destination);
+    void removeUnsafeMovements(std::list<Position> &movements, std::list<Piece *> opponentPieces);
+    bool isCheckFromOpponent(const std::list<Position> &selfPositions, std::list<Piece *> &opponentPieces, Position kingPosition);
 
 public:
     Player(MovementDirection direction, std::string playerName);
     Player(MovementDirection direction);
 
-    bool getPossibleMovements(std::list<Position> &opponentPositions, std::list<Position> &possibleMovements);
-    bool isPossibleMovement(std::list<Position> &opponentPositions, Position destination);
-    std::list<Piece *> getPieces() const;
+    bool getPossibleMovements(std::list<Piece *> &opponentPieces, std::list<Position> &possibleMovements);
+    std::list<Piece *> getPieces();
     std::list<Position> getPositions();
     std::list<PieceInfo> getPiecesInfo();
 
-    bool moveSelectedPiece(std::list<Position> &opponentPositions, Position destination);
+    bool moveSelectedPiece(std::list<Piece *> &opponentPieces, Position destination);
     bool receiveAttack(Position position);
     bool isAttack(Position position);
     void updateScore();
+    
+    Position getKingPosition();
 
     //Getters and setters
     std::string getName() const { return name; }
@@ -49,6 +54,8 @@ public:
 
     int getActivePieces() { return activePieces; }
     void setActivePieces(int activePieces_) { activePieces = activePieces_; }
+
+    bool getInCheck() const { return inCheck; }
 
 };
 
