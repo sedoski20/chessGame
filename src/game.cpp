@@ -85,8 +85,8 @@ void Game::secondClick(Position position)
     this->updateTurn();
 
     //Check if the game is over
-    if(this->getCurrentPlayer()->isCheckmate(opponent_pieces))
-        std::cout << "Checkmate!" << std::endl;
+    // if(this->getCurrentPlayer()->isCheckmate(opponent_pieces))
+    //     std::cout << "Checkmate!" << std::endl;
 }
 
 void Game::selectPosition(Position position) 

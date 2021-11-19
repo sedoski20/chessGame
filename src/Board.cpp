@@ -1,5 +1,6 @@
 #include "board.h"
 #include <algorithm>
+#include <iostream>
 
 Board::Board(IPlayer *player1, IPlayer *player2)
 {
@@ -38,6 +39,8 @@ void Board::updateBoardStatus(PlayerTurn currentTurn)
         
         this->boardStatus.push_back(status); 
     }
+
+    isCheckmate();
 
 }
 
@@ -93,11 +96,11 @@ std::list<Position> Board::getPossibleMovementsForSelectedPiece()
     std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
 
     std::list<Position> possible_movements = selectedPiece->getPossibleMovements(current_player_positions, opponent_positions);
-    removeUnsafeMovements(possible_movements);
+    removeUnsafeMovements(possible_movements, selectedPiece);
     return possible_movements;   
 }
 
-void Board::removeUnsafeMovements(std::list<Position> &movements) 
+void Board::removeUnsafeMovements(std::list<Position> &movements, Piece *selectedPiece) 
 {
     Position kingPosition;
 
@@ -106,8 +109,6 @@ void Board::removeUnsafeMovements(std::list<Position> &movements)
         std::list<Position> possible_self_positions = this->getCurrentPlayer()->getPositions();
         std::list<Piece *> current_opponent_pieces =this->getOpponentPlayer()->getPieces();
         std::list<Piece *> possible_opponent_pieces;
-
-        Piece *selectedPiece = this->getCurrentPlayer()->getSelectedPiece();
 
         //Append opponent positions
         //Except if the possible movement is an attack
@@ -154,4 +155,28 @@ bool Board::isSafeArrangement(const std::list<Position> selfPositions, std::list
     }
 
     return false;
+}
+
+bool Board::isCheckmate() 
+{
+    std::list<Piece *> current_player_pieces = this->getCurrentPlayer()->getPieces();
+    std::list<Position> current_player_positions = getCurrentPlayer()->getPositions();
+    std::list<Position> current_opponent_positions = getOpponentPlayer()->getPositions();
+
+    std::list<Position> possible_movements;
+
+    for(Piece * piece : current_player_pieces)
+    {
+        possible_movements = piece->getPossibleMovements(current_player_positions, current_opponent_positions);
+        removeUnsafeMovements(possible_movements, piece);
+
+        //TODO: this function is not working properly, maybe the problem is on the removeUnsafeMovements function
+        std::cout << "CHECK: Possible movements size - " << possible_movements.size() << std::endl;
+
+        if(possible_movements.size() > 0)
+            return false;
+    }
+
+    std::cout << "CHECK MATE!" << std::endl;
+    return true;
 }
