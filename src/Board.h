@@ -25,6 +25,8 @@ private:
     std::list<PositionStatus> boardStatus;
 
     std::list<Position> getPossibleMovementsForSelectedPiece();
+    void removeUnsafeMovements(std::list<Position> &movements);
+    bool isSafeArrangement(const std::list<Position> selfPositions, std::list<Piece *> opponentPieces, Position kingPosition);
 
 public:
     Board(IPlayer *player1, IPlayer *player2);    
