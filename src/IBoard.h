@@ -5,6 +5,13 @@
 #include "position.h"
 #include "iplayer.h"
 
+enum class PlayerTurn
+{
+    TURN_PLAYER1,
+    TURN_PLAYER2
+};
+
+
 class IBoard
 {
 
@@ -16,7 +23,7 @@ public:
 	virtual void setPlayer2Pieces(std::list<PieceInfo> & pieces) = 0;
 	virtual void resetBoardStatus() = 0;
 	virtual void addCheckToBoardStatus(Position & position) = 0;
-	virtual void updateBoardStatus(std::list<Position> & possibeMovements, std::list<Position> & opponnentPositions) = 0;
+	virtual void updateBoardStatus(PlayerTurn currentTurn) = 0;
 };
 
 
