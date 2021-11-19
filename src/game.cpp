@@ -1,4 +1,5 @@
 #include "game.h"
+#include <iostream>
 
 Game::Game(IPlayer *player1, IPlayer *player2)
 {
@@ -6,8 +7,7 @@ Game::Game(IPlayer *player1, IPlayer *player2)
     this->player2 = player2;
 
     this->turn = PlayerTurn::TURN_PLAYER1;
- 
-    this->board = &board2;
+    this->board = new Board(player1, player2);
     this->updateBoard();
 }
 
@@ -51,19 +51,21 @@ void Game::firstClick(Position position)
     //Click on self piece
     else
     {
-        std::list<Piece *> opponent_pieces = getOpponentPlayer()->getPieces();
-        std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
-        std::list<Position> possible_movements;
+        // std::list<Piece *> opponent_pieces = getOpponentPlayer()->getPieces();
+        // std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
+        // std::list<Position> possible_movements;
         
-        if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
-            this->board->resetBoardStatus();
+        // if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
+        //     this->board->resetBoardStatus();
 
-        this->board->updateBoardStatus(possible_movements, opponent_positions);
+
+        // possible_movements.push_back(getCurrentPlayer()->getSelectedPiece()->getCurrentPosition());
+        this->board->updateBoardStatus(this->turn);
 
         if(this->getCurrentPlayer()->getInCheck())
         {
             Position king_position = this->getCurrentPlayer()->getKingPosition();
-            this->board->addCheckToBaordStatus(king_position);
+            this->board->addCheckToBoardStatus(king_position);
         }
     }
 }
@@ -81,6 +83,10 @@ void Game::secondClick(Position position)
 
     this->updateBoard();
     this->updateTurn();
+
+    //Check if the game is over
+    if(this->getCurrentPlayer()->isCheckmate(opponent_pieces))
+        std::cout << "Checkmate!" << std::endl;
 }
 
 void Game::selectPosition(Position position) 

@@ -6,11 +6,11 @@
 #include "board.h"
 #include "igame.h"
 
-enum class PlayerTurn
-{
-    TURN_PLAYER1,
-    TURN_PLAYER2
-};
+// enum class PlayerTurn
+// {
+//     TURN_PLAYER1,
+//     TURN_PLAYER2
+// };
 
 class Game : public IGame
 {
@@ -22,7 +22,6 @@ private:
     IPlayer *getOpponentPlayer();
 
     IBoard *board;
-    Board board2;
     PlayerTurn turn;
 
     void updateTurn();
