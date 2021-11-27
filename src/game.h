@@ -23,6 +23,7 @@ private:
 
     IBoard *board;
     PlayerTurn turn;
+    GameStatus status;
 
     void updateTurn();
     void updateBoard();
@@ -37,6 +38,9 @@ public:
     std::list<PositionStatus> getBoardStatus();
     std::list<PieceInfo> getPlayer1Pieces();
     std::list<PieceInfo> getPlayer2Pieces();
+
+    GameStatus getStatus() { return status; }
+    void setStatus(const GameStatus &status_) { status = status_; }
 };
 
 #endif // GAME_H

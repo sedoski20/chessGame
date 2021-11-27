@@ -37,12 +37,16 @@ public:
     std::list<PieceInfo> getPlayer2Pieces() { return player2Pieces; }
     void setPlayer2Pieces(std::list<PieceInfo> & pieces) { player2Pieces = pieces; }
 
+    PlayerTurn getTurn() const { return turn; }
+    void setTurn(const PlayerTurn &turn_) { turn = turn_; }
+
     std::list<PositionStatus> getBoardStatus ();
-    void updateBoardStatus(PlayerTurn currentTurn);
+    void updateBoardStatus();
 
     void addCheckToBoardStatus(Position & position);
     
     void resetBoardStatus();
+
 };
 
 

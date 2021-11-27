@@ -11,10 +11,9 @@ Board::Board(IPlayer *player1, IPlayer *player2)
     player2Pieces.clear();
 }
 
-void Board::updateBoardStatus(PlayerTurn currentTurn) 
+void Board::updateBoardStatus() 
 {
     this->resetBoardStatus();
-    this->turn = currentTurn;
     std::list<Position>::iterator iterator;
 
     std::list<Position> possible_movements = this->getPossibleMovementsForSelectedPiece();
@@ -39,9 +38,6 @@ void Board::updateBoardStatus(PlayerTurn currentTurn)
         
         this->boardStatus.push_back(status); 
     }
-
-    isCheckmate();
-
 }
 
 void Board::addCheckToBoardStatus(Position & position) 
@@ -77,20 +73,6 @@ IPlayer *Board::getOpponentPlayer()
 
 std::list<Position> Board::getPossibleMovementsForSelectedPiece() 
 {
-    // if(!isPieceSelected())
-    //     return false;
-
-    // //Update check status
-    // if(isCheckFromOpponent(this->getPositions(), opponentPieces, this->getKingPosition()))
-    //     this->inCheck = true;
-    // else
-    //     this->inCheck = false;
-
-    // std::list<Position> opponent_positions;
-
-    // for(Piece * piece : opponentPieces)
-    //     opponent_positions.push_back(piece->getCurrentPosition());
-
     Piece *selectedPiece = getCurrentPlayer()->getSelectedPiece();
     std::list<Position> current_player_positions = getCurrentPlayer()->getPositions();
     std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
@@ -170,13 +152,8 @@ bool Board::isCheckmate()
         possible_movements = piece->getPossibleMovements(current_player_positions, current_opponent_positions);
         removeUnsafeMovements(possible_movements, piece);
 
-        //TODO: this function is not working properly, maybe the problem is on the removeUnsafeMovements function
-        std::cout << "CHECK: Possible movements size - " << possible_movements.size() << std::endl;
-
         if(possible_movements.size() > 0)
             return false;
     }
-
-    std::cout << "CHECK MATE!" << std::endl;
     return true;
 }

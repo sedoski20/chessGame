@@ -8,6 +8,7 @@ Game::Game(IPlayer *player1, IPlayer *player2)
 
     this->turn = PlayerTurn::TURN_PLAYER1;
     this->board = new Board(player1, player2);
+    this->status = GameStatus::PLAYING;
     this->updateBoard();
 }
 
@@ -51,16 +52,7 @@ void Game::firstClick(Position position)
     //Click on self piece
     else
     {
-        // std::list<Piece *> opponent_pieces = getOpponentPlayer()->getPieces();
-        // std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
-        // std::list<Position> possible_movements;
-        
-        // if(!getCurrentPlayer()->getPossibleMovements(opponent_pieces, possible_movements))
-        //     this->board->resetBoardStatus();
-
-
-        // possible_movements.push_back(getCurrentPlayer()->getSelectedPiece()->getCurrentPosition());
-        this->board->updateBoardStatus(this->turn);
+        this->board->updateBoardStatus();
 
         if(this->getCurrentPlayer()->getInCheck())
         {
@@ -81,12 +73,19 @@ void Game::secondClick(Position position)
     if(getCurrentPlayer()->isAttack(position))
         this->getOpponentPlayer()->receiveAttack(position);
 
-    this->updateBoard();
     this->updateTurn();
+    this->updateBoard();
+    this->board->setTurn(this->turn);
 
-    //Check if the game is over
-    // if(this->getCurrentPlayer()->isCheckmate(opponent_pieces))
-    //     std::cout << "Checkmate!" << std::endl;
+    //Check if the game is over and set the game Status
+    this->setStatus(board->isCheckmate() ? GameStatus::ENDED
+                                         : GameStatus::PLAYING);
+
+    if(this->getStatus() == GameStatus::ENDED)
+    {
+        std::cout << "Checkmate! " << " wins!" << std::endl;
+    }
+    
 }
 
 void Game::selectPosition(Position position) 

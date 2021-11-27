@@ -23,7 +23,10 @@ public:
 	virtual void setPlayer2Pieces(std::list<PieceInfo> & pieces) = 0;
 	virtual void resetBoardStatus() = 0;
 	virtual void addCheckToBoardStatus(Position & position) = 0;
-	virtual void updateBoardStatus(PlayerTurn currentTurn) = 0;
+	virtual void updateBoardStatus() = 0;
+	virtual bool isCheckmate() = 0;
+	virtual PlayerTurn getTurn() const = 0;
+    virtual void setTurn(const PlayerTurn &turn_) = 0;
 };
 
 
