@@ -4,6 +4,13 @@
 #include "position.h"
 #include "iplayer.h"
 
+enum class GameStatus
+{
+    INITIAL,
+    PLAYING,
+    ENDED,
+};
+
 class IGame
 {
 
@@ -11,6 +18,7 @@ public:
     virtual void selectPosition(Position position) = 0;
     virtual void resetGame() = 0;
     virtual bool isPlayer1Turn() = 0;
+    virtual GameStatus getStatus() = 0;
     virtual std::list<PositionStatus> getBoardStatus() = 0;
     virtual std::list<PieceInfo> getPlayer1Pieces() = 0;
     virtual std::list<PieceInfo> getPlayer2Pieces() = 0;

@@ -25,6 +25,27 @@ Window
         id: board
         width: main.width - 200
         height: main.height
+        color: "red"
+
+        Rectangle
+        {
+            id: status
+            visible: boardModel.isGameEnded
+            width: board.width
+            height: board.height
+            color: "gray"
+            z: 1
+
+            Text {
+                id: result
+                text: "Game Ended!"
+                font.pointSize: 40
+                anchors.horizontalCenter: status.horizontalCenter
+                anchors.verticalCenter: status.verticalCenter
+            }
+
+
+        }
 
         Grid
         {
@@ -36,7 +57,7 @@ Window
             {
                 id: squares
                 model: 64
-                Square {}
+                Square {z:2}
             }
         }
     }

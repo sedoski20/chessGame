@@ -66,9 +66,23 @@ void BoardModel::setIsPlayer1Turn(bool value)
     emit isPlayer1TurnChanged();
 }
 
+void BoardModel::setIsGameEnded(bool value)
+{
+    if(this->isGameEnded == value)
+        return;
+
+    this->isGameEnded = value;
+    emit isGameEndedChanged();
+}
+
 bool BoardModel::getIsPlayer1Turn()
 {
     return this->isPlayer1Turn;
+}
+
+bool BoardModel::getIsGameEnded()
+{
+    return this->isGameEnded;
 }
 
 bool BoardModel::select(int index)
@@ -91,6 +105,9 @@ bool BoardModel::select(int index)
 
     updatePieces();
     setIsPlayer1Turn(i_game->isPlayer1Turn());
+
+    GameStatus status = i_game->getStatus();
+    setIsGameEnded((status == GameStatus::ENDED) ? true : false);
 
     return true;
 }

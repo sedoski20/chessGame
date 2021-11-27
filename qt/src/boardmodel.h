@@ -10,6 +10,7 @@ class BoardModel : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isPlayer1Turn READ getIsPlayer1Turn NOTIFY isPlayer1TurnChanged)
+    Q_PROPERTY(bool isGameEnded READ getIsGameEnded NOTIFY isGameEndedChanged)
 
 private:
     QList<SquareModel*> squares;
@@ -17,6 +18,7 @@ private:
     void updatePieces();
     void resetSquares();
     bool isPlayer1Turn;
+    bool isGameEnded;
     QString getPiecePath(PieceType type, bool isPlayer1);
 
 
@@ -26,7 +28,9 @@ public:
     ~BoardModel();
     void reset();
     void setIsPlayer1Turn(bool value);
+    void setIsGameEnded(bool value);
     bool getIsPlayer1Turn();
+    bool getIsGameEnded();
 
     Q_INVOKABLE QObject* findSquare(int row, int column) const;
     Q_INVOKABLE QObject* findSquare(int index) const;
@@ -34,6 +38,7 @@ public:
 
 signals:
     void isPlayer1TurnChanged();
+    void isGameEndedChanged();
 
 
 
