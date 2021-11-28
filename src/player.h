@@ -48,6 +48,7 @@ public:
 
     Piece *getSelectedPiece() { return selectedPiece;}
     bool selectPiece(Position position);
+    void unselectPiece();
     bool isPieceSelected();
 
     int getActivePieces() { return activePieces; }

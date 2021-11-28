@@ -70,6 +70,12 @@ void Game::secondClick(Position position)
     //The isPossibleMovement function was removed from moveSelected Piece
     //Now, it is possible to move the piece to a prohibited position
     //Will be necessary to add isPossibleMovement function in the board class
+    if(!this->board->isPossibleMovement(position))
+    {
+        this->getCurrentPlayer()->unselectPiece();
+        return;
+    }
+    
     if(!getCurrentPlayer()->moveSelectedPiece(opponent_pieces, position))
         return;
 
@@ -83,12 +89,6 @@ void Game::secondClick(Position position)
     //Check if the game is over and set the game Status
     this->setStatus(board->isCheckmate() ? GameStatus::ENDED
                                          : GameStatus::PLAYING);
-
-    if(this->getStatus() == GameStatus::ENDED)
-    {
-        std::cout << "Checkmate! " << " wins!" << std::endl;
-    }
-    
 }
 
 void Game::selectPosition(Position position) 

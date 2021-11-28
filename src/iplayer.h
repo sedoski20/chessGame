@@ -20,9 +20,10 @@ public:
     virtual std::list<PieceInfo> getPiecesInfo() = 0;
     virtual const std::list<Piece *> getPieces() = 0;
     virtual bool isPieceSelected() = 0;
+    virtual bool selectPiece(Position position) = 0;
+    virtual void unselectPiece() = 0;
     virtual bool getInCheck() const = 0;
     virtual bool isAttack(Position position) = 0;
-    virtual bool selectPiece(Position position) = 0;
     virtual bool receiveAttack(Position position) = 0;
     virtual bool moveSelectedPiece(std::list<Piece*> &opponentPieces, Position destination) = 0;
 };

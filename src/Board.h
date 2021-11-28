@@ -45,6 +45,7 @@ public:
     void addCheckToBoardStatus(Position & position);
     
     void resetBoardStatus();
+    bool isPossibleMovement(Position &destination);
 
 };
 

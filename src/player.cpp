@@ -149,6 +149,11 @@ bool Player::selectPiece(Position position)
     return true;
 }
 
+void Player::unselectPiece() 
+{
+    this->selectedPiece = NULL;    
+}
+
 bool Player::moveSelectedPiece(std::list<Piece *> &opponentPieces, Position destination) 
 {
     if(!isPieceSelected())

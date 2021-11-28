@@ -59,6 +59,19 @@ void Board::resetBoardStatus()
     this->boardStatus.clear();
 }
 
+bool Board::isPossibleMovement(Position &destination) 
+{
+    std::list<Position> possible_movements;
+
+    possible_movements =  this->getPossibleMovementsForSelectedPiece();
+
+    for(Position pos : possible_movements)
+        if(pos == destination)
+            return true;
+
+    return false;
+}
+
 IPlayer *Board::getCurrentPlayer() 
 {
     return (this->turn == PlayerTurn::TURN_PLAYER1) ? this->player1
