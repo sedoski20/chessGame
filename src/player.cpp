@@ -162,12 +162,6 @@ bool Player::moveSelectedPiece(std::list<Piece *> &opponentPieces, Position dest
         return false;
     }
 
-    if(!isPossibleMovement(opponentPieces, destination))
-    {
-        selectedPiece = NULL;
-        return false;
-    }
-
     if(!selectedPiece->move(destination))
     {
         selectedPiece = NULL;
@@ -207,108 +201,9 @@ bool Player::isAttack(Position position)
     return result;
 }
 
-std::list<Piece *> Player::getPieces()
+const std::list<Piece *> Player::getPieces()
 {
     return this->pieces;
-}
-
-bool Player::getPossibleMovements(std::list<Piece *> &opponentPieces, std::list<Position> &possibleMovements) 
-{
-    if(!isPieceSelected())
-        return false;
-
-    //Update check status
-    if(isCheckFromOpponent(this->getPositions(), opponentPieces, this->getKingPosition()))
-        this->inCheck = true;
-    else
-        this->inCheck = false;
-
-    std::list<Position> opponent_positions;
-
-    for(Piece * piece : opponentPieces)
-        opponent_positions.push_back(piece->getCurrentPosition());
-
-    Piece *piece = selectedPiece;
-    possibleMovements = piece->getPossibleMovements(this->getPositions(), opponent_positions);
-
-    removeUnsafeMovements(possibleMovements, opponentPieces);
-    possibleMovements.push_back(piece->getCurrentPosition());
-    return true;
-}
-
-bool Player::isPossibleMovement(std::list<Piece *> &opponentPieces, Position destination) 
-{
-    std::list<Position> possible_movements;
-    
-    if(!this->getPossibleMovements(opponentPieces, possible_movements))
-        return false;
-
-    for(Position pos : possible_movements)
-        if(pos == destination)
-            return true;
-            
-    return false;
-}
-
-void Player::removeUnsafeMovements(std::list<Position> &movements, std::list<Piece *> opponentPieces) 
-{
-    Position kingPosition;
-    std::cout << "Player::removeUnsafeMovements" << std::endl;
-
-    for(Position pos : movements)
-    {
-        std::list<Position> possible_self_positions = this->getPositions();
-        std::list<Piece *> possible_opponent_pieces;
-        
-        //Append opponent positions
-        //Except if the possible movement is an attack
-        for(Piece * piece : opponentPieces)
-        {
-            if(!(piece->getCurrentPosition() == pos))
-                possible_opponent_pieces.push_back(piece);
-        }
-
-        //Remove the selected piece
-        //Append the possible movement (pos) to get a new positions arrangement for the current player
-        possible_self_positions.remove(selectedPiece->getCurrentPosition());
-        possible_self_positions.push_back(pos);
-
-        if(this->selectedPiece->getType() == PieceType::KING)
-            kingPosition = pos;
-        else
-            kingPosition = getKingPosition();
-
-        //Now we check if this arrangement is safe
-        if(isCheckFromOpponent(possible_self_positions, possible_opponent_pieces, kingPosition))
-            movements.remove(pos);
-
-    }
-}
-
-bool Player::isCheckFromOpponent(const std::list<Position> &selfPositions, std::list<Piece *> &opponentPieces, Position kingPosition) 
-{
-    //Iterate through all the opponent pieces
-    //Get the possible movements for each piece
-    //Check if the king is in the possible movements
-    //If so, return true
-
-    std::list<Position> opponent_positions;
-
-    for(Piece * piece : opponentPieces)
-        opponent_positions.push_back(piece->getCurrentPosition());
-
-    for(Piece * piece : opponentPieces)
-    {
-        std::list<Position> possible_movements = piece->getPossibleMovements(opponent_positions, selfPositions);
-
-        if(std::find(possible_movements.begin(), possible_movements.end(), kingPosition) != std::end(possible_movements))
-        {
-            std::cout << "Check from opponent on position:" << kingPosition.row << " " << kingPosition.column << std::endl;
-            return true;
-        }
-    }
-
-    return false;
 }
 
 Position Player::getKingPosition() 

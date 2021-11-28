@@ -6,7 +6,6 @@
 #include "iplayer.h"
 
 //TODO: Move the business logic that needs data of all players from player class to the Board class
-//TODO: Add a list of Piece * for each player
 
 class Board : public IBoard
 {

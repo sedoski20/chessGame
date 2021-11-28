@@ -67,6 +67,9 @@ void Game::secondClick(Position position)
     std::list<Piece *> opponent_pieces = this->getOpponentPlayer()->getPieces();
     board->resetBoardStatus();
     
+    //The isPossibleMovement function was removed from moveSelected Piece
+    //Now, it is possible to move the piece to a prohibited position
+    //Will be necessary to add isPossibleMovement function in the board class
     if(!getCurrentPlayer()->moveSelectedPiece(opponent_pieces, position))
         return;
 

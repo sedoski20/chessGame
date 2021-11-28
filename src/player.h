@@ -24,16 +24,14 @@ private:
     void createKing(int referenceRow);
 
     bool findPiece(Position location, Piece *&piece);
-    bool isPossibleMovement(std::list<Piece *> &opponentPieces, Position destination);
-    void removeUnsafeMovements(std::list<Position> &movements, std::list<Piece *> opponentPieces);
-    bool isCheckFromOpponent(const std::list<Position> &selfPositions, std::list<Piece *> &opponentPieces, Position kingPosition);
 
 public:
     Player(MovementDirection direction, std::string playerName);
     Player(MovementDirection direction);
-
-    bool getPossibleMovements(std::list<Piece *> &opponentPieces, std::list<Position> &possibleMovements);
-    std::list<Piece *> getPieces();
+    
+    //TODO: solve unsafe modification on Piece object by calling Piece pointer methods outside from Player class	
+    //      e.g: piece->move(Position(0,0)) can be called anywhere from a piece object pointer and them modify this object pointer. 
+    const std::list<Piece *> getPieces();
     std::list<Position> getPositions();
     std::list<PieceInfo> getPiecesInfo();
 
@@ -55,6 +53,7 @@ public:
     int getActivePieces() { return activePieces; }
     void setActivePieces(int activePieces_) { activePieces = activePieces_; }
 
+    //TODO: move this implementation to board class
     bool getInCheck() const { return inCheck; }
 
 };
