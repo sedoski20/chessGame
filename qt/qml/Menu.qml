@@ -4,52 +4,85 @@ import QtQuick.Layouts 1.12
 
 Rectangle
 {
-    id: lateralMenu
-    color: "gray"
-    width: 200
-
-    height: main.height
-    anchors.right: main.right
-
-    Column
+    Rectangle
     {
-        spacing: 2
-        anchors.centerIn: parent
-        Rectangle
-        {
-            width: lateralMenu.width - 6
-            height: (lateralMenu.height/2) - 4
-            color: (boardModel.isPlayer1Turn) ? "gray" : "#DD838E"
-            border.color: "black"
-            border.width: 2
-            opacity: (boardModel.isPlayer1Turn) ? 0.5 : 1
+        id: player2Box
+        anchors.top: lateralMenu.top
+        anchors.left: lateralMenu.left
+        anchors.leftMargin: 3
+        anchors.topMargin: 3
 
-            Text
+        width: lateralMenu.width - 6
+        height: (lateralMenu.height/2) - 4
+        color: (!boardModel.isPlayer1Turn) ? "#4db34d" : "gray"
+        border.color: "black"
+        border.width: 1
+        radius: 10
+        opacity: (!boardModel.isPlayer1Turn) ? 0.7 : 0.5
+
+        TextField
+        {
+            id: player2Title
+            placeholderText: player2Title.focus ? "" : "Player 2"
+            placeholderTextColor: (!boardModel.isPlayer1Turn) ? "#0f240f" : "black"
+            font.pointSize: 24
+            color: (!boardModel.isPlayer1Turn) ? "#0f240f" : "black"
+
+            anchors.left: player2Box.left
+            anchors.top: player2Box.top
+            anchors.right: player2Box.right
+            anchors.leftMargin: 6
+            anchors.topMargin: 6
+            anchors.rightMargin: 6
+
+            background: Rectangle
             {
-                id: player2Title
-                text: "Player 2"
-                font.pointSize: 24
-                leftPadding: 10
-                color: (boardModel.isPlayer1Turn) ? "black" : "#80232D"
+                implicitWidth: 100
+                implicitHeight: 50
+                color: "transparent"
+                border.color: (player2Title.activeFocus || player2Title.hovered) ? "#0f240f" : "transparent"
             }
+
         }
+    }
 
-        Rectangle
+    Rectangle
+    {
+        id: player1Box
+        anchors.bottom: lateralMenu.bottom
+        anchors.left: lateralMenu.left
+        anchors.leftMargin: 3
+        anchors.bottomMargin: 3
+
+        width: lateralMenu.width - 6
+        height: (lateralMenu.height/2) - 4
+        color: (boardModel.isPlayer1Turn) ? "#4db34d" : "gray"
+        border.color: "black"
+        border.width: 1
+        radius: 10
+        opacity: (boardModel.isPlayer1Turn) ? 0.7 : 0.5
+
+        TextField
         {
-            width: lateralMenu.width - 6
-            height: (lateralMenu.height/2) - 4
-            color: (boardModel.isPlayer1Turn) ? "#DD838E" : "gray"
-            border.color: "black"
-            border.width: 2
-            opacity: (boardModel.isPlayer1Turn) ? 1 : 0.5
+            id: player1Title
+            placeholderText: player1Title.focus ? "" : "Player 1"
+            placeholderTextColor: (boardModel.isPlayer1Turn) ? "#0f240f" : "black"
+            font.pointSize: 24
+            color: (boardModel.isPlayer1Turn) ? "#0f240f" : "black"
 
-            Text
+            anchors.left: player1Box.left
+            anchors.top: player1Box.top
+            anchors.right: player1Box.right
+            anchors.leftMargin: 6
+            anchors.topMargin: 6
+            anchors.rightMargin: 6
+
+            background: Rectangle
             {
-                id: player1Title
-                text: "Player 1"
-                font.pointSize: 24
-                leftPadding: 10
-                color: (boardModel.isPlayer1Turn) ? "#80232D" : "black"
+                implicitWidth: 100
+                implicitHeight: 50
+                color: "transparent"
+                border.color: (player1Title.focus || player1Title.hovered) ? "#0f240f" : "transparent"
             }
         }
     }

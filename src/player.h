@@ -56,6 +56,7 @@ public:
 
     //TODO: move this implementation to board class
     bool getInCheck() const { return inCheck; }
+    void setInCheck(bool inCheck_) { inCheck = inCheck_; }
 
 };
 

@@ -21,6 +21,7 @@ Rectangle
         {
             //Call on selected position on game
             boardModel.select(index)
+            focus = true
         }
     }
 

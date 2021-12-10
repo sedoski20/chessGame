@@ -16,5 +16,6 @@
         <file>images/white_rook.png</file>
         <file>qml/Menu.qml</file>
         <file>images/black_square.jfif</file>
+        <file>qml/Player.qml</file>
     </qresource>
 </RCC>
