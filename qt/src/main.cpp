@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include "squaremodel.h"
 #include "QQmlContext"
+#include <QIcon>
 #include <QLocale>
 #include <QTranslator>
 #include "boardmodel.h"
@@ -41,5 +42,6 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
+    app.setWindowIcon(QIcon(":/images/black_king.png"));
     return app.exec();
 }
