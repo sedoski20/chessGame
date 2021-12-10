@@ -23,6 +23,11 @@ void Board::updateBoardStatus()
 
     std::list<Position> opponent_postions = this->getOpponentPlayer()->getPositions();
 
+    if(isSafeArrangement(getCurrentPlayer()->getPositions(), getOpponentPlayer()->getPieces(), getCurrentPlayer()->getKingPosition()))
+        getCurrentPlayer()->setInCheck(true);
+    else
+        getCurrentPlayer()->setInCheck(false);
+
     for (auto &movement : possible_movements)
     {
         PositionStatus status;
@@ -129,6 +134,7 @@ void Board::removeUnsafeMovements(std::list<Position> &movements, Piece *selecte
     }
 }
 
+//TODO: Rename this method to: isCheckArrangement
 bool Board::isSafeArrangement(const std::list<Position> selfPositions, std::list<Piece *> opponentPieces, Position kingPosition) 
 {
     //Iterate through all the opponent pieces
