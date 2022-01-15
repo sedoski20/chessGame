@@ -17,6 +17,8 @@ BoardModel::BoardModel(IGame *game)
     this->i_game = game;
     resetSquares();
     updatePieces();
+
+    setIsPlayer1Turn(i_game->isPlayer1Turn());
 }
 
 BoardModel::~BoardModel()
