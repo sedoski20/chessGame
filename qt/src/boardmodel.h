@@ -18,12 +18,11 @@ private:
     void updatePieces();
     void resetSquares();
     bool isPlayer1Turn;
-    bool isGameEnded;
+    bool isGameEnded = false;
     QString getPiecePath(PieceType type, bool isPlayer1);
 
 
 public:
-
     explicit BoardModel(IGame *game);
     ~BoardModel();
     void reset();
