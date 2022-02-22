@@ -1,10 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "squaremodel.h"
 #include "QQmlContext"
 #include <QIcon>
 #include <QLocale>
 #include <QTranslator>
+#include "squaremodel.h"
 #include "boardmodel.h"
 #include "iplayer.h"
 #include "player.h"
