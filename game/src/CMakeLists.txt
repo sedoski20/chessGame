@@ -1,0 +1,17 @@
+
+set(BINARY ${PROJECT_NAME})
+
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
+
+set(SOURCES ${SOURCES})
+
+# add_executable(${BINARY} ${SOURCES})
+
+add_library(${BINARY} STATIC ${SOURCES})
+
+set_target_properties( ${BINARY}
+  PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/game"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/game"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/game"
+)

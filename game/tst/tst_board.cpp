@@ -1,10 +1,12 @@
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include "../src/board.h"
 #include <algorithm>
 
 TEST(BoardTestCase, ConstructorTestCase1)
 {
-    Board board;
+    IPlayer *player1;
+    IPlayer *player2;
+    Board board(player1, player2);
     EXPECT_EQ(board.getBoardStatus().size(), 0);
     EXPECT_EQ(board.getPlayer1Pieces().size(), 0);
     EXPECT_EQ(board.getPlayer2Pieces().size(), 0);
@@ -12,7 +14,9 @@ TEST(BoardTestCase, ConstructorTestCase1)
 
 TEST(BoardTestCase, updateBoard)
 {
-    Board board;
+    IPlayer *player1;
+    IPlayer *player2;
+    Board board(player1, player2);
 
     std::list<Position> positions;
     std::list<Position> opponent_positions;
@@ -22,7 +26,7 @@ TEST(BoardTestCase, updateBoard)
     positions.push_back(Position(3, 3));
     positions.push_back(Position(4, 4));
 
-    board.updateBoardStatus(positions, opponent_positions);
+    board.updateBoardStatus();
     EXPECT_EQ(board.getBoardStatus().size(), positions.size());
 
     std::list<PositionStatus> status = board.getBoardStatus();
@@ -38,7 +42,9 @@ TEST(BoardTestCase, updateBoard)
 
 TEST(BoardTestCase, resetBoardStatus)
 {
-    Board board;
+    IPlayer *player1;
+    IPlayer *player2;
+    Board board(player1, player2);
 
     std::list<Position> positions;
     std::list<Position> opponent_positions;
@@ -48,7 +54,7 @@ TEST(BoardTestCase, resetBoardStatus)
     positions.push_back(Position(3, 3));
     positions.push_back(Position(4, 4));
 
-    board.updateBoardStatus(positions, opponent_positions);
+    board.updateBoardStatus();
     EXPECT_EQ(board.getBoardStatus().size(), positions.size());
 
     std::list<PositionStatus> status = board.getBoardStatus();
