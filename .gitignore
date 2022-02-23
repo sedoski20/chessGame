@@ -32,6 +32,3 @@
 *.app
 
 /build
-/packages
-/lib
-/tool
