@@ -1,6 +1,4 @@
-[submodule "qt/lib/game/googletest"]
-	path = qt/lib/game/googletest
-	url = https://github.com/google/googletest.git
-[submodule "lib/game/googletest"]
-	path = lib/game/googletest
+
+[submodule "game/lib/googletest"]
+	path = game/lib/googletest
 	url = https://github.com/google/googletest.git
