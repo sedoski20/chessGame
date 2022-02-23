@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
-
-set(CMAKE_CXX_STANDARD 14)
 set(GOOGLETEST_VERSION 1.10.0)
 
 include_directories(src)
