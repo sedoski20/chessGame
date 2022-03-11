@@ -12,7 +12,7 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 		this->direction = MovementDirection::MOVING_DOWN;
 }
 
-std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces)
+std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces) const
 {
 	std::list<Position> possible_movements;
 	getPawnMovements(possible_movements, selfPieces, opponentPieces);
@@ -21,7 +21,7 @@ std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfP
 	return possible_movements;
 }
 
- void Pawn::getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces)
+ void Pawn::getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPieces, const std::list<Position> & opponentPieces) const
 {
 	Position possibleMovement(currentPosition.row, currentPosition.column);
 	int direction_factor = getDirectionFactor();
@@ -48,7 +48,7 @@ std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfP
 	}
 }
 
- void Pawn::getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPieces)
+ void Pawn::getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPieces) const
  {
 	 Position possibleMovement(currentPosition.row, currentPosition.column);
 	 int direction_factor = getDirectionFactor();
@@ -68,7 +68,7 @@ std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfP
 			 movements.push_back(possibleMovement);
  }
 
- bool Pawn::isSomePieceOnPosition(Position position, std::list<Position> pieces)
+ bool Pawn::isSomePieceOnPosition(Position position, std::list<Position> pieces) const
  {
 	 std::list<Position>::iterator it = std::find(pieces.begin(), pieces.end(), position);
 
@@ -78,7 +78,7 @@ std::list<Position> Pawn::getPossibleMovements(const std::list<Position> & selfP
 		 return false;
  }
 
- int Pawn::getDirectionFactor() 
+ int Pawn::getDirectionFactor() const
  {
 	//The direction of the Pawn is defined by the player side on the board. 
 	 //If the player starts with the pieces on the botton side (row = 0) the paws move up (sum 1 or 2 from row).
