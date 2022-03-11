@@ -30,16 +30,12 @@ protected:
 	PieceType type;
 
 public: 
-	Piece();
 	Piece(Position initialPostion);
 	static bool hasPieceOnPosition(const std::list<Position>& pieces, const Position position);
-	static bool hasPieceOnPosition(const std::list<Position*>& pieces, const Position position);
-	void destroy();
+	virtual Position getCurrentPosition() const;
 	virtual bool move(Position position);
-	virtual Position getCurrentPosition();
 	virtual std::list<Position> getPossibleMovements(const std::list<Position> & selfPieces,
 													   const std::list<Position> & opponentPieces) = 0;
-
 	PieceType getType() const { return type; }
 
 };
