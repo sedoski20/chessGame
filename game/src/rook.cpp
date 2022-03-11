@@ -2,7 +2,7 @@
 #include <iostream>
         
 std::list<Position> Rook::getPossibleMovements(const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) 
+                                const std::list<Position>& opponentPieces) const
 {
     std::list<Position> movements;
     this->getHorizontalMovements(movements, selfPieces, opponentPieces);
@@ -13,7 +13,7 @@ std::list<Position> Rook::getPossibleMovements(const std::list<Position>& selfPi
 
 void Rook::getHorizontalMovements(std::list<Position>& movements, 
                                 const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) 
+                                const std::list<Position>& opponentPieces) const
 {
     //Look from the current position to left, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.column - 1; i >= 0; i--)
@@ -50,7 +50,7 @@ void Rook::getHorizontalMovements(std::list<Position>& movements,
 
 void Rook::getVerticalMovements(std::list<Position>& movements, 
                                 const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) 
+                                const std::list<Position>& opponentPieces) const
 {
     //Look from the current position to bottom, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.row - 1; i >= 0; i--)
