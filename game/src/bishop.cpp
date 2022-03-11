@@ -8,14 +8,14 @@ enum class bishopMovements
     RIGHT_BELOW
 };
 
-std::list<Position> Bishop::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> Bishop::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
       std::list<Position> movements;
       getDiagonalMovements(movements, selfPieces, opponentPieces);
       return movements;
 }
 
-void Bishop::getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+void Bishop::getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
 {
     for(int i = 0; i < 4; i++)
     {

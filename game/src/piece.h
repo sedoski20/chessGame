@@ -3,6 +3,7 @@
 
 #include "position.h"
 #include <string>
+#include <vector>
 #include <list>
 
 enum class MovementDirection
@@ -34,7 +35,7 @@ public:
 	virtual Position getCurrentPosition() const;
 	virtual bool move(Position position);
 	virtual std::list<Position> getPossibleMovements(const std::list<Position> & selfPieces,
-													   const std::list<Position> & opponentPieces) const = 0;
+													   const std::list<Position> & opponentPieces) = 0;
 	PieceType getType() const { return type; }
 
 };

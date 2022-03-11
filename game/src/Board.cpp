@@ -91,7 +91,7 @@ IPlayer *Board::getOpponentPlayer()
 
 std::list<Position> Board::getPossibleMovementsForSelectedPiece() 
 {
-    const Piece *selectedPiece = getCurrentPlayer()->getSelectedPiece();
+    Piece *selectedPiece = getCurrentPlayer()->getSelectedPiece();
     std::list<Position> current_player_positions = getCurrentPlayer()->getPositions();
     std::list<Position> opponent_positions = getOpponentPlayer()->getPositions();
 
@@ -100,7 +100,7 @@ std::list<Position> Board::getPossibleMovementsForSelectedPiece()
     return possible_movements;   
 }
 
-void Board::removeUnsafeMovements(std::list<Position> &movements, const Piece *selectedPiece) 
+void Board::removeUnsafeMovements(std::list<Position> &movements, Piece *selectedPiece) 
 {
     Position kingPosition;
 
