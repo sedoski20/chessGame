@@ -1,7 +1,7 @@
 #include "knight.h"
 #include <iostream>
 
-std::list<Position> Knight::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) 
+std::list<Position> Knight::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
 {
     std::list<Position> movements;
 

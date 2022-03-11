@@ -24,7 +24,7 @@ private:
     std::list<PositionStatus> boardStatus;
 
     std::list<Position> getPossibleMovementsForSelectedPiece();
-    void removeUnsafeMovements(std::list<Position> &movements, Piece *selectedPiece);
+    void removeUnsafeMovements(std::list<Position> &movements, const Piece *selectedPiece);
     bool isSafeArrangement(const std::list<Position> selfPositions, std::list<Piece *> opponentPieces, Position kingPosition);
     bool isCheckmate();
 

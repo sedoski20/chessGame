@@ -9,7 +9,7 @@ class Queen : public Rook, public Bishop
 {
 public:
     Queen(Position initialPosition) : Rook(initialPosition), Bishop(initialPosition), Piece(initialPosition){type = PieceType::QUEEN;};
-    std::list<Position> getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces);
+    std::list<Position> getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
 private:
 
 };
