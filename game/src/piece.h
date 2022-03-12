@@ -2,6 +2,7 @@
 #define PIECE_H
 
 #include "position.h"
+#include "boardpositions.h"
 #include <string>
 #include <list>
 
@@ -30,11 +31,11 @@ protected:
 
 public: 
 	Piece(Position initialPostion);
+	virtual bool move(Position position);
 	static bool hasPieceOnPosition(const std::list<Position>& pieces, const Position position);
 	virtual Position getCurrentPosition() const;
-	virtual bool move(Position position);
-	virtual std::list<Position> getPossibleMovements(const std::list<Position> & selfPieces,
-													   const std::list<Position> & opponentPieces) const = 0;
+	virtual std::list<Position> getPossibleMovements(BoardPositions &board) const = 0;
+													  
 	PieceType getType() const { return type; }
 
 };

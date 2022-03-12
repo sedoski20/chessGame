@@ -7,15 +7,14 @@ class Pawn : virtual public Piece
 {
 public:
 	Pawn(Position initialPosition);
-	std::list<Position> getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
-	bool move(Position positon);
+	std::list<Position> getPossibleMovements(BoardPositions &board) const;
 
 private:
 	bool isFirstMovement;
 	MovementDirection direction;
 	
-	void getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPieces, const std::list<Position>& opponentPieces) const;
-	void getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPieces) const;
+	void getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPositions, const std::list<Position>& opponentPositions) const;
+	void getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPositions) const;
 	bool isSomePieceOnPosition(Position position, std::list<Position> pieces) const;
 	int getDirectionFactor() const;
 };
