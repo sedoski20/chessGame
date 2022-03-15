@@ -6,12 +6,12 @@ class King : public Piece
 {
 public:
     King(Position initialPosition) : Piece(initialPosition){type = PieceType::KING;};
-    std::list<Position> getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
+    std::list<Position> getPossibleMovements(const BoardPositions &board) const;
 
 private:
-    void getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
-    void getHorizontalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
-    void getVerticalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const;
+    std::list<Position> getDiagonalMovements(const BoardPositions &board) const;
+    std::list<Position> getHorizontalMovements(const BoardPositions &board) const;
+    std::list<Position> getVerticalMovements(const BoardPositions &board) const;
 };
 
 #endif // KING_H

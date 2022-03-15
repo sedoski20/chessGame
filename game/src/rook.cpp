@@ -1,33 +1,31 @@
 #include "rook.h"
 #include <iostream>
         
-std::list<Position> Rook::getPossibleMovements(const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) const
+std::list<Position> Rook::getPossibleMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
-    this->getHorizontalMovements(movements, selfPieces, opponentPieces);
-    this->getVerticalMovements(movements, selfPieces, opponentPieces);
+    movements.merge(getHorizontalMovements(board));
+    movements.merge(getVerticalMovements(board));
 
     return movements;
 }
 
-void Rook::getHorizontalMovements(std::list<Position>& movements, 
-                                const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) const
+std::list<Position> Rook::getHorizontalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     //Look from the current position to left, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.column - 1; i >= 0; i--)
     {
         Position position(currentPosition.row, i);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(selfPieces, position))
+        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(opponentPieces, position))
+        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
             break;
     }
 
@@ -37,51 +35,54 @@ void Rook::getHorizontalMovements(std::list<Position>& movements,
         Position position(currentPosition.row, i);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(selfPieces, position))
+        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(opponentPieces, position))
+        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
             break;
     }
+
+    return movements;
 }
 
-void Rook::getVerticalMovements(std::list<Position>& movements, 
-                                const std::list<Position>& selfPieces, 
-                                const std::list<Position>& opponentPieces) const
+std::list<Position> Rook::getVerticalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     //Look from the current position to bottom, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.row - 1; i >= 0; i--)
     {
         Position position(i, currentPosition.column);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(selfPieces, position))
+        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(opponentPieces, position))
+        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
             break;
     }
 
-    //Look from the current position to right, stop if some self piece or opponnent is on the position
+    //Look from the current position to top, stop if some self piece or opponnent is on the position
     for(int i = currentPosition.row + 1; i <= 7; i++)
     {
         Position position(i, currentPosition.column);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(selfPieces, position))
+        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(opponentPieces, position))
+        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
             break;
     }
+
+    return movements;
 }
  

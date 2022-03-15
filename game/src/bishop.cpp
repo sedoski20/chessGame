@@ -8,15 +8,16 @@ enum class bishopMovements
     RIGHT_BELOW
 };
 
-std::list<Position> Bishop::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> Bishop::getPossibleMovements(const BoardPositions &board) const
 {
       std::list<Position> movements;
-      getDiagonalMovements(movements, selfPieces, opponentPieces);
+      movements.merge(getDiagonalMovements(board));
       return movements;
 }
 
-void Bishop::getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> Bishop::getDiagonalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     for(int i = 0; i < 4; i++)
     {
         Position position(currentPosition.row, currentPosition.column);
@@ -37,15 +38,17 @@ void Bishop::getDiagonalMovements(std::list<Position> & movements, const std::li
                 break;
 
             //is some self piece on position?
-            if(Piece::hasPieceOnPosition(selfPieces, position))
+            if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
                 break;
 
             movements.push_back(position);
 
             //is some opponent piece on position?
-            if(Piece::hasPieceOnPosition(opponentPieces, position))
+            if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
                 break;
         }
         while(position.isValidPosition());    
     }
+
+    return movements;
 }

@@ -1,7 +1,7 @@
 #include "knight.h"
 #include <iostream>
 
-std::list<Position> Knight::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> Knight::getPossibleMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
 
@@ -22,7 +22,7 @@ std::list<Position> Knight::getPossibleMovements(const std::list<Position>& self
     for(Position pos : movements)
     {
         //If has a self piece on position, remove from possible movements
-        if(Piece::hasPieceOnPosition(selfPieces, pos))
+        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
             continue;
 
         //If the position is invalid, remove from possible movements

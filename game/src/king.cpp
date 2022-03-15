@@ -1,71 +1,78 @@
 #include "king.h"
 
-std::list<Position> King::getPossibleMovements(const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> King::getPossibleMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
-    getVerticalMovements(movements, selfPieces, opponentPieces);
-    getHorizontalMovements(movements, selfPieces, opponentPieces);
-    getDiagonalMovements(movements, selfPieces, opponentPieces);
+    movements.merge(getVerticalMovements(board));
+    movements.merge(getHorizontalMovements(board));
+    movements.merge(getDiagonalMovements(board));
 
     return movements;
 }
 
-void King::getDiagonalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> King::getDiagonalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
 
     Position pos = Position(row + 1, colunm + 1);
     
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row + 1, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row - 1, colunm + 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
      pos = Position(row - 1, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
-    
+
+    return movements;
 }
 
-void King::getHorizontalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> King::getHorizontalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
 
     Position pos = Position(row, colunm + 1);
-    
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
-    
+
+    return movements;
 }
 
-void King::getVerticalMovements(std::list<Position> & movements, const std::list<Position>& selfPieces, const std::list<Position>& opponentPieces) const
+std::list<Position> King::getVerticalMovements(const BoardPositions &board) const
 {
+    std::list<Position> movements;
     int row = this->currentPosition.row;
     int colunm = this->currentPosition.column;
 
     Position pos = Position(row + 1, colunm);
     
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row - 1, colunm);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(selfPieces, pos))
+    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
+
+    return movements;
 }
