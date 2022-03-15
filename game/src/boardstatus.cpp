@@ -5,7 +5,7 @@ BoardStatus::BoardStatus(){ this->boardStatus.clear(); }
 
 void BoardStatus::addPossibleMovements(std::list<Position> &possibleMovements, const BoardPositions &board) 
 {
-    this->resetStatus();
+    this->reset();
     //Add Highlighted and attack positions to the board status
     for (auto &movement : possibleMovements)
     {
@@ -18,7 +18,7 @@ void BoardStatus::addPossibleMovements(std::list<Position> &possibleMovements, c
     }
 }
 
-void BoardStatus::resetStatus() 
+void BoardStatus::reset() 
 {
     this->boardStatus.clear();
 }

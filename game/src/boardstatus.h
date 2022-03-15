@@ -12,7 +12,7 @@ private:
 
 public:
     BoardStatus();
-    void resetStatus();
+    void reset();
     void addPossibleMovements(std::list<Position> &possibleMovements, const BoardPositions &board);
     void addSelectedPiece(Position selectedPiece); 
     void addCheck(Position kingPosition);
