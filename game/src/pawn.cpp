@@ -15,15 +15,16 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) const
 {
 	std::list<Position> possible_movements;
-	getPawnMovements(possible_movements, board);
-	getPawnAtacks(possible_movements, board);
+	possible_movements.merge(getPawnMovements(board));
+	possible_movements.merge(getPawnAtacks(board));
 
 	return possible_movements;
 }
 
- void Pawn::getPawnMovements(std::list<Position> & movements, const BoardPositions &board) const
+ std::list<Position> Pawn::getPawnMovements(const BoardPositions &board) const
 {
 	Position possibleMovement(currentPosition.row, currentPosition.column);
+	std::list<Position> movements;
 	int direction_factor = getDirectionFactor();
 
 	//1 step ahead
@@ -46,11 +47,14 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 				if (!hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 					movements.push_back(possibleMovement);
 	}
+
+	return movements;
 }
 
- void Pawn::getPawnAtacks(std::list<Position> & movements, const BoardPositions &board) const
+ std::list<Position> Pawn::getPawnAtacks(const BoardPositions &board) const
  {
 	 Position possibleMovement(currentPosition.row, currentPosition.column);
+	 std::list<Position> movements;
 	 int direction_factor = getDirectionFactor();
 
 	 //First diagonal
@@ -66,6 +70,8 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 	 if (possibleMovement.isValidPosition())
 		 if (hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 			 movements.push_back(possibleMovement);
+
+	 return movements;
  }
 
  int Pawn::getDirectionFactor() const

@@ -39,3 +39,14 @@ bool Position::operator==(const Position& other) const
 
 	return true;
 }
+
+bool Position::operator<(const Position& other) const
+{
+	if(this->row > other.row)
+		return false;
+
+	if (this->column > other.column)
+		return false;
+
+	return true;
+}

@@ -15,6 +15,7 @@ public:
 	bool isValidPosition();
 	std::string toString();
 	bool operator==(const Position &other) const;
+	bool operator<(const Position &other) const;
 };
 
 enum class Status

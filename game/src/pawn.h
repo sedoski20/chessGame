@@ -13,8 +13,8 @@ private:
 	bool isFirstMovement;
 	MovementDirection direction;
 	
-	void getPawnMovements(std::list<Position> & movements, const BoardPositions &board) const;
-	void getPawnAtacks(std::list<Position> & movements, const BoardPositions &board) const;
+	std::list<Position> getPawnMovements(const BoardPositions &board) const;
+	std::list<Position> getPawnAtacks(const BoardPositions &board) const;
 	int getDirectionFactor() const;
 };
 
