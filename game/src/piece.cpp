@@ -6,14 +6,18 @@ Piece::Piece(Position initialPostion)
 	this->currentPosition = initialPostion;
 }
 
-bool Piece::hasPieceOnPosition(const std::list<Position>& pieces, const Position position) 
+Piece* Piece::find(const std::list<Piece *> pieces,  Piece &piece) 
 {
-	// Here, we have to use "auto" because the result of std::find for a const std::list<Position> list
-	//is a std::list<Position>::const_iterator and it is not convertible to std::list<Position>::iterator
-	auto  iterator = std::find(pieces.begin(), pieces.end(), position);
-	bool found_m1 = (iterator != std::end(pieces));
+	for(Piece * p : pieces)
+	{
+		bool same_type = (p->getType() == piece.getType());
+		bool same_position = (p->getCurrentPosition() == piece.getCurrentPosition());
 
-	return found_m1;
+		if(same_type &&same_position)
+			return p;
+	}
+
+	return NULL;
 }
 
 Position Piece::getCurrentPosition() const
