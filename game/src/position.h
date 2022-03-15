@@ -6,17 +6,19 @@
 
 class Position 
 {
-public:
+public: //TODO: make private
+	int x;
+	int y;
 	int row;
 	int column;
+	bool operator==(const Position &other) const;
+	bool operator<(const Position &other) const;
 
 public:
-	Position();
+	Position(); //TODO: remove the default constructor
 	Position( int row,  int column);
 	bool isValidPosition();
 	std::string toString();
-	bool operator==(const Position &other) const;
-	bool operator<(const Position &other) const;
 	static bool find(const std::list<Position>& positions, const Position position);
 };
 
