@@ -2,6 +2,7 @@
 #define POSITION_H
 
 #include <string>
+#include <list>
 
 class Position 
 {
@@ -16,19 +17,7 @@ public:
 	std::string toString();
 	bool operator==(const Position &other) const;
 	bool operator<(const Position &other) const;
-};
-
-enum class Status
-{
-    NORMAL,
-    HIGHLIGHTED,
-    ATTACK
-};
-
-struct PositionStatus
-{
-    Status status;
-    Position position;
+	static bool find(const std::list<Position>& positions, const Position position);
 };
 
 #endif // POSITION_H
