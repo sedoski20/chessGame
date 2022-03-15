@@ -18,22 +18,22 @@ std::list<Position> King::getDiagonalMovements(const BoardPositions &board) cons
 
     Position pos = Position(row + 1, colunm + 1);
     
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row + 1, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row - 1, colunm + 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
      pos = Position(row - 1, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     return movements;
@@ -47,12 +47,12 @@ std::list<Position> King::getHorizontalMovements(const BoardPositions &board) co
 
     Position pos = Position(row, colunm + 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row, colunm - 1);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     return movements;
@@ -66,12 +66,12 @@ std::list<Position> King::getVerticalMovements(const BoardPositions &board) cons
 
     Position pos = Position(row + 1, colunm);
     
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     pos = Position(row - 1, colunm);
 
-    if(pos.isValidPosition() && !Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+    if(pos.isValidPosition() && !Position::find(board.getCurrentPlayerPositions(), pos))
         movements.push_back(pos);
 
     return movements;

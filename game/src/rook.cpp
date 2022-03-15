@@ -19,13 +19,13 @@ std::list<Position> Rook::getHorizontalMovements(const BoardPositions &board) co
         Position position(currentPosition.row, i);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
+        if(Position::find(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
+        if(Position::find(board.getOpponentPlayerPositions(), position))
             break;
     }
 
@@ -35,13 +35,13 @@ std::list<Position> Rook::getHorizontalMovements(const BoardPositions &board) co
         Position position(currentPosition.row, i);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
+        if(Position::find(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
+        if(Position::find(board.getOpponentPlayerPositions(), position))
             break;
     }
 
@@ -57,13 +57,13 @@ std::list<Position> Rook::getVerticalMovements(const BoardPositions &board) cons
         Position position(i, currentPosition.column);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
+        if(Position::find(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
+        if(Position::find(board.getOpponentPlayerPositions(), position))
             break;
     }
 
@@ -73,13 +73,13 @@ std::list<Position> Rook::getVerticalMovements(const BoardPositions &board) cons
         Position position(i, currentPosition.column);
 
         //is some self piece on position?
-        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
+        if(Position::find(board.getCurrentPlayerPositions(), position))
             break;
 
         movements.push_back(position);
 
         //is some opponent piece on position?
-        if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
+        if(Position::find(board.getOpponentPlayerPositions(), position))
             break;
     }
 

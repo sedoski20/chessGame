@@ -32,8 +32,8 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 	possibleMovement.column = currentPosition.column;
 
 	if (possibleMovement.isValidPosition())
-		if(!hasPieceOnPosition(board.getCurrentPlayerPositions(), possibleMovement))
-			if(!hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
+		if(!Position::find(board.getCurrentPlayerPositions(), possibleMovement))
+			if(!Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 				movements.push_back(possibleMovement);
 
 	//2 steps ahead
@@ -43,8 +43,8 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 		possibleMovement.column = currentPosition.column;
 
 		if (possibleMovement.isValidPosition())
-			if (!hasPieceOnPosition(board.getCurrentPlayerPositions(), possibleMovement))
-				if (!hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
+			if (!Position::find(board.getCurrentPlayerPositions(), possibleMovement))
+				if (!Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 					movements.push_back(possibleMovement);
 	}
 
@@ -61,14 +61,14 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 	 possibleMovement.row = currentPosition.row + (1 * direction_factor);
 	 possibleMovement.column = currentPosition.column - 1;
 	 if (possibleMovement.isValidPosition())
-		 if(hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
+		 if(Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 			movements.push_back(possibleMovement);
 
 	 //Second diagonal
 	 possibleMovement.row = currentPosition.row + (1 * direction_factor);
 	 possibleMovement.column = currentPosition.column + 1;
 	 if (possibleMovement.isValidPosition())
-		 if (hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
+		 if (Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 			 movements.push_back(possibleMovement);
 
 	 return movements;

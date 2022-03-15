@@ -38,13 +38,13 @@ std::list<Position> Bishop::getDiagonalMovements(const BoardPositions &board) co
                 break;
 
             //is some self piece on position?
-            if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), position))
+            if(Position::find(board.getCurrentPlayerPositions(), position))
                 break;
 
             movements.push_back(position);
 
             //is some opponent piece on position?
-            if(Piece::hasPieceOnPosition(board.getOpponentPlayerPositions(), position))
+            if(Position::find(board.getOpponentPlayerPositions(), position))
                 break;
         }
         while(position.isValidPosition());    

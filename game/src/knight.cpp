@@ -22,7 +22,7 @@ std::list<Position> Knight::getPossibleMovements(const BoardPositions &board) co
     for(Position pos : movements)
     {
         //If has a self piece on position, remove from possible movements
-        if(Piece::hasPieceOnPosition(board.getCurrentPlayerPositions(), pos))
+        if(Position::find(board.getCurrentPlayerPositions(), pos))
             continue;
 
         //If the position is invalid, remove from possible movements
