@@ -12,16 +12,16 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 		this->direction = MovementDirection::MOVING_DOWN;
 }
 
-std::list<Position> Pawn::getPossibleMovements(BoardPositions &board) const
+std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) const
 {
 	std::list<Position> possible_movements;
-	getPawnMovements(possible_movements, board.getCurrentPlayerPositions(), board.getOpponentPlayerPositions());
-	getPawnAtacks(possible_movements, board.getOpponentPlayerPositions());
+	getPawnMovements(possible_movements, board);
+	getPawnAtacks(possible_movements, board);
 
 	return possible_movements;
 }
 
- void Pawn::getPawnMovements(std::list<Position> & movements, const std::list<Position> & selfPositions, const std::list<Position> & opponentPositions) const
+ void Pawn::getPawnMovements(std::list<Position> & movements, const BoardPositions &board) const
 {
 	Position possibleMovement(currentPosition.row, currentPosition.column);
 	int direction_factor = getDirectionFactor();
@@ -31,8 +31,8 @@ std::list<Position> Pawn::getPossibleMovements(BoardPositions &board) const
 	possibleMovement.column = currentPosition.column;
 
 	if (possibleMovement.isValidPosition())
-		if(!isSomePieceOnPosition(possibleMovement, selfPositions))
-			if(!isSomePieceOnPosition(possibleMovement, opponentPositions))
+		if(!hasPieceOnPosition(board.getCurrentPlayerPositions(), possibleMovement))
+			if(!hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 				movements.push_back(possibleMovement);
 
 	//2 steps ahead
@@ -42,13 +42,13 @@ std::list<Position> Pawn::getPossibleMovements(BoardPositions &board) const
 		possibleMovement.column = currentPosition.column;
 
 		if (possibleMovement.isValidPosition())
-			if (!isSomePieceOnPosition(possibleMovement, selfPositions))
-				if (!isSomePieceOnPosition(possibleMovement, opponentPositions))
+			if (!hasPieceOnPosition(board.getCurrentPlayerPositions(), possibleMovement))
+				if (!hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 					movements.push_back(possibleMovement);
 	}
 }
 
- void Pawn::getPawnAtacks(std::list<Position> & movements, const std::list<Position> & opponentPositions) const
+ void Pawn::getPawnAtacks(std::list<Position> & movements, const BoardPositions &board) const
  {
 	 Position possibleMovement(currentPosition.row, currentPosition.column);
 	 int direction_factor = getDirectionFactor();
@@ -57,25 +57,15 @@ std::list<Position> Pawn::getPossibleMovements(BoardPositions &board) const
 	 possibleMovement.row = currentPosition.row + (1 * direction_factor);
 	 possibleMovement.column = currentPosition.column - 1;
 	 if (possibleMovement.isValidPosition())
-		 if(isSomePieceOnPosition(possibleMovement, opponentPositions))
+		 if(hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 			movements.push_back(possibleMovement);
 
 	 //Second diagonal
 	 possibleMovement.row = currentPosition.row + (1 * direction_factor);
 	 possibleMovement.column = currentPosition.column + 1;
 	 if (possibleMovement.isValidPosition())
-		 if (isSomePieceOnPosition(possibleMovement, opponentPositions))
+		 if (hasPieceOnPosition(board.getOpponentPlayerPositions(), possibleMovement))
 			 movements.push_back(possibleMovement);
- }
-
- bool Pawn::isSomePieceOnPosition(Position position, std::list<Position> pieces) const
- {
-	 std::list<Position>::iterator it = std::find(pieces.begin(), pieces.end(), position);
-
-	 if (it != pieces.end())
-		 return true;
-	 else
-		 return false;
  }
 
  int Pawn::getDirectionFactor() const

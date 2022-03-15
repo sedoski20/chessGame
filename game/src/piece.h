@@ -31,13 +31,12 @@ protected:
 
 public: 
 	Piece(Position initialPostion);
-	virtual bool move(Position position);
 	static bool hasPieceOnPosition(const std::list<Position>& pieces, const Position position);
-	virtual Position getCurrentPosition() const;
-	virtual std::list<Position> getPossibleMovements(BoardPositions &board) const = 0;
-													  
+	bool move(Position position);
 	PieceType getType() const { return type; }
+	Position getCurrentPosition() const;
 
+	virtual std::list<Position> getPossibleMovements(const BoardPositions &board) const = 0;
 };
 
 #endif //PIECE_H

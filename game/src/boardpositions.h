@@ -16,8 +16,8 @@ public:
                    currentPlayerPositions(currentPlayerPositions),
                    opponentPlayerPositions(opponentPlayerPositions){};
 
-    const std::list<Position> getCurrentPlayerPositions() { return currentPlayerPositions; };
-    const std::list<Position> getOpponentPlayerPositions() { return opponentPlayerPositions; };
+    const std::list<Position> getCurrentPlayerPositions() const { return currentPlayerPositions; };
+    const std::list<Position> getOpponentPlayerPositions() const { return opponentPlayerPositions; };
 };
 
 #endif // BOARDPOSITIONS_H
