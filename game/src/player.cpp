@@ -11,6 +11,7 @@
 Player::Player(MovementDirection direction)
 {
     this->pieces.clear();
+    //TODO: Chnage to ternary operator
     int first_row = 0;
     int second_row = 1;
     this->inCheck = false;
@@ -27,8 +28,6 @@ Player::Player(MovementDirection direction)
     createQueen(first_row);
     createKing(first_row);
     createPawns(second_row);
-
-    this->selectedPiece = NULL;
 }
 
 
@@ -83,134 +82,45 @@ void Player::createKing(int referenceRow)
     this->pieces.push_back(king);
 }
 
-bool Player::findPiece(Position location, Piece *&piece) 
+Piece* Player::findPiece(Position location) const 
 {
-    for(Piece * temp_piece : pieces)
-    {
-        if(temp_piece->getCurrentPosition() == location)
-        {
-            piece = temp_piece;
-            return true;
-        }
-    }
+    for(auto piece : this->pieces)
+        if(piece->getCurrentPosition() == location)
+            return piece;
 
-    return false;
+    return NULL;
 }
 
-bool Player::isPieceSelected() 
+bool Player::movePiece(Position destination, Piece &piece) 
 {
-    if(selectedPiece == NULL)
+    if(Piece::find(this->pieces, piece) == NULL)
         return false;
 
-    return true;
-}
-
-std::list<Position> Player::getPositions() 
-{
-    std::list<Position> positions;
-    for(const Piece * piece : pieces)
-        positions.push_back(piece->getCurrentPosition());
-
-    return positions;
-}
-
-std::list<PieceInfo> Player::getPiecesInfo() 
-{
-    std::list<PieceInfo> piecesInfo;
-    
-    for(const Piece * piece : pieces)
-    {   
-        PieceInfo pieceInfo;
-        pieceInfo.position = piece->getCurrentPosition();
-        pieceInfo.type = piece->getType();
-
-        piecesInfo.push_back(pieceInfo);
-    }    
-        
-    return piecesInfo;
-}
-
-bool Player::selectPiece(Position position)
-{
-    selectedPiece = NULL;
-
-    //If there is no piece on position, return false
-    //TODO: Change implementation to return the Piece,
-    //      os, if the piece is not found, return NULL
-    if(!findPiece(position, selectedPiece))
+    if(!piece.move(destination))
         return false;
 
-    return true;
-}
-
-void Player::unselectPiece() 
-{
-    this->selectedPiece = NULL;    
-}
-
-bool Player::moveSelectedPiece(std::list<Piece *> &opponentPieces, Position destination) 
-{
-    if(!isPieceSelected())
-    {
-        return false;
-    }
-
-    if(destination == selectedPiece->getCurrentPosition())
-    {
-        selectedPiece = NULL;
-        return false;
-    }
-
-    if(!selectedPiece->move(destination))
-    {
-        selectedPiece = NULL;
-        return false;
-    }
-
-    selectedPiece = NULL;
     return true;   
 }
 
-bool Player::receiveAttack(Position position) 
+bool Player::capturePiece(Piece &piece) 
 {
-   for(const Piece * piece : pieces)
-   {
-       if(piece->getCurrentPosition() == position)
-       {
-            pieces.remove(piece);
-            return true;
-       }
-   }
+    if(Piece::find(this->pieces, piece) == NULL)
+        return false;
 
-   return false;
+    this->pieces.remove(&piece);
+    return true;
 }
 
-bool Player::isAttack(Position position) 
+const std::list<Piece *> Player::getPieces() 
 {
-    std::list<Position>::iterator iterator;   
-
-    iterator = std::find(this->getPositions().begin(), this->getPositions().end(), position);
-    bool result = (iterator != std::end(this->getPositions()));
-
-    return result;
+    return this->pieces;
 }
 
-const std::list<const Piece *> Player::getPieces()
+Position Player::getKingPosition() const
 {
-    std::list<const Piece *> pieces;
     for(const Piece * piece : this->pieces)
-        pieces.push_back(piece);
-
-    return pieces;
-}
-
-Position Player::getKingPosition() 
-{
-    for(const Piece * piece : this->getPieces())
-    {
         if(piece->getType() == PieceType::KING)
             return piece->getCurrentPosition();
-    }
 
     return Position(0, 0);
 }
