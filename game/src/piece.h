@@ -32,6 +32,7 @@ protected:
 public: 
 	Piece(Position initialPostion);
 	static Piece* find(const std::list<Piece *> pieces, Piece &piece);
+	static Piece* find(const std::list<Piece *> pieces, Position positon);
 	bool move(Position position);
 	PieceType getType() const { return type; }
 	Position getCurrentPosition() const;
