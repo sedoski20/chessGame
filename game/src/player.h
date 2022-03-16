@@ -9,16 +9,12 @@ class Player : public IPlayer
 
 private:
     std::list<Piece*> pieces;
-    // Piece *selectedPiece;
-
-    bool inCheck;
     void createPawns(int referenceRow);
     void createRooks(int referenceRow);
     void createKnights(int referenceRow);
     void createBishops(int referenceRow);
     void createQueen(int referenceRow);
     void createKing(int referenceRow);
-    bool findPiece(Position location, Piece *&piece);
 
 public:
     Player(MovementDirection direction);
@@ -27,8 +23,8 @@ public:
     //TODO: solve unsafe modification on Piece object by calling Piece pointer methods outside from Player class	
     //      e.g: piece->move(Position(0,0)) can be called anywhere from a piece object pointer and them modify this object pointer. 
     const std::list<Piece *> getPieces();
-    bool capturePiece(Piece &piece);
-    bool movePiece(Position destination, Piece &piece);
+    bool capturePiece(Piece *piece);
+    bool movePiece(Position destination, Piece *piece);
     Piece* findPiece(Position location) const; 
     
     Position getKingPosition() const;

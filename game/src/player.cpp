@@ -11,16 +11,8 @@
 Player::Player(MovementDirection direction)
 {
     this->pieces.clear();
-    //TODO: Chnage to ternary operator
-    int first_row = 0;
-    int second_row = 1;
-    this->inCheck = false;
-
-    if(direction == MovementDirection::MOVING_DOWN)
-    {
-        first_row = 7;
-        second_row = 6;
-    }
+    int first_row = (direction == MovementDirection::MOVING_UP) ? 0 : 7;
+    int second_row = (direction == MovementDirection::MOVING_UP) ? 1 : 6;
 
     createRooks(first_row);
     createKnights(first_row);
@@ -91,23 +83,23 @@ Piece* Player::findPiece(Position location) const
     return NULL;
 }
 
-bool Player::movePiece(Position destination, Piece &piece) 
+bool Player::movePiece(Position destination, Piece *piece) 
 {
-    if(Piece::find(this->pieces, piece) == NULL)
+    if(this->findPiece(piece->getCurrentPosition()) == NULL)
         return false;
 
-    if(!piece.move(destination))
+    if(!piece->move(destination))
         return false;
 
     return true;   
 }
 
-bool Player::capturePiece(Piece &piece) 
+bool Player::capturePiece(Piece *piece) 
 {
-    if(Piece::find(this->pieces, piece) == NULL)
+    if(Piece::find(this->pieces, *piece) == NULL)
         return false;
 
-    this->pieces.remove(&piece);
+    this->pieces.remove(piece);
     return true;
 }
 
