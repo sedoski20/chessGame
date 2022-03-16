@@ -3,9 +3,6 @@
 
 #include "iboard.h"
 #include "piece.h"
-#include "iplayer.h"
-
-//TODO: Move the business logic that needs data of all players from player class to the Board class
 
 class Board : public IBoard
 {
@@ -13,41 +10,26 @@ class Board : public IBoard
 private:
     IPlayer *player1;
     IPlayer *player2;
-
+    IPlayer *getCurrentPlayer() const;
+    IPlayer *getOpponentPlayer() const;
+    Piece *selectedPiece;
     PlayerTurn turn;
-
-    IPlayer *getCurrentPlayer();
-    IPlayer *getOpponentPlayer();
-
-    std::list<PieceInfo> player1Pieces;
-    std::list<PieceInfo> player2Pieces;
-    std::list<PositionStatus> boardStatus;
-
-    std::list<Position> getPossibleMovementsForSelectedPiece();
-    void removeUnsafeMovements(std::list<Position> &movements, const Piece *selectedPiece);
-    bool isSafeArrangement(const std::list<Position> selfPositions, std::list<Piece *> opponentPieces, Position kingPosition);
-    bool isCheckmate();
+    BoardPositions getNewArrangementFromMovement(Position movement) const;
+    void removeUnsafeMovements(std::list<Position> &movements) const;
 
 public:
-    Board(IPlayer *player1, IPlayer *player2);    
-    std::list<PieceInfo> getPlayer1Pieces() { return player1Pieces; }
-    void setPlayer1Pieces(std::list<PieceInfo> & pieces) { player1Pieces = pieces; }
+    Board();    
+    void updateTurn();
+    bool isCheckmate() const;
+    bool isCheckArrangement(const BoardPositions arrangement) const;
+    bool select(Position &position);
+    void unslect();
+    bool isPieceSelected() const;
+    bool moveSelectedPiece(Position position);
 
-    std::list<PieceInfo> getPlayer2Pieces() { return player2Pieces; }
-    void setPlayer2Pieces(std::list<PieceInfo> & pieces) { player2Pieces = pieces; }
-
-    PlayerTurn getTurn() const { return turn; }
-    void setTurn(const PlayerTurn &turn_) { turn = turn_; }
-
-    std::list<PositionStatus> getBoardStatus ();
-    void updateBoardStatus();
-
-    void addCheckToBoardStatus(Position & position);
-    
-    void resetBoardStatus();
-    bool isPossibleMovement(Position &destination);
-
+    std::list<Position> getPossibleMovements();
+    BoardPositions getBoardPositions() const;
+    IPlayer* const getPlayer1() const {return this->player1;};
+    IPlayer* const getPlayer2() const {return this->player2;};
 };
-
-
 #endif // BOARD_H
