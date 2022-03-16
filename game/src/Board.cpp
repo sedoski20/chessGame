@@ -7,6 +7,8 @@ Board::Board()
 {
     this->player1 = new Player(MovementDirection::MOVING_UP);
     this->player2 = new Player(MovementDirection::MOVING_DOWN);
+    this->turn = PlayerTurn::TURN_PLAYER1;
+    this->unslect();
 }
 
 // void Board::updateBoardStatus() 
@@ -104,19 +106,18 @@ void Board::updateTurn()
 
 void Board::unslect()
 {
-    this->selectedPiece = NULL;
+    this->selectedPiece = nullptr;
 }
 
 bool Board::select(Position &position) 
 {
     this->selectedPiece = this->getCurrentPlayer()->findPiece(position);
-    const Piece* test = this->getCurrentPlayer()->findPiece(position);
     return isPieceSelected();
 }
 
 bool Board::isPieceSelected() const 
 {
-    return this->selectedPiece != NULL;
+    return this->selectedPiece != nullptr;
 }
 
 bool Board::moveSelectedPiece(Position position)  
@@ -138,7 +139,7 @@ bool Board::moveSelectedPiece(Position position)
     if(!is_possible_movement)
         return false;
 
-    if(this->getCurrentPlayer()->movePiece(position, this->selectedPiece))
+    if(!this->getCurrentPlayer()->movePiece(position, this->selectedPiece))
         return false;
 
     Piece *target_piece = this->getOpponentPlayer()->findPiece(position);
