@@ -2,7 +2,7 @@
 #define GAMEINTERFACE_H
 
 #include "position.h"
-#include "iplayer.h"
+#include "boardstatus.h"
 
 enum class GameStatus
 {
@@ -16,12 +16,8 @@ class IGame
 
 public:
     virtual void selectPosition(Position position) = 0;
-    virtual void resetGame() = 0;
-    virtual bool isPlayer1Turn() = 0;
-    virtual GameStatus getStatus() = 0;
-    virtual std::list<PositionStatus> getBoardStatus() = 0;
-    virtual std::list<PieceInfo> getPlayer1Pieces() = 0;
-    virtual std::list<PieceInfo> getPlayer2Pieces() = 0;
+    virtual const GameStatus getGameStatus() const = 0;
+    virtual const BoardStatus getBoardStatus() const = 0;
 };
 
 #endif // GAMEINTERFACE_H
