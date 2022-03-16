@@ -10,7 +10,6 @@ class Game : public IGame
 private:
 
     IBoard *board;
-    PlayerTurn turn;
     GameStatus status;
     BoardStatus boardStatus;
 

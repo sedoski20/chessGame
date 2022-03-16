@@ -5,12 +5,6 @@
 #include "position.h"
 #include "iplayer.h"
 
-enum class PlayerTurn
-{
-    TURN_PLAYER1,
-    TURN_PLAYER2
-};
-
 class IBoard
 {
 public:

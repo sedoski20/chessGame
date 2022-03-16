@@ -4,6 +4,12 @@
 #include "iboard.h"
 #include "piece.h"
 
+enum class PlayerTurn
+{
+    TURN_PLAYER1,
+    TURN_PLAYER2
+};
+
 class Board : public IBoard
 {
 
