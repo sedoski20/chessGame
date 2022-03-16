@@ -3,7 +3,7 @@
 
 BoardStatus::BoardStatus(){ this->boardStatus.clear(); }
 
-void BoardStatus::addPossibleMovements(std::list<Position> &possibleMovements, const BoardPositions &board) 
+void BoardStatus::addPossibleMovements(const std::list<Position> &possibleMovements, const BoardPositions &board) 
 {
     this->reset();
     //Add Highlighted and attack positions to the board status
@@ -21,6 +21,29 @@ void BoardStatus::addPossibleMovements(std::list<Position> &possibleMovements, c
 void BoardStatus::reset() 
 {
     this->boardStatus.clear();
+}
+
+void BoardStatus::addPiecesInfo(const std::list<Piece *> player1Pieces, const std::list<Piece *> player2Pieces) 
+{
+    this->player1PiecesInfo.clear();
+
+    for(Piece * piece : player1Pieces)
+    {
+        PieceInfo info;
+        info.position = piece->getCurrentPosition();
+        info.type = piece->getType();
+        player1PiecesInfo.push_back(info);
+    }
+
+    this->player2PiecesInfo.clear();
+
+    for(Piece * piece : player2Pieces)
+    {
+        PieceInfo info;
+        info.position = piece->getCurrentPosition();
+        info.type = piece->getType();
+        player2PiecesInfo.push_back(info);
+    }
 }
 
 void BoardStatus::addCheck(Position kingPosition)  
@@ -42,8 +65,17 @@ Status BoardStatus::getStatus(Position position) const
     return Status::NORMAL;
 }
 
+std::list<PositionStatus> BoardStatus::getBoardStatus() const 
+{
+    return this->boardStatus;
+}
 
+std::list<PieceInfo> BoardStatus::getPlayer1PiecesInfo() const 
+{
+    return this->player1PiecesInfo;
+}
 
-
-
-    
+std::list<PieceInfo> BoardStatus::getPlayer2PiecesInfo() const 
+{
+    return this->player2PiecesInfo;
+}
