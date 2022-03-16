@@ -1,5 +1,6 @@
 #include "boardmodel.h"
 #include <QQmlEngine>
+#include "boardstatus.h"
 
 BoardModel::BoardModel(IGame *game)
 {
@@ -18,7 +19,7 @@ BoardModel::BoardModel(IGame *game)
     resetSquares();
     updatePieces();
 
-    setIsPlayer1Turn(i_game->isPlayer1Turn());
+    // setIsPlayer1Turn(i_game->isPlayer1Turn());
 }
 
 BoardModel::~BoardModel()
@@ -92,23 +93,23 @@ bool BoardModel::select(int index)
     SquareModel *square = dynamic_cast<SquareModel*>(findSquare(index));
     i_game->selectPosition(Position(square->getRow(), square->getColumn()));
 
-    std::list<PositionStatus> highlighteds = i_game->getBoardStatus();
+    std::list<PositionStatus> board_status = i_game->getBoardStatus().getBoardStatus();
 
     resetSquares();
 
-    for(auto &position : highlighteds)
+    for(auto &status : board_status)
     {
-        square = dynamic_cast<SquareModel*>(findSquare(position.position.row, position.position.column));
+        square = dynamic_cast<SquareModel*>(findSquare(status.getPosition().row, status.getPosition().column));
         square->setIsHighlited(true);
 
-        if(position.status == Status::ATTACK)
+        if(status.getStatus() == Status::ATTACK)
             square->setIsAttack(true);
     }
 
     updatePieces();
-    setIsPlayer1Turn(i_game->isPlayer1Turn());
+    // setIsPlayer1Turn(i_game->isPlayer1Turn());
 
-    GameStatus status = i_game->getStatus();
+    GameStatus status = i_game->getGameStatus();
     setIsGameEnded((status == GameStatus::ENDED) ? true : false);
 
     return true;
@@ -117,8 +118,8 @@ bool BoardModel::select(int index)
 
 void BoardModel::updatePieces()
 {
-    std::list<PieceInfo> player1 = i_game->getPlayer1Pieces();
-    std::list<PieceInfo> player2 = i_game->getPlayer2Pieces();
+    std::list<PieceInfo> player1 = i_game->getBoardStatus().getPlayer1PiecesInfo();
+    std::list<PieceInfo> player2 = i_game->getBoardStatus().getPlayer1PiecesInfo();
 
     for(PieceInfo piece : player1)
     {
