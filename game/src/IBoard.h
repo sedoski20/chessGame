@@ -11,23 +11,20 @@ enum class PlayerTurn
     TURN_PLAYER2
 };
 
-
 class IBoard
 {
-
 public:
-	virtual std::list<PieceInfo> getPlayer1Pieces() = 0;
-	virtual std::list<PieceInfo> getPlayer2Pieces() = 0;
-	virtual std::list<PositionStatus> getBoardStatus() = 0;
-	virtual void setPlayer1Pieces(std::list<PieceInfo> & pieces) = 0;
-	virtual void setPlayer2Pieces(std::list<PieceInfo> & pieces) = 0;
-	virtual void resetBoardStatus() = 0;
-	virtual void addCheckToBoardStatus(Position & position) = 0;
-	virtual void updateBoardStatus() = 0;
-	virtual bool isCheckmate() = 0;
-	virtual bool isPossibleMovement(Position &destination) = 0;
-	virtual PlayerTurn getTurn() const = 0;
-    virtual void setTurn(const PlayerTurn &turn_) = 0;
+	virtual void updateTurn() = 0;
+	virtual void unslect() = 0;
+	virtual bool isCheckmate() const = 0;
+	virtual bool isCheckArrangement(const BoardPositions arrangement) const = 0;
+	virtual bool isPieceSelected() const = 0;
+	virtual bool select(Position &position) = 0;
+    virtual bool moveSelectedPiece(Position position) = 0;
+	virtual BoardPositions getBoardPositions() const = 0;
+	virtual IPlayer* const getPlayer1() const = 0;
+	virtual IPlayer* const getPlayer2() const = 0;
+	virtual std::list<Position> getPossibleMovements() = 0;
 };
 
 
