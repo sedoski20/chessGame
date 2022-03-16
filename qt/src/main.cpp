@@ -6,27 +6,16 @@
 #include <QTranslator>
 #include "squaremodel.h"
 #include "boardmodel.h"
-#include "iplayer.h"
-#include "player.h"
 #include "igame.h"
 #include "game.h"
 
 
 int main(int argc, char *argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
     QGuiApplication app(argc, argv);
 
-    Player player1(MovementDirection::MOVING_UP, "Marcelo");
-    Player player2(MovementDirection::MOVING_DOWN, "Anna");
-
-    IPlayer *iplayer1 = &player1;
-    IPlayer *iplayer2 = &player2;
-
-    Game game(iplayer1, iplayer2);
+    Game game;
     IGame *igame = &game;
 
     BoardModel board(igame);
