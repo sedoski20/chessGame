@@ -19,7 +19,7 @@ BoardModel::BoardModel(IGame *game)
     resetSquares();
     updatePieces();
 
-    // setIsPlayer1Turn(i_game->isPlayer1Turn());
+     setIsPlayer1Turn(true);
 }
 
 BoardModel::~BoardModel()
@@ -102,7 +102,7 @@ bool BoardModel::select(int index)
         square = dynamic_cast<SquareModel*>(findSquare(status.getPosition().row, status.getPosition().column));
         square->setIsHighlited(true);
 
-        if(status.getStatus() == Status::ATTACK)
+        if(status.getStatus() == Status::ATTACK || status.getStatus() == Status::CHECK)
             square->setIsAttack(true);
     }
 
@@ -119,7 +119,7 @@ bool BoardModel::select(int index)
 void BoardModel::updatePieces()
 {
     std::list<PieceInfo> player1 = i_game->getBoardStatus().getPlayer1PiecesInfo();
-    std::list<PieceInfo> player2 = i_game->getBoardStatus().getPlayer1PiecesInfo();
+    std::list<PieceInfo> player2 = i_game->getBoardStatus().getPlayer2PiecesInfo();
 
     for(PieceInfo piece : player1)
     {
