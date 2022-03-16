@@ -11,10 +11,8 @@ private:
     std::list<Position> opponentPlayerPositions;
 
 public:
-    BoardPositions(std::list<Position> currentPlayerPositions,
-                   std::list<Position> opponentPlayerPositions) : 
-                   currentPlayerPositions(currentPlayerPositions),
-                   opponentPlayerPositions(opponentPlayerPositions){};
+    BoardPositions(const std::list<Position> &currentPlayerPositions,
+                   const std::list<Position> &opponentPlayerPositions);
 
     const std::list<Position> getCurrentPlayerPositions() const { return currentPlayerPositions; };
     const std::list<Position> getOpponentPlayerPositions() const { return opponentPlayerPositions; };
