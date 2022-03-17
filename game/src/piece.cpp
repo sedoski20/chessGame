@@ -6,12 +6,12 @@ Piece::Piece(Position initialPostion)
 	this->currentPosition = initialPostion;
 }
 
-Piece* Piece::find(const std::list<Piece *> pieces,  Piece &piece) 
+Piece* Piece::find(const std::list<Piece *> pieces,  Piece *piece) 
 {
 	for(Piece * p : pieces)
 	{
-		bool same_type = (p->getType() == piece.getType());
-		bool same_position = (p->getCurrentPosition() == piece.getCurrentPosition());
+		bool same_type = (p->getType() == piece->getType());
+		bool same_position = (p->getCurrentPosition() == piece->getCurrentPosition());
 
 		if(same_type &&same_position)
 			return p;
