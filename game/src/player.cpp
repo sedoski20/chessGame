@@ -96,7 +96,7 @@ bool Player::movePiece(Position destination, Piece *piece)
 
 bool Player::capturePiece(Piece *piece) 
 {
-    if(Piece::find(this->pieces, *piece) == NULL)
+    if(Piece::find(this->pieces, piece) == NULL)
         return false;
 
     this->pieces.remove(piece);
