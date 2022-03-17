@@ -84,3 +84,15 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 	 
 	 return direction_factor;
  }
+
+ bool Pawn::move(Position position)
+ {
+    if (!position.isValidPosition())
+        return false;
+
+    if(this->isFirstMovement)
+        this->isFirstMovement = false;
+
+    this->currentPosition = position;
+    return true;
+ }
