@@ -7,8 +7,6 @@
 class Position 
 {
 public: //TODO: make private
-	int x;
-	int y;
 	int row;
 	int column;
 	bool operator==(const Position &other) const;
