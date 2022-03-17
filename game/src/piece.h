@@ -33,7 +33,7 @@ public:
 	Piece(Position initialPostion);
 	static Piece* find(const std::list<Piece *> pieces, Piece &piece);
 	static Piece* find(const std::list<Piece *> pieces, Position positon);
-	bool move(Position position);
+    virtual bool move(Position position);
 	PieceType getType() const { return type; }
 	Position getCurrentPosition() const;
 	virtual std::list<Position> getPossibleMovements(const BoardPositions &board) const = 0;
