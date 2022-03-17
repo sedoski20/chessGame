@@ -11,68 +11,6 @@ Board::Board()
     this->unslect();
 }
 
-// void Board::updateBoardStatus() 
-// {
-//     this->resetBoardStatus();
-//     std::list<Position>::iterator iterator;
-
-//     std::list<Position> possible_movements = this->getPossibleMovements();
-
-//     //Add seleceted piece position to board status
-//     possible_movements.push_back(this->getCurrentPlayer()->getSelectedPiece()->getCurrentPosition());
-
-//     std::list<Position> opponent_postions = this->getOpponentPlayer()->getPositions();
-
-//     if(isSafeArrangement(getCurrentPlayer()->getPositions(), getOpponentPlayer()->getPieces(), getCurrentPlayer()->getKingPosition()))
-//         getCurrentPlayer()->setInCheck(true);
-//     else
-//         getCurrentPlayer()->setInCheck(false);
-
-//     for (auto &movement : possible_movements)
-//     {
-//         PositionStatus status;
-//         status.position = movement;
-        
-//         //Check if some opponent piece is one possible movement, if so, mark it as an attack
-//         iterator = std::find(opponent_postions.begin(), opponent_postions.end(), movement);
-
-//         if(iterator == std::end(opponent_postions))
-//             status.status = Status::HIGHLIGHTED;
-//         else
-//             status.status = Status::ATTACK;
-        
-//         this->boardStatus.push_back(status); 
-//     }
-// }
-
-// void Board::addCheckToBoardStatus(Position & position) 
-// {
-//     PositionStatus status;
-//     status.position = position;
-//     status.status = Status::ATTACK;
-
-//     this->boardStatus.push_back(status);
-// }
-
-// std::list<PositionStatus> Board::getBoardStatus ()
-// {
-//     return this->boardStatus;
-// }
-
-
-// bool Board::isPossibleMovement(Position &destination) 
-// {
-//     std::list<Position> possible_movements;
-
-//     possible_movements =  this->getPossibleMovements();
-
-//     for(Position pos : possible_movements)
-//         if(pos == destination)
-//             return true;
-
-//     return false;
-// }
-
 IPlayer *Board::getCurrentPlayer() const
 {
     return (this->turn == PlayerTurn::TURN_PLAYER1) ? this->player1
