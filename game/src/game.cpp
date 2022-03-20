@@ -26,8 +26,8 @@ void Game::firstClick(Position position)
     boardStatus.addPossibleMovements(board->getPossibleMovements(), board->getBoardPositions());
     boardStatus.addSelectedPiece(position);
 
-    if(board->isCheckArrangement(board->getBoardPositions()))
-        boardStatus.addCheck(Position(0,7)); //TODO: find a way to get the king position
+    // if(board->isCheckArrangement(board->getBoardPositions(),))
+    //     boardStatus.addCheck(Position(0,7)); //TODO: find a way to get the king position
 }
 
 void Game::secondClick(Position position) 
@@ -39,13 +39,14 @@ void Game::secondClick(Position position)
         this->board->unslect();
         return;
     }
+    
+    this->board->updateTurn();
+    this->board->unslect();
 
     //Check if the game is over and set the game Status
     this->status = (board->isCheckmate() ? GameStatus::ENDED
                                          : GameStatus::PLAYING);
 
-    this->board->unslect();
-    this->board->updateTurn();
     this->updateBoard();
 }
 
