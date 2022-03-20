@@ -8,9 +8,9 @@ private:
     
 public:
     virtual Piece* findPiece(Position location) const = 0;; 
-    virtual const std::list<Piece *> getPieces() = 0;
-    virtual bool capturePiece(Piece *piece) = 0;
-    virtual bool movePiece(Position destination, Piece *piece) = 0;
+    virtual const std::list<const Piece *> getPieces() const = 0;
+    virtual bool capturePiece(Position target) = 0;
+    virtual bool movePiece(Position destination, Position from) = 0;
     virtual Position getKingPosition() const = 0;
 };
 

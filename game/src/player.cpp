@@ -74,7 +74,7 @@ void Player::createKing(int referenceRow)
     this->pieces.push_back(king);
 }
 
-Piece* Player::findPiece(Position location) const 
+Piece* Player:: findPiece(Position location) const 
 {
     for(auto piece : this->pieces)
         if(piece->getCurrentPosition() == location)
@@ -83,9 +83,11 @@ Piece* Player::findPiece(Position location) const
     return NULL;
 }
 
-bool Player::movePiece(Position destination, Piece *piece) 
+bool Player::movePiece(Position destination, Position from) 
 {
-    if(this->findPiece(piece->getCurrentPosition()) == NULL)
+    Piece *piece = this->findPiece(from);
+
+    if(piece == NULL)
         return false;
 
     if(!piece->move(destination))
@@ -94,18 +96,24 @@ bool Player::movePiece(Position destination, Piece *piece)
     return true;   
 }
 
-bool Player::capturePiece(Piece *piece) 
+bool Player::capturePiece(Position target) 
 {
-    if(Piece::find(this->pieces, piece) == NULL)
+    Piece * piece = Piece::find(this->pieces, target);
+    if(piece == NULL)
         return false;
 
     this->pieces.remove(piece);
     return true;
 }
 
-const std::list<Piece *> Player::getPieces() 
+const std::list<const Piece *> Player::getPieces() const
 {
-    return this->pieces;
+    std::list<const Piece *> const_pieces;
+
+    for(const Piece * piece : this->pieces)
+        const_pieces.push_back(piece);
+
+    return const_pieces;
 }
 
 Position Player::getKingPosition() const

@@ -22,9 +22,9 @@ public:
     
     //TODO: solve unsafe modification on Piece object by calling Piece pointer methods outside from Player class	
     //      e.g: piece->move(Position(0,0)) can be called anywhere from a piece object pointer and them modify this object pointer. 
-    const std::list<Piece *> getPieces();
-    bool capturePiece(Piece *piece);
-    bool movePiece(Position destination, Piece *piece);
+    const std::list<const Piece *> getPieces() const;
+    bool capturePiece(Position target);
+    bool movePiece(Position destination, Position from);
     Piece* findPiece(Position location) const; 
     
     Position getKingPosition() const;
