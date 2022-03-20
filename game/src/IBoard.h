@@ -10,8 +10,8 @@ class IBoard
 public:
 	virtual void updateTurn() = 0;
 	virtual void unslect() = 0;
-	virtual bool isCheckmate() const = 0;
-	virtual bool isCheckArrangement(const BoardPositions arrangement) const = 0;
+	virtual bool isCheckmate() = 0;
+	virtual bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const = 0;
 	virtual bool isPieceSelected() const = 0;
 	virtual bool select(Position &position) = 0;
     virtual bool moveSelectedPiece(Position position) = 0;

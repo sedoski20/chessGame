@@ -18,7 +18,7 @@ private:
     IPlayer *player2;
     IPlayer *getCurrentPlayer() const;
     IPlayer *getOpponentPlayer() const;
-    Piece *selectedPiece;
+    const Piece *selectedPiece;
     PlayerTurn turn;
     BoardPositions getNewArrangementFromMovement(Position movement) const;
     void removeUnsafeMovements(std::list<Position> &movements) const;
@@ -26,8 +26,8 @@ private:
 public:
     Board();    
     void updateTurn();
-    bool isCheckmate() const;
-    bool isCheckArrangement(const BoardPositions arrangement) const;
+    bool isCheckmate();
+    bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const;
     bool select(Position &position);
     void unslect();
     bool isPieceSelected() const;
