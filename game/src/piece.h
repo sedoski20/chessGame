@@ -24,6 +24,21 @@ enum class PieceType
 
 class Piece
 {
+	public:	
+		template<class T>
+		static T* find(const std::list<T*> pieces, Position positon)
+		{
+			for(T* p : pieces)
+			{
+				bool same_position = (p->getCurrentPosition() == positon);
+				
+				if(same_position)
+					return p;
+			}
+
+			return NULL;
+		}
+
 
 protected: 
 	Position currentPosition;
@@ -31,8 +46,6 @@ protected:
 
 public: 
 	Piece(Position initialPostion);
-	static Piece* find(const std::list<Piece *> pieces, Piece *piece);
-	static Piece* find(const std::list<Piece *> pieces, Position positon);
     virtual bool move(Position position);
 	PieceType getType() const { return type; }
 	Position getCurrentPosition() const;
