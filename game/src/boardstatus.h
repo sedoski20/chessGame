@@ -24,7 +24,7 @@ private:
 public:
     BoardStatus();
     void reset();
-    void addPiecesInfo(const std::list<Piece *> player1Pieces, const std::list<Piece *> player2Pieces);
+    void addPiecesInfo(const std::list<const Piece *> player1Pieces, const std::list<const Piece *> player2Pieces);
     void addPossibleMovements(const std::list<Position> &possibleMovements, const BoardPositions &board);
     void addSelectedPiece(Position selectedPiece); 
     void addCheck(Position kingPosition);

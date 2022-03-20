@@ -23,11 +23,11 @@ void BoardStatus::reset()
     this->boardStatus.clear();
 }
 
-void BoardStatus::addPiecesInfo(const std::list<Piece *> player1Pieces, const std::list<Piece *> player2Pieces) 
+void BoardStatus::addPiecesInfo(const std::list<const Piece *> player1Pieces, const std::list<const Piece *> player2Pieces) 
 {
     this->player1PiecesInfo.clear();
 
-    for(Piece * piece : player1Pieces)
+    for(const Piece * piece : player1Pieces)
     {
         PieceInfo info;
         info.position = piece->getCurrentPosition();
@@ -37,7 +37,7 @@ void BoardStatus::addPiecesInfo(const std::list<Piece *> player1Pieces, const st
 
     this->player2PiecesInfo.clear();
 
-    for(Piece * piece : player2Pieces)
+    for(const Piece * piece : player2Pieces)
     {
         PieceInfo info;
         info.position = piece->getCurrentPosition();
