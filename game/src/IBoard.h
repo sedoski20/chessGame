@@ -4,6 +4,7 @@
 #include <list>
 #include "position.h"
 #include "iplayer.h"
+#include "boardstatus.h"
 
 class IBoard
 {
@@ -11,16 +12,12 @@ public:
 	virtual void updateTurn() = 0;
 	virtual void unslect() = 0;
 	virtual bool isCheckmate() = 0;
-	virtual bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const = 0;
 	virtual bool isPieceSelected() const = 0;
 	virtual bool select(Position &position) = 0;
     virtual bool moveSelectedPiece(Position position) = 0;
-	virtual BoardPositions getBoardPositions() const = 0;
-	virtual IPlayer* const getPlayer1() const = 0;
-	virtual IPlayer* const getPlayer2() const = 0;
-	virtual std::list<Position> getPossibleMovements() = 0;
+	virtual const BoardStatus getBoardStatus() const = 0;
+	virtual void updateBoardStatus() = 0;
 };
-
 
 #endif // IBOARD_H
 
