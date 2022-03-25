@@ -11,7 +11,6 @@ private:
 
     IBoard *board;
     GameStatus status;
-    BoardStatus boardStatus;
 
     void updateBoard();
     void firstClick(Position position);
@@ -20,7 +19,7 @@ private:
 public:
     Game();
     void selectPosition(Position position);
-    const BoardStatus getBoardStatus() const { return this->boardStatus; };
+    const BoardStatus getBoardStatus() const { return this->board->getBoardStatus(); };
     const GameStatus getGameStatus() const { return status; }
 };
 
