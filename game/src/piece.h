@@ -1,7 +1,7 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include "position.h"
+#include "pieceinfo.h"
 #include "boardpositions.h"
 #include <string>
 #include <list>
@@ -10,16 +10,6 @@ enum class MovementDirection
 {
 	MOVING_UP,
 	MOVING_DOWN
-};
-
-enum class PieceType
-{
-	ROOK,
-	KNIGHT,
-	BISHOP, 
-	QUEEN,
-	KING,
-	PAWN
 };
 
 class Piece
