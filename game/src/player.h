@@ -20,8 +20,6 @@ public:
     Player(MovementDirection direction);
     //TODO: create destructor to deallocate memory
     
-    //TODO: solve unsafe modification on Piece object by calling Piece pointer methods outside from Player class	
-    //      e.g: piece->move(Position(0,0)) can be called anywhere from a piece object pointer and them modify this object pointer. 
     const std::list<const Piece *> getPieces() const;
     bool capturePiece(Position target);
     bool movePiece(Position destination, Position from);
