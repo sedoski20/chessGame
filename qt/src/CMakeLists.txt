@@ -16,8 +16,8 @@ set_target_properties( ${BINARY}
 )
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/game/src
-    ${CMAKE_SOURCE_DIR}/qt/src
+    ${PROJECT_SOURCE_DIR}/game/src
+    ${PROJECT_SOURCE_DIR}/qt/src
 )
 
 target_link_libraries(${BINARY} PUBLIC
