@@ -73,5 +73,6 @@ Thumbs.db
 
 **/build
 **/doc/out
+**.vscode
 
 
