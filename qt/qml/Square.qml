@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 
 Rectangle
 {
@@ -55,6 +55,8 @@ Rectangle
         id: pieceImage
         source: boardModel.findSquare(index).iconPath
         z: 2
+        width: square.height/2.0
+        height: square.width/2.0
     }
 
 }
