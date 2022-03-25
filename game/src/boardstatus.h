@@ -6,14 +6,6 @@
 #include "piece.h"
 #include <list>
 
-
-struct PieceInfo
-{
-	Position position;
-	PieceType type;
-};
-
-
 class BoardStatus
 {
 private:
