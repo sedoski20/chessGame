@@ -1,8 +1,8 @@
 #ifndef BOARDPOSITIONS_H
 #define BOARDPOSITIONS_H
 
-#include "position.h"
 #include <list>
+#include "position.h"
 
 class BoardPositions
 {
