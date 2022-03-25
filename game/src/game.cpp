@@ -6,48 +6,31 @@ Game::Game()
 {
     this->board = new Board();
     this->status = GameStatus::PLAYING;
-    this->updateBoard();
-}
-
-void Game::updateBoard() 
-{
-    this->boardStatus.addPiecesInfo(this->board->getPlayer1()->getPieces(),
-                                    this->board->getPlayer2()->getPieces());
+    this->board->updateBoardStatus();
 }
 
 void Game::firstClick(Position position) 
 {
-    boardStatus.reset();
-    bool isPieceSeleceted = board->select(position);
-
-    if(!isPieceSeleceted)
-        return;
-
-    boardStatus.addPossibleMovements(board->getPossibleMovements(), board->getBoardPositions());
-    boardStatus.addSelectedPiece(position);
-
-    // if(board->isCheckArrangement(board->getBoardPositions(),))
-    //     boardStatus.addCheck(Position(0,7)); //TODO: find a way to get the king position
+    board->select(position);
+    this->board->updateBoardStatus();
 }
 
 void Game::secondClick(Position position) 
 {
-    boardStatus.reset();
+    bool success = board->moveSelectedPiece(position);
 
-    if(!board->moveSelectedPiece(position))
-    {
-        this->board->unslect();
-        return;
-    }
-    
-    this->board->updateTurn();
     this->board->unslect();
+    this->board->updateBoardStatus();
+    
+    if(!success)
+        return;
+        
+    this->board->updateTurn();
 
+    //After a movement the next player can be in a check mate, so
     //Check if the game is over and set the game Status
     this->status = (board->isCheckmate() ? GameStatus::ENDED
                                          : GameStatus::PLAYING);
-
-    this->updateBoard();
 }
 
 void Game::selectPosition(Position position) 
