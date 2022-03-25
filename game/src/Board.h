@@ -4,6 +4,7 @@
 #include "iboard.h"
 #include "piece.h"
 
+
 enum class PlayerTurn
 {
     TURN_PLAYER1,
@@ -18,24 +19,27 @@ private:
     IPlayer *player2;
     IPlayer *getCurrentPlayer() const;
     IPlayer *getOpponentPlayer() const;
+
     const Piece *selectedPiece;
     PlayerTurn turn;
-    BoardPositions getNewArrangementFromMovement(Position movement) const;
-    void removeUnsafeMovements(std::list<Position> &movements) const;
+    BoardStatus boardStatus;
+
+    void removeUnsafeMovements(std::list<Position> &movements, const Piece* targetPiece) const;
+    bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const; 
+    BoardPositions getNewArrangementFromMovement(Position targetPosition, const Piece* targetPiece) const;
+    BoardPositions getBoardPositions() const; 
+    std::list<Position> getPossibleMovements(const Piece *piece);
 
 public:
     Board();    
     void updateTurn();
-    bool isCheckmate();
-    bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const;
-    bool select(Position &position);
     void unslect();
+    void updateBoardStatus();
+    bool isCheckmate();
+    bool select(Position &position);
     bool isPieceSelected() const;
     bool moveSelectedPiece(Position position);
+    const BoardStatus getBoardStatus() const;
 
-    std::list<Position> getPossibleMovements();
-    BoardPositions getBoardPositions() const;
-    IPlayer* const getPlayer1() const {return this->player1;};
-    IPlayer* const getPlayer2() const {return this->player2;};
 };
 #endif // BOARD_H
