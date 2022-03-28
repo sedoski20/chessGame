@@ -40,28 +40,6 @@ TEST(PawnTestCase, ConstructorTest2)
 	EXPECT_EQ(pawn.getCurrentPosition().row, 4);
 	EXPECT_EQ(pawn.getCurrentPosition().column, 5);
 }
-TEST(PawnTestCase, MovingTest1)
-{
-	Position initial_position(1, 1);
-	Pawn pawn(initial_position);
-
-	Position new_position(2, 3);
-	pawn.move(new_position);
-
-	EXPECT_EQ(pawn.getCurrentPosition().row, 2);
-	EXPECT_EQ(pawn.getCurrentPosition().column, 3);
-}
-TEST(PawnTestCase, MovingTest2)
-{
-	Position initial_position(1, 1);
-	Pawn pawn(initial_position);
-
-	Position new_position(1, 5);
-	pawn.move(new_position);
-
-	EXPECT_EQ(pawn.getCurrentPosition().row, 1);
-	EXPECT_EQ(pawn.getCurrentPosition().column, 5);
-}
 TEST(PawnTestCase, PossibleMovements1)
 {
 	//3 Possible movements available
@@ -103,7 +81,7 @@ TEST(PawnTestCase, PossibleMovements2)
 	Position initial_position(0, 0);
 	Pawn pawn(initial_position);
 	Position second_position(5, 4);
-	pawn.move(second_position);
+	EXPECT_EQ(pawn.move(second_position), true);
 
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
@@ -127,7 +105,7 @@ TEST(PawnTestCase, PossibleMovements3)
 	Position initial_position(3, 2);
 	Pawn pawn(initial_position);
 	Position second_position(4, 2);
-	pawn.move(second_position);
+	EXPECT_EQ(pawn.move(second_position), true);
 
 	Position opponent(3, 2);
 
@@ -762,4 +740,154 @@ TEST(KingTestCase, PossibleMovements2)
 
 		EXPECT_EQ(result, true);
 	}
+}
+TEST(PieceTestCase, InvalidMovement1)
+{
+	Position initial_position(1, 0);
+	Pawn pawn(initial_position);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+	
+	Position new_position(2, 8);
+	EXPECT_EQ(pawn.move(new_position), false);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+}
+TEST(PieceTestCase, InvalidMovement2)
+{
+	Position initial_position(1, 0);
+	Pawn pawn(initial_position);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+	
+	Position new_position(8, 2);
+	EXPECT_EQ(pawn.move(new_position), false);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+}
+TEST(PieceTestCase, InvalidMovement3)
+{
+	Position initial_position(1, 0);
+	Pawn pawn(initial_position);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+	
+	Position new_position(-1, 2);
+	EXPECT_EQ(pawn.move(new_position), false);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+}
+TEST(PieceTestCase, InvalidMovement4)
+{
+	Position initial_position(1, 0);
+	Pawn pawn(initial_position);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+	
+	Position new_position(-1, 2);
+	EXPECT_EQ(pawn.move(new_position), false);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+}
+TEST(PieceTestCase, MovingPanw)
+{
+	Position initial_position(1, 1);
+	Pawn pawn(initial_position);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), initial_position);
+	
+	Position new_position(2, 3);
+	EXPECT_EQ(pawn.move(new_position), true);
+
+	EXPECT_EQ(pawn.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, MovingBishop)
+{
+	Position initial_position(7, 7);
+	Bishop bishop(initial_position);
+
+	EXPECT_EQ(bishop.getCurrentPosition(), initial_position);
+	
+	Position new_position(5, 4);
+	EXPECT_EQ(bishop.move(new_position), true);
+
+	EXPECT_EQ(bishop.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, MovingKnight)
+{
+	Position initial_position(1, 1);
+	Knight knight(initial_position);
+
+	EXPECT_EQ(knight.getCurrentPosition(), initial_position);
+	
+	Position new_position(1, 5);
+	EXPECT_EQ(knight.move(new_position), true);
+
+	EXPECT_EQ(knight.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, MovingRook)
+{
+	Position initial_position(4, 1);
+	Rook rook(initial_position);
+
+	EXPECT_EQ(rook.getCurrentPosition(), initial_position);
+	
+	Position new_position(6, 4);
+	EXPECT_EQ(rook.move(new_position), true);
+
+	EXPECT_EQ(rook.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, MovingQueen)
+{
+	Position initial_position(3, 3);
+	Queen queen(initial_position);
+
+	EXPECT_EQ(queen.getCurrentPosition(), initial_position);
+
+	Position new_position(5, 6);
+	EXPECT_EQ(queen.move(new_position), true);
+
+	EXPECT_EQ(queen.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, MovingKing)
+{
+	Position initial_position(1, 0);
+	King king(initial_position);
+
+	EXPECT_EQ(king.getCurrentPosition(), initial_position);
+	
+	Position new_position(2, 2);
+	EXPECT_EQ(king.move(new_position), true);
+
+	EXPECT_EQ(king.getCurrentPosition(), new_position);
+}
+TEST(PieceTestCase, getType)
+{
+	Piece * piece;
+	Position initial_position(0,0);
+	
+	Pawn pawn(initial_position);
+	Bishop bishop(initial_position);
+	Rook rook(initial_position);
+	Knight knight(initial_position);
+	Queen queen(initial_position);
+	King king(initial_position);
+
+	piece = &pawn;
+	EXPECT_EQ(piece->getType(), PieceType::PAWN); 
+
+	piece = &bishop;
+	EXPECT_EQ(piece->getType(), PieceType::BISHOP); 
+
+	piece = &rook;
+	EXPECT_EQ(piece->getType(), PieceType::ROOK); 
+
+	piece = &knight;
+	EXPECT_EQ(piece->getType(), PieceType::KNIGHT); 
+
+	piece = &queen;
+	EXPECT_EQ(piece->getType(), PieceType::QUEEN);
+	 
+	piece = &king;
+	EXPECT_EQ(piece->getType(), PieceType::KING);
 }
