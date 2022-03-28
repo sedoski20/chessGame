@@ -891,3 +891,33 @@ TEST(PieceTestCase, getType)
 	piece = &king;
 	EXPECT_EQ(piece->getType(), PieceType::KING);
 }
+TEST(PieceTestCase, getPosition)
+{
+	Piece * piece;
+	Position initial_position(0,0);
+	
+	Pawn pawn(initial_position);
+	Bishop bishop(initial_position);
+	Rook rook(initial_position);
+	Knight knight(initial_position);
+	Queen queen(initial_position);
+	King king(initial_position);
+
+	piece = &pawn;
+	EXPECT_EQ(piece->getPosition(), initial_position); 
+
+	piece = &bishop;
+	EXPECT_EQ(piece->getPosition(), initial_position);
+
+	piece = &rook;
+	EXPECT_EQ(piece->getPosition(), initial_position);
+
+	piece = &knight;
+	EXPECT_EQ(piece->getPosition(), initial_position);
+
+	piece = &queen;
+	EXPECT_EQ(piece->getPosition(), initial_position);
+	 
+	piece = &king;
+	EXPECT_EQ(piece->getPosition(), initial_position);
+}
