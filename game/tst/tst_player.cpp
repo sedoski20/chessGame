@@ -1,13 +1,12 @@
 #include <gtest/gtest.h>
-#include "../src/player.h"
+#include "player.h"
+#include "pawn.h"
 
 TEST(PlayerTestCase, ConstructorTest1)
 {
-    Player player(MovementDirection::MOVING_UP, "Marcelo");
-    EXPECT_EQ(player.getName(), "Marcelo");
-    EXPECT_EQ(player.getActivePieces(), 16);
+    Player player(MovementDirection::MOVING_UP);
 
-    std::list<Piece *> pieces = player.getPieces(); 
+    std::list<const Piece *> pieces = player.getPieces(); 
     int count = 0;
 
     for(auto& piece : pieces)
@@ -21,7 +20,7 @@ TEST(PlayerTestCase, ConstructorTest1)
         Position king(0,4);
         Position queen(0,3);
 
-        Position current_position = piece->getCurrentPosition();
+        Position current_position = piece->getPosition();
 
         if(current_position == rook1 || current_position == rook2)
         {
@@ -64,11 +63,9 @@ TEST(PlayerTestCase, ConstructorTest1)
 };
 TEST(PlayerTestCase, ConstructorTest2)
 {
-    Player player(MovementDirection::MOVING_DOWN, "Anna Flavia");
-    EXPECT_EQ(player.getName(), "Anna Flavia");
-    EXPECT_EQ(player.getActivePieces(), 16);
+    Player player(MovementDirection::MOVING_DOWN);
 
-    std::list<Piece *> pieces = player.getPieces(); 
+    std::list<const Piece *> pieces = player.getPieces(); 
     int count = 0;
 
     for(auto& piece : pieces)
@@ -82,7 +79,7 @@ TEST(PlayerTestCase, ConstructorTest2)
         Position king(7,4);
         Position queen(7,3);
 
-        Position current_position = piece->getCurrentPosition();
+        Position current_position = piece->getPosition();
 
         if(current_position == rook1 || current_position == rook2)
         {
@@ -123,108 +120,137 @@ TEST(PlayerTestCase, ConstructorTest2)
 
     EXPECT_EQ(count, 16);
 };
-TEST(PlayerTestCase, selectingPiece1)
-{
-    Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
-    EXPECT_EQ(player.getActivePieces(), 16);
-    EXPECT_EQ(false,           player.isPieceSelected());
 
-    //Selecting first ROOk
-    EXPECT_EQ(true,            player.selectPiece(Position(0,0)));
-    EXPECT_EQ(true,            player.isPieceSelected());
-    EXPECT_EQ(PieceType::ROOK, player.getSelectedPiece()->getType());
-
-    //Selecting empty position
-    EXPECT_EQ(false,           player.selectPiece(Position(4,4)));
-    EXPECT_EQ(false,           player.isPieceSelected());
-    EXPECT_EQ(nullptr,         player.getSelectedPiece());
-
-    //Selecting third pawn
-    EXPECT_EQ(true,            player.selectPiece(Position(1,2)));
-    EXPECT_EQ(true,            player.isPieceSelected());
-    EXPECT_EQ(PieceType::PAWN, player.getSelectedPiece()->getType());
-
-    //Selecting king pawn
-    EXPECT_EQ(true,            player.selectPiece(Position(0,4)));
-    EXPECT_EQ(true,            player.isPieceSelected());
-    EXPECT_EQ(PieceType::KING, player.getSelectedPiece()->getType());
-}
 TEST(PlayerTestCase, movingPiece1)
 {
-    Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
-    Player opponent(MovementDirection::MOVING_DOWN, "Flavia Tamanini");
+    Player player(MovementDirection::MOVING_UP);
+    Position from;
+    Position to;
+    Piece * piece;
 
-    std::list<Piece *> opponent_pieces = opponent.getPieces();
+    from.row = 1;
+    from.column = 0;
 
-    EXPECT_EQ(player.getActivePieces(), 16);
-    EXPECT_EQ(false,           player.isPieceSelected());
-    bool result;
-
+    to.row = 2;
+    to. column = 0;
 
     //Moving a pawn
-    EXPECT_EQ(true,            player.selectPiece(Position(1,5)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_pieces, Position(3,5))); 
-    EXPECT_EQ(false,           player.isPieceSelected());
+    EXPECT_EQ(true, player.movePiece(to, from));
     
-    result = false;
+    piece = player.findPiece(to);
 
-    for(auto &piece :player.getPieces())
-    {
-        if(piece->getCurrentPosition() == Position(3,5))
-            if(piece->getType() == PieceType::PAWN)
-                result = true;
-    }
-
-    EXPECT_EQ(true, result);
+    EXPECT_EQ(true, piece != nullptr);
+    EXPECT_EQ(true, piece->getType() == PieceType::PAWN);
     
     //Moving the pawn again
-    EXPECT_EQ(true,            player.selectPiece(Position(3,5)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_pieces, Position(4,5))); 
-    EXPECT_EQ(false,           player.isPieceSelected());
+    from.row = 1;
+    from.column = 5;
 
-    result = false;
+    to.row = 3;
+    to. column = 5;
 
-    for(auto &piece :player.getPieces())
-    {
-        if(piece->getCurrentPosition() == Position(4,5))
-            if(piece->getType() == PieceType::PAWN)
-                result = true;
-    }
+    EXPECT_EQ(true, player.movePiece(to, from)); 
 
-    EXPECT_EQ(true, result);
+    piece = player.findPiece(to);
 
-    //Remove the pawn in front of queen
-    EXPECT_EQ(true, player.receiveAttack(Position(1,3)));
+    EXPECT_EQ(true, piece != nullptr);
+    EXPECT_EQ(true, piece->getType() == PieceType::PAWN);
 
-    //Moving the queen
-    EXPECT_EQ(true,            player.selectPiece(Position(0,3)));
-    EXPECT_EQ(true,            player.moveSelectedPiece(opponent_pieces, Position(5,3))); 
-    EXPECT_EQ(false,           player.isPieceSelected());
+    // Tryiing to move to invalid position
+    from.row = 1;
+    from.column = 7;
 
-    result = false;
+    to.row = 2;
+    to. column = 7;
 
-    for(auto &piece :player.getPieces())
-    {
-        if(piece->getCurrentPosition() == Position(5,3))
-            if(piece->getType() == PieceType::QUEEN)
-                result = true;
-    }
+    EXPECT_EQ(false, player.movePiece(from, to)); 
 
-    EXPECT_EQ(true, result);
+    // Tryiing to move to an inexistent piece
+    from.row = 4;
+    from.column = 4;
+
+    to.row = 2;
+    to. column = 7;
+
+    EXPECT_EQ(false, player.movePiece(from, to)); 
+
 }
 
-
-
-TEST(PlayerTestCase, checkMateTest1)
+TEST(PlayerTestCase, capture)
 {
+    Player player(MovementDirection::MOVING_UP);
+    Position target;
+    Piece * piece;
 
-    // Player player(MovementDirection::MOVING_UP, "Marcelo Sedoski");
-    // Player opponent(MovementDirection::MOVING_DOWN, "Flavia Tamanini");
+    target.row = 0;
+    target.column = 0;
 
-    // std::list<Piece *> opponent_pieces = opponent.getPieces();
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece != nullptr);
+    EXPECT_EQ(true, piece->getType() == PieceType::ROOK);
 
-    // player.isCheckmate(opponent_pieces);
+    //Capturing the ROOK
+    EXPECT_EQ(true, player.capturePiece(target));
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece == nullptr);
+
+    target.row = 1;
+    target.column = 5;
+
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece != nullptr);
+    EXPECT_EQ(true, piece->getType() == PieceType::PAWN);
+
+    //Capturing the PAWN
+    EXPECT_EQ(true, player.capturePiece(target));
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece == nullptr);
+
+    target.row = 4;
+    target.column = 4;
+
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece == nullptr);
+
+    //Trying to capture on invalid position
+    piece = player.findPiece(target);
+    EXPECT_EQ(true, piece == nullptr);
+
+    EXPECT_EQ(false, player.capturePiece(target));
 }
 
+TEST(PlayerTestCase, getKingPosition)
+{
+    Player player(MovementDirection::MOVING_UP);
+    Position king_position = player.getKingPosition();
+    Position check = Position(0,4);
+
+    EXPECT_EQ(king_position, check);
+}
+TEST(PlayerTestCase, ReadOnlyGetPieces)
+{
+    //  This testcase checks the encapsulation of the class player
+    // 
+    //  It is necessary to get the pieces information outside of player
+    //  this way there is a method called "getPieces" that returns the
+    //  pieces list from player object. 
+    // 
+    //  GetPieces returns a const list of const Pieces to ensure that any
+    //  data or behavior wiil be changed outseide of player.
+    //
+    //  So the the commented lines aims to modify the const object returned from
+    //  the getPieces method. It needs to  get a compile error, so uncomment and 
+    //  verify thid behavior. 
 
 
+    Player player(MovementDirection::MOVING_UP);
+    
+    std::list<const Piece *> pieces = player.getPieces();
+    // pieces.front()->move(Position(4,5));
+}
+TEST(PlayerTestCase, getPieces)
+{
+    Player player(MovementDirection::MOVING_UP);
+    std::list<const Piece *> pieces = player.getPieces(); 
+    EXPECT_EQ(pieces.size(), 16);
+}
