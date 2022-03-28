@@ -1,43 +1,28 @@
 #include <gtest/gtest.h>
 #include <algorithm>
-#include "../src/pawn.h"
-#include "../src/rook.h"
-#include "../src/knight.h"
-#include "../src/bishop.h"
-#include "../src/queen.h"
-#include "../src/king.h"
+#include "pawn.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
+#include "queen.h"
+#include "king.h"
 
-TEST(PieceTestCase, hasPieceOnPosition1)
+TEST(PieceTestCase, find1)
 {
-	Position m1(2, 0);
-	Position m2(2, 1);
-	Position m3(3, 0);
+	Piece* m1 = new Pawn(Position(2,3));
+	Piece* m2 = new Rook(Position(2,0));
+	Piece* m3 = new Queen(Position(2,1));
 
-	std::list<Position> pieces;
+	std::list<Piece *> pieces;
 	pieces.push_back(m1);
 	pieces.push_back(m2);
 	pieces.push_back(m3);
 
 	Position check(2,0);
 
-	bool result = Piece::hasPieceOnPosition(pieces, check);
-	EXPECT_EQ(result, true);
-}
-TEST(PieceTestCase, hasPieceOnPosition2)
-{
-	Position m1(2, 0);
-	Position m2(2, 1);
-	Position m3(3, 0);
-
-	std::list<Position> pieces;
-	pieces.push_back(m1);
-	pieces.push_back(m2);
-	pieces.push_back(m3);
-
-	Position check(4,1);
-
-	bool result = Piece::hasPieceOnPosition(pieces, check);
-	EXPECT_EQ(result, false);
+	Piece *result = Piece::find(pieces, check);
+	EXPECT_EQ(result->getType(), PieceType::ROOK);
+	EXPECT_EQ(result->getCurrentPosition(), check);
 }
 TEST(PawnTestCase, ConstructorTest1)
 {
@@ -89,7 +74,8 @@ TEST(PawnTestCase, PossibleMovements1)
 
 	opponent_pieces.push_back(opponent);
 
-	std::list<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = pawn.getPossibleMovements(board);
 	EXPECT_EQ(int(possible_movements.size()), 3);
 
 	Position m1(2, 0);
@@ -121,8 +107,9 @@ TEST(PawnTestCase, PossibleMovements2)
 
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
-
-	std::list<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
+	
+	BoardPositions board(self_pieces, opponent_pieces);	
+	std::list<Position> possible_movements = pawn.getPossibleMovements(board);
 	EXPECT_EQ(int(possible_movements.size()), 1);
 
 	Position m1(4, 4);
@@ -148,7 +135,8 @@ TEST(PawnTestCase, PossibleMovements3)
 	std::list<Position> self_pieces;
 	opponent_pieces.push_back(opponent);
 
-	std::list<Position> possible_movements = pawn.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = pawn.getPossibleMovements(board);
 	EXPECT_EQ(int(possible_movements.size()), 0);
 }
 TEST(RookTestCase, ConstructorTest1)
@@ -167,7 +155,8 @@ TEST(RookTestCase, PossibleMovements1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = rook.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	//Horizontal check
@@ -207,7 +196,8 @@ TEST(RookTestCase, PossibleMovements2)
 	opponent_pieces.push_back(Position(5, 2));
 	opponent_pieces.push_back(Position(5, 7));
 
-	std::list<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = rook.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 8);
@@ -225,8 +215,8 @@ TEST(RookTestCase, PossibleMovements2)
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
 		
-		// std::cout << "Horizontal: " << std::endl;
-		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+		std::cout << "Horizontal: " << std::endl;
+		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 
 	//Vertical check
@@ -242,8 +232,8 @@ TEST(RookTestCase, PossibleMovements2)
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
 
-		// std::cout << "Vertical: " << std::endl;
-		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+		std::cout << "Vertical: " << std::endl;
+		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
 TEST(RookTestCase, PossibleMovements3)
@@ -258,8 +248,9 @@ TEST(RookTestCase, PossibleMovements3)
 	opponent_pieces.push_back(Position(2, 1));
 	opponent_pieces.push_back(Position(3, 2));
 	opponent_pieces.push_back(Position(2, 3));
-
-	std::list<Position> possible_movements = rook.getPossibleMovements(self_pieces, opponent_pieces);
+	
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = rook.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 4);
@@ -277,8 +268,8 @@ TEST(RookTestCase, PossibleMovements3)
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
 		
-		// std::cout << "Horizontal: " << std::endl;
-		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+		std::cout << "Horizontal: " << std::endl;
+		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 
 	//Vertical check
@@ -294,8 +285,8 @@ TEST(RookTestCase, PossibleMovements3)
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
 
-		// std::cout << "Vertical: " << std::endl;
-		// std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
+		std::cout << "Vertical: " << std::endl;
+		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
 TEST(KnightTestCase, ConstructorTest1)
@@ -314,7 +305,8 @@ TEST(KnightTestCase, PossibleMovements1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = knight.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = knight.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 8);
@@ -350,8 +342,9 @@ TEST(KnightTestCase, PossibleMovements2)
 	self_pieces.push_back(Position(3,4));
 
 	opponent_pieces.push_back(Position(1,0));
-
-	std::list<Position> possible_movements = knight.getPossibleMovements(self_pieces, opponent_pieces);
+	
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = knight.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 6);
@@ -388,7 +381,8 @@ TEST(KnightTestCase, PossibleMovements3)
 	self_pieces.push_back(Position(4,1));
 	self_pieces.push_back(Position(4,3));
 
-	std::list<Position> possible_movements = knight.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = knight.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 0);
@@ -401,7 +395,8 @@ TEST(KnightTestCase, PossibleMovements4)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = knight.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = knight.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 6);
@@ -436,7 +431,8 @@ TEST(KnightTestCase, PossibleMovements5)
 	opponent_pieces.push_back(Position(0,4));
 	opponent_pieces.push_back(Position(2,4));
 
-	std::list<Position> possible_movements = knight.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = knight.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 4);
@@ -466,7 +462,8 @@ TEST(BishopTestCase, ConstructorTest1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = bishop.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 13);
@@ -480,7 +477,8 @@ TEST(BishopTestCase, PossibleMovements1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = bishop.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 13);
@@ -520,7 +518,8 @@ TEST(BishopTestCase, PossibleMovements2)
 	self_pieces.push_back(Position(7,0));
 	self_pieces.push_back(Position(7,6));
 
-	std::list<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = bishop.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 9);
@@ -554,7 +553,8 @@ TEST(BishopTestCase, PossibleMovements3)
 
 	opponent_pieces.push_back(Position(6,6));
 
-	std::list<Position> possible_movements = bishop.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = bishop.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 6);
@@ -586,7 +586,8 @@ TEST(QueenTestCase, ConstructorTest1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = queen.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 27);
@@ -604,7 +605,8 @@ TEST(QueenTestCase, PossibleMovements1)
 	self_pieces.push_back(Position(3,4));
 	opponent_pieces.push_back(Position(7,1));
 
-	std::list<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = queen.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 14);
@@ -648,7 +650,8 @@ TEST(QueenTestCase, PossibleMovements2)
 	opponent_pieces.push_back(Position(5,4));
 	opponent_pieces.push_back(Position(1,4));
 
-	std::list<Position> possible_movements = queen.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = queen.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 14);
@@ -688,7 +691,8 @@ TEST(KingTestCase, ConstructorTest1)
 	std::list<Position> opponent_pieces;
 	std::list<Position> self_pieces;
 
-	std::list<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = king.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 8);
@@ -705,7 +709,8 @@ TEST(KingTestCase, PossibleMovements1)
 	self_pieces.push_back(Position(2,3));
 	opponent_pieces.push_back(Position(2,1));
 
-	std::list<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = king.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 6);
@@ -739,7 +744,8 @@ TEST(KingTestCase, PossibleMovements2)
 	opponent_pieces.push_back(Position(0,0));
 	opponent_pieces.push_back(Position(2,1));
 
-	std::list<Position> possible_movements = king.getPossibleMovements(self_pieces, opponent_pieces);
+	BoardPositions board(self_pieces, opponent_pieces);
+	std::list<Position> possible_movements = king.getPossibleMovements(board);
 	std::list<Position>::iterator iterator;
 
 	EXPECT_EQ(possible_movements.size(), 3);
