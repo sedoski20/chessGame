@@ -3,12 +3,12 @@
 
 Piece::Piece(Position initialPostion)
 {
-	this->currentPosition = initialPostion;
+	this->position = initialPostion;
 }
 
-Position Piece::getCurrentPosition() const
+Position Piece::getPosition() const
 {
-	return currentPosition;
+	return this->position;
 }
 
 bool Piece::move(Position position)
@@ -16,7 +16,7 @@ bool Piece::move(Position position)
 	if (!position.isValidPosition())
 		return false;
 
-	this->currentPosition = position;
+	this->position = position;
 	return true;
 }
 

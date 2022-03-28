@@ -14,9 +14,9 @@ std::list<Position> Rook::getHorizontalMovements(const BoardPositions &board) co
 {
     std::list<Position> movements;
     //Look from the current position to left, stop if some self piece or opponnent is on the position
-    for(int i = currentPosition.column - 1; i >= 0; i--)
+    for(int i = this->position.column - 1; i >= 0; i--)
     {
-        Position position(currentPosition.row, i);
+        Position position(this->position.row, i);
 
         //is some self piece on position?
         if(Position::find(board.getCurrentPlayerPositions(), position))
@@ -30,9 +30,9 @@ std::list<Position> Rook::getHorizontalMovements(const BoardPositions &board) co
     }
 
     //Look from the current position to right, stop if some self piece or opponnent is on the position
-    for(int i = currentPosition.column + 1; i <= 7; i++)
+    for(int i = this->position.column + 1; i <= 7; i++)
     {
-        Position position(currentPosition.row, i);
+        Position position(this->position.row, i);
 
         //is some self piece on position?
         if(Position::find(board.getCurrentPlayerPositions(), position))
@@ -52,9 +52,9 @@ std::list<Position> Rook::getVerticalMovements(const BoardPositions &board) cons
 {
     std::list<Position> movements;
     //Look from the current position to bottom, stop if some self piece or opponnent is on the position
-    for(int i = currentPosition.row - 1; i >= 0; i--)
+    for(int i = this->position.row - 1; i >= 0; i--)
     {
-        Position position(i, currentPosition.column);
+        Position position(i, this->position.column);
 
         //is some self piece on position?
         if(Position::find(board.getCurrentPlayerPositions(), position))
@@ -68,9 +68,9 @@ std::list<Position> Rook::getVerticalMovements(const BoardPositions &board) cons
     }
 
     //Look from the current position to top, stop if some self piece or opponnent is on the position
-    for(int i = currentPosition.row + 1; i <= 7; i++)
+    for(int i = this->position.row + 1; i <= 7; i++)
     {
-        Position position(i, currentPosition.column);
+        Position position(i, this->position.column);
 
         //is some self piece on position?
         if(Position::find(board.getCurrentPlayerPositions(), position))

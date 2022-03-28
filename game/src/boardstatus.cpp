@@ -30,7 +30,7 @@ void BoardStatus::addPiecesInfo(const std::list<const Piece *> player1Pieces, co
     for(const Piece * piece : player1Pieces)
     {
         PieceInfo info;
-        info.position = piece->getCurrentPosition();
+        info.position = piece->getPosition();
         info.type = piece->getType();
         player1PiecesInfo.push_back(info);
     }
@@ -40,7 +40,7 @@ void BoardStatus::addPiecesInfo(const std::list<const Piece *> player1Pieces, co
     for(const Piece * piece : player2Pieces)
     {
         PieceInfo info;
-        info.position = piece->getCurrentPosition();
+        info.position = piece->getPosition();
         info.type = piece->getType();
         player2PiecesInfo.push_back(info);
     }

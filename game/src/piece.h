@@ -20,7 +20,7 @@ class Piece
 		{
 			for(T* p : pieces)
 			{
-				bool same_position = (p->getCurrentPosition() == positon);
+				bool same_position = (p->getPosition() == positon);
 				
 				if(same_position)
 					return p;
@@ -31,14 +31,14 @@ class Piece
 
 
 protected: 
-	Position currentPosition;
+	Position position;
 	PieceType type;
 
 public: 
 	Piece(Position initialPostion);
     virtual bool move(Position position);
 	PieceType getType() const { return type; }
-	Position getCurrentPosition() const;
+	Position getPosition() const;
 	virtual std::list<Position> getPossibleMovements(const BoardPositions &board) const = 0;
 };
 

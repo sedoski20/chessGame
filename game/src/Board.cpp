@@ -33,7 +33,7 @@ void Board::updateBoardStatus()
         return;
 
     boardStatus.addPossibleMovements(this->getPossibleMovements(this->selectedPiece), this->getBoardPositions());
-    boardStatus.addSelectedPiece(selectedPiece->getCurrentPosition());
+    boardStatus.addSelectedPiece(selectedPiece->getPosition());
 
     if(this->isCheckArrangement(this->getBoardPositions(), getCurrentPlayer()->getKingPosition()))
         this->boardStatus.addCheck(getCurrentPlayer()->getKingPosition()); 
@@ -52,10 +52,10 @@ BoardPositions Board::getBoardPositions() const
     std::list<Position> current_positions, opponent_positions;
 
     for(const Piece * p : this->getCurrentPlayer()->getPieces())
-        current_positions.push_back(p->getCurrentPosition());
+        current_positions.push_back(p->getPosition());
 
     for(const Piece * p : this->getOpponentPlayer()->getPieces())
-        opponent_positions.push_back(p->getCurrentPosition());
+        opponent_positions.push_back(p->getPosition());
 
     return BoardPositions(current_positions, opponent_positions);
 }
@@ -100,7 +100,7 @@ bool Board::moveSelectedPiece(Position position)
     if(!is_possible_movement)
         return false;
 
-    bool success_moved = this->getCurrentPlayer()->movePiece(position, this->selectedPiece->getCurrentPosition());
+    bool success_moved = this->getCurrentPlayer()->movePiece(position, this->selectedPiece->getPosition());
     if(!success_moved)
         return false;
 
@@ -108,7 +108,7 @@ bool Board::moveSelectedPiece(Position position)
     bool is_attack = target_piece != NULL; 
 
     if(is_attack)
-        this->getOpponentPlayer()->capturePiece(target_piece->getCurrentPosition());
+        this->getOpponentPlayer()->capturePiece(target_piece->getPosition());
 
     return true;
 }
@@ -166,7 +166,7 @@ BoardPositions Board::getNewArrangementFromMovement(Position targetPosition, con
     BoardPositions board_positions = this->getBoardPositions();
 
     std::list<Position> current_player_new_positions = board_positions.getCurrentPlayerPositions();
-    current_player_new_positions.remove(targetPiece->getCurrentPosition());
+    current_player_new_positions.remove(targetPiece->getPosition());
     current_player_new_positions.push_back(targetPosition);
 
     std::list<Position> opponent_player_new_positions= board_positions.getOpponentPlayerPositions();

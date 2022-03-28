@@ -20,7 +20,7 @@ std::list<Position> Bishop::getDiagonalMovements(const BoardPositions &board) co
     std::list<Position> movements;
     for(int i = 0; i < 4; i++)
     {
-        Position position(currentPosition.row, currentPosition.column);
+        Position position(this->position.row, this->position.column);
         bishopMovements sequence = static_cast<bishopMovements>(i);
 
         //Look from the current position to left above, stop if some self piece or opponnent is on the position

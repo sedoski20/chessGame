@@ -77,7 +77,7 @@ void Player::createKing(int referenceRow)
 Piece* Player:: findPiece(Position location) const 
 {
     for(auto piece : this->pieces)
-        if(piece->getCurrentPosition() == location)
+        if(piece->getPosition() == location)
             return piece;
 
     return NULL;
@@ -120,7 +120,7 @@ Position Player::getKingPosition() const
 {
     for(const Piece * piece : this->pieces)
         if(piece->getType() == PieceType::KING)
-            return piece->getCurrentPosition();
+            return piece->getPosition();
 
     return Position(0, 0);
 }
