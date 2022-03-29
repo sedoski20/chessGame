@@ -9,14 +9,12 @@
 class IBoard
 {
 public:
-	virtual void updateTurn() = 0;
 	virtual void unslect() = 0;
 	virtual bool isCheckmate() = 0;
 	virtual bool isPieceSelected() const = 0;
 	virtual bool select(Position &position) = 0;
     virtual bool moveSelectedPiece(Position position) = 0;
-	virtual const BoardStatus getBoardStatus() const = 0;
-	virtual void updateBoardStatus() = 0;
+	virtual const BoardStatus getBoardStatus() = 0;
 };
 
 #endif // IBOARD_H
