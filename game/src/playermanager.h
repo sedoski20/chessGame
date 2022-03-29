@@ -2,27 +2,21 @@
 #define PLAYERMANAGER_H
 
 #include "iplayer.h"
-
-enum class PlayerTurn
-{
-    TURN_PLAYER1,
-    TURN_PLAYER2
-};
+#include "playerturn.h"
 
 class PlayerManager
 {
 private:
     IPlayer *player1;
     IPlayer *player2;
-    PlayerTurn turn;
+    const PlayerTurn *turn;
 
 public:
-    PlayerManager(IPlayer *player1, IPlayer *player2);
+    PlayerManager(IPlayer *player1, IPlayer *player2, const PlayerTurn* turn);
     IPlayer *getPlayer1() const;
     IPlayer *getPlayer2() const;
     IPlayer *getCurrentPlayer() const;
     IPlayer *getOpponentPlayer() const;
-    void updateTurn();
 };
 
 #endif // PLAYERMANAGER_H
