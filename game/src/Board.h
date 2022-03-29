@@ -3,27 +3,26 @@
 
 #include "iboard.h"
 #include "piece.h"
+#include "playermanager.h"
 
 
-enum class PlayerTurn
-{
-    TURN_PLAYER1,
-    TURN_PLAYER2
-};
+// enum class PlayerTurn
+// {
+//     TURN_PLAYER1,
+//     TURN_PLAYER2
+// };
 
 class Board : public IBoard
 {
 
 private:
-    IPlayer *player1;
-    IPlayer *player2;
-    IPlayer *getCurrentPlayer() const;
-    IPlayer *getOpponentPlayer() const;
+    PlayerManager *players;
 
     const Piece *selectedPiece;
     PlayerTurn turn;
     BoardStatus boardStatus;
 
+    void updateTurn();
     void removeUnsafeMovements(std::list<Position> &movements, const Piece* targetPiece) const;
     bool isCheckArrangement(const BoardPositions arrangement, Position kingPosition) const; 
     BoardPositions getNewArrangementFromMovement(Position targetPosition, const Piece* targetPiece) const;
@@ -31,15 +30,13 @@ private:
     std::list<Position> getPossibleMovements(const Piece *piece);
 
 public:
-    Board();    
-    void updateTurn();
+    Board(PlayerManager *players);    
     void unslect();
-    void updateBoardStatus();
-    bool isCheckmate();
     bool select(Position &position);
     bool isPieceSelected() const;
     bool moveSelectedPiece(Position position);
-    const BoardStatus getBoardStatus() const;
+    bool isCheckmate();
+    const BoardStatus getBoardStatus();
 
 };
 #endif // BOARD_H

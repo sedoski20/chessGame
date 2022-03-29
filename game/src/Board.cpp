@@ -3,42 +3,29 @@
 #include <iostream>
 #include "player.h"
 
-Board::Board()
+Board::Board(PlayerManager *players)
 {
-    this->player1 = new Player(MovementDirection::MOVING_UP);
-    this->player2 = new Player(MovementDirection::MOVING_DOWN);
+    this->players = players;
     this->turn = PlayerTurn::TURN_PLAYER1;
     this->unslect();
 }
 
-IPlayer *Board::getCurrentPlayer() const
-{
-    return (this->turn == PlayerTurn::TURN_PLAYER1) ? this->player1
-                                                    : this->player2; 
-}
-
-IPlayer *Board::getOpponentPlayer() const
-{
-    return (this->turn == PlayerTurn::TURN_PLAYER1) ? this->player2
-                                                    : this->player1; 
-}
-
-void Board::updateBoardStatus()
+const BoardStatus Board::getBoardStatus()
 {
     this->boardStatus.reset();
-    this->boardStatus.addPiecesInfo(this->player1->getPieces(),
-                                    this->player2->getPieces());
+    this->boardStatus.addPiecesInfo(this->players->getPlayer1()->getPieces(),
+                                    this->players->getPlayer2()->getPieces());
 
     if(!this->isPieceSelected())
-        return;
+        return this->boardStatus;
 
     boardStatus.addPossibleMovements(this->getPossibleMovements(this->selectedPiece), this->getBoardPositions());
     boardStatus.addSelectedPiece(selectedPiece->getPosition());
 
-    if(this->isCheckArrangement(this->getBoardPositions(), getCurrentPlayer()->getKingPosition()))
-        this->boardStatus.addCheck(getCurrentPlayer()->getKingPosition()); 
+    if(this->isCheckArrangement(this->getBoardPositions(), this->players->getCurrentPlayer()->getKingPosition()))
+        this->boardStatus.addCheck(this->players->getCurrentPlayer()->getKingPosition()); 
 
-
+    return this->boardStatus;
 }
 
 void Board::updateTurn()
@@ -51,18 +38,13 @@ BoardPositions Board::getBoardPositions() const
 {
     std::list<Position> current_positions, opponent_positions;
 
-    for(const Piece * p : this->getCurrentPlayer()->getPieces())
+    for(const Piece * p : this->players->getCurrentPlayer()->getPieces())
         current_positions.push_back(p->getPosition());
 
-    for(const Piece * p : this->getOpponentPlayer()->getPieces())
+    for(const Piece * p : this->players->getOpponentPlayer()->getPieces())
         opponent_positions.push_back(p->getPosition());
 
     return BoardPositions(current_positions, opponent_positions);
-}
-
-const BoardStatus Board::getBoardStatus() const
-{
-    return this->boardStatus;    
 }
 
 void Board::unslect()
@@ -72,7 +54,7 @@ void Board::unslect()
 
 bool Board::select(Position &position) 
 {
-    this->selectedPiece = this->getCurrentPlayer()->findPiece(position);
+    this->selectedPiece = this->players->getCurrentPlayer()->findPiece(position);
     return isPieceSelected();
 }
 
@@ -100,15 +82,15 @@ bool Board::moveSelectedPiece(Position position)
     if(!is_possible_movement)
         return false;
 
-    bool success_moved = this->getCurrentPlayer()->movePiece(position, this->selectedPiece->getPosition());
+    bool success_moved = this->players->getCurrentPlayer()->movePiece(position, this->selectedPiece->getPosition());
     if(!success_moved)
         return false;
 
-    Piece *target_piece = this->getOpponentPlayer()->findPiece(position);
+    Piece *target_piece = this->players->getOpponentPlayer()->findPiece(position);
     bool is_attack = target_piece != NULL; 
 
     if(is_attack)
-        this->getOpponentPlayer()->capturePiece(target_piece->getPosition());
+        this->players->getOpponentPlayer()->capturePiece(target_piece->getPosition());
 
     return true;
 }
@@ -144,7 +126,7 @@ void Board::removeUnsafeMovements(std::list<Position> &movements, const Piece* t
     {
         BoardPositions new_arrangement = this->getNewArrangementFromMovement(movement, targetPiece);
 
-        Position king_position = (targetPiece->getType() == PieceType::KING) ? movement : this->getCurrentPlayer()->getKingPosition();
+        Position king_position = (targetPiece->getType() == PieceType::KING) ? movement : this->players->getCurrentPlayer()->getKingPosition();
 
         if(isCheckArrangement(new_arrangement, king_position))
             movements.remove(movement);
@@ -189,7 +171,7 @@ bool Board::isCheckArrangement(const BoardPositions arrangement, Position kingPo
 
     for(Position position : arrangement.getOpponentPlayerPositions())
     {
-        const Piece * opponent_piece = Piece::find(this->getOpponentPlayer()->getPieces(), position); 
+        const Piece * opponent_piece = Piece::find(this->players->getOpponentPlayer()->getPieces(), position); 
 
         //Here we need to invert the board positions because the opponent will be the current player in the oppononet piece context 
         std::list<Position> possible_movements = opponent_piece->getPossibleMovements(BoardPositions(arrangement.getOpponentPlayerPositions(), arrangement.getCurrentPlayerPositions()));
@@ -212,7 +194,7 @@ bool Board::isCheckmate()
 
     std::list<Position> possible_movements;
 
-    for(const Piece * piece : this->getCurrentPlayer()->getPieces())
+    for(const Piece * piece : this->players->getCurrentPlayer()->getPieces())
     {
         possible_movements = this->getPossibleMovements(piece);
 
