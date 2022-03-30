@@ -1,6 +1,6 @@
 #include "boardengine.h"
 
-BoardEngine::BoardEngine(const PlayerManager *players) : players() {}
+BoardEngine::BoardEngine(const PlayerManager *players) : players(players) {}
 
 BoardPositions BoardEngine::getBoardPositions() const 
 {
