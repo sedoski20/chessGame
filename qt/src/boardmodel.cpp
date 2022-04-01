@@ -93,7 +93,7 @@ bool BoardModel::select(int index)
     SquareModel *square = dynamic_cast<SquareModel*>(findSquare(index));
     i_game->selectPosition(Position(square->getRow(), square->getColumn()));
 
-    std::list<PositionStatus> board_status = i_game->getBoardStatus().getBoardStatus();
+    std::list<PositionStatus> board_status = i_game->getBoardStatus().getHighlightedPositions();
 
     resetSquares();
 
@@ -118,33 +118,33 @@ bool BoardModel::select(int index)
 
 void BoardModel::updatePieces()
 {
-    std::list<PieceInfo> player1 = i_game->getBoardStatus().getPlayer1PiecesInfo();
-    std::list<PieceInfo> player2 = i_game->getBoardStatus().getPlayer2PiecesInfo();
+    std::list<const Piece*> player1 = i_game->getBoardStatus().getPlayer1Pieces();
+    std::list<const Piece*> player2 = i_game->getBoardStatus().getPlayer2Pieces();
 
-    for(PieceInfo piece : player1)
+    for(auto piece : player1)
     {
-        int row = piece.position.row;
-        int column = piece.position.column;
+        int row = piece->getPosition().row;
+        int column = piece->getPosition().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece.type, true);
+            QString path = getPiecePath(piece->getType(), true);
             square->setIconPath(path);
         }
     }
 
-    for(PieceInfo piece : player2)
+    for(auto piece : player2)
     {
-        int row = piece.position.row;;
-        int column = piece.position.column;;
+        int row = piece->getPosition().row;
+        int column = piece->getPosition().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece.type, false);
+            QString path = getPiecePath(piece->getType(), false);
             square->setIconPath(path);
         }
     }
