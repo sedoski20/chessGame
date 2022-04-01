@@ -14,14 +14,13 @@ enum class Status
 
 class PositionStatus
 {
-
     private:
         Position position;
         Status status;
     public:
         PositionStatus(Position position, Status status);
-        Status getStatus() { return status; }
-        Position getPosition() { return position; }
+        Status getStatus() const { return status; }
+        Position getPosition() const { return position; }
 };
 
 #endif // POSITIONSTATUS_H
