@@ -1,5 +1,4 @@
 #pragma once
-#include "position.h"
 
 enum class PieceType
 {
@@ -11,8 +10,3 @@ enum class PieceType
 	PAWN
 };
 
-struct PieceInfo
-{
-	Position position;
-	PieceType type;
-};
