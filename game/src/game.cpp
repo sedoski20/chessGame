@@ -29,7 +29,6 @@ bool Game::firstClick(Position position) const
 bool Game::secondClick(Position position) const
 {
     bool success = board->moveSelectedPiece(position);
-    this->board->unslect();
     return success;
 }
 

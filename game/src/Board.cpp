@@ -48,15 +48,22 @@ bool Board::moveSelectedPiece(Position position)
     bool is_possible_movement = Position::find(possible_movements, position);
 
     if(!is_possible_movement)
+    {
+        this->unslect();
         return false;
+    }
 
     bool success_moved = this->players->getCurrentPlayer()->movePiece(position, this->selectedPiece->getPosition());
     if(!success_moved)
+    {
+        this->unslect();
         return false;
+    }
 
     bool is_attack = board_engine->isAttack(position); 
     if(is_attack)
         this->players->getOpponentPlayer()->capturePiece(position);
 
+    this->unslect();
     return true;
 }
