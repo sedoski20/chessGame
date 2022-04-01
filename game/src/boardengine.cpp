@@ -15,7 +15,7 @@ BoardPositions BoardEngine::getBoardPositions() const
     return BoardPositions(current_positions, opponent_positions);
 }
 
-std::list<Position> BoardEngine::getPossibleMovements(const Piece *piece) const 
+std::list<Position> BoardEngine::getPossibleMovements(const Piece *selectedPiece) const 
 {
     //  1. Get the possible movements calling the piece method
     //  3. Remove the movements which the kink is in check
@@ -24,11 +24,17 @@ std::list<Position> BoardEngine::getPossibleMovements(const Piece *piece) const
     std::list<Position> possible_movements;
     possible_movements.clear();
 
-    possible_movements = piece->getPossibleMovements(this->getBoardPositions());
-    removeUnsafeMovements(possible_movements, piece);
+    possible_movements = selectedPiece->getPossibleMovements(this->getBoardPositions());
+    removeUnsafeMovements(possible_movements, selectedPiece);
 
     return possible_movements; 
-    
+}
+
+bool BoardEngine::isCheck() const 
+{
+    BoardPositions arramgement = this->getBoardPositions();
+    Position king_position = this->players->getCurrentPlayer()->getKingPosition();
+    return this->isCheckArrangement(arramgement, king_position);    
 }
 
 void BoardEngine::removeUnsafeMovements(std::list<Position> &movements, const Piece* targetPiece) const 
@@ -107,7 +113,7 @@ bool BoardEngine::isCheckArrangement(const BoardPositions arrangement, Position 
     return false;
 }
 
-bool BoardEngine::isCheckmate() const 
+bool BoardEngine::isCheckMate() const 
 {
     //  1. For each current player piece:
     //  2. Get the possible movements
@@ -126,5 +132,15 @@ bool BoardEngine::isCheckmate() const
     }
 
     return true;
+}
+
+bool BoardEngine::isAttack(Position target) const 
+{
+    std::list<Position> opponent_positions = this->getBoardPositions().getOpponentPlayerPositions();
+
+    if(Position::find(opponent_positions, target))
+        return true;
+
+    return false;
 }
 
