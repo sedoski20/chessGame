@@ -1,21 +1,10 @@
 #include "boardstatus.h"
 #include <algorithm>
 
-BoardStatus::BoardStatus(){ this->boardStatus.clear(); }
-
-void BoardStatus::addPossibleMovements(const std::list<Position> &possibleMovements, const BoardPositions &board) 
-{
+BoardStatus::BoardStatus(const PlayerManager *players) : players(players)
+{ 
+    this->boardEngine = new BoardEngine(players);
     this->reset();
-    //Add Highlighted and attack positions to the board status
-    for (auto &movement : possibleMovements)
-    {
-        bool isAttack = Position::find(board.getOpponentPlayerPositions(), movement);
-
-        if(isAttack)
-            this->boardStatus.push_back(PositionStatus(movement, Status::ATTACK)); 
-        else
-            this->boardStatus.push_back(PositionStatus(movement, Status::HIGHLIGHTED)); 
-    }
 }
 
 void BoardStatus::reset() 
@@ -23,59 +12,56 @@ void BoardStatus::reset()
     this->boardStatus.clear();
 }
 
-void BoardStatus::addPiecesInfo(const std::list<const Piece *> player1Pieces, const std::list<const Piece *> player2Pieces) 
+void BoardStatus::addPossibleMovements(const Piece * selectedPiece) 
 {
-    this->player1PiecesInfo.clear();
+    std::list<Position> possible_movements = this->boardEngine->getPossibleMovements(selectedPiece);
 
-    for(const Piece * piece : player1Pieces)
+    //Add Highlighted and attack positions to the board status
+    for (auto &movement : possible_movements)
     {
-        PieceInfo info;
-        info.position = piece->getPosition();
-        info.type = piece->getType();
-        player1PiecesInfo.push_back(info);
-    }
+        Status status = (this->boardEngine->isAttack(movement)) ? Status::ATTACK
+                                                                : Status::HIGHLIGHTED;
 
-    this->player2PiecesInfo.clear();
-
-    for(const Piece * piece : player2Pieces)
-    {
-        PieceInfo info;
-        info.position = piece->getPosition();
-        info.type = piece->getType();
-        player2PiecesInfo.push_back(info);
+            this->boardStatus.push_back(PositionStatus(movement, status)); 
     }
 }
 
-void BoardStatus::addCheck(Position kingPosition)  
+void BoardStatus::addCheck()  
 {
-    this->boardStatus.push_back(PositionStatus(kingPosition, Status::CHECK)); 
+    Position king_position = this->players->getCurrentPlayer()->getKingPosition();
+
+    if(this->boardEngine->isCheck())
+        this->boardStatus.push_back(PositionStatus(king_position, Status::CHECK)); 
 }
 
-void BoardStatus::addSelectedPiece(Position selectedPiece) 
+void BoardStatus::addSelectedPiece(const Piece * selectedPiece) 
 {
-    this->boardStatus.push_back(PositionStatus(selectedPiece, Status::SELECTED));
+    this->boardStatus.push_back(PositionStatus(selectedPiece->getPosition(), Status::SELECTED));
 }
 
-Status BoardStatus::getStatus(Position position) const 
-{
-	for(PositionStatus status : this->boardStatus)
-        if(status.getPosition() == position)
-            return status.getStatus();
-
-    return Status::NORMAL;
-}
-
-std::list<PositionStatus> BoardStatus::getBoardStatus() const 
+std::list<PositionStatus> BoardStatus::getHighlightedPositions() const 
 {
     return this->boardStatus;
 }
 
-std::list<PieceInfo> BoardStatus::getPlayer1PiecesInfo() const 
+std::list<const Piece*> BoardStatus::getPlayer1Pieces() const 
 {
-    return this->player1PiecesInfo;
+    return this->players->getPlayer1()->getPieces();
 }
 
-std::list<PieceInfo> BoardStatus::getPlayer2PiecesInfo() const 
+std::list<const Piece*> BoardStatus::getPlayer2Pieces() const 
 {
-    return this->player2PiecesInfo;
+    return this->players->getPlayer2()->getPieces();
+}
+
+void BoardStatus::update(const Piece *selectedPiece)
+{
+    this->reset();
+
+    if(!selectedPiece)
+        return;
+
+    this->addPossibleMovements(selectedPiece);
+    this->addSelectedPiece(selectedPiece);
+    this->addCheck();
 }

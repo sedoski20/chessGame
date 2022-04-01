@@ -3,27 +3,28 @@
 
 #include "positionstatus.h"
 #include "boardpositions.h"
+#include "boardengine.h"
 #include "piece.h"
 #include <list>
 
 class BoardStatus
 {
 private:
+    const BoardEngine *boardEngine;
+    const PlayerManager *players;
     std::list<PositionStatus> boardStatus;
-    std::list<PieceInfo> player1PiecesInfo;
-    std::list<PieceInfo> player2PiecesInfo;
+
+    void addPossibleMovements(const Piece *selectedPiece);
+    void addSelectedPiece(const Piece *selectedPiece); 
+    void addCheck();
 
 public:
-    BoardStatus();
+    BoardStatus(const PlayerManager *players);
     void reset();
-    void addPiecesInfo(const std::list<const Piece *> player1Pieces, const std::list<const Piece *> player2Pieces);
-    void addPossibleMovements(const std::list<Position> &possibleMovements, const BoardPositions &board);
-    void addSelectedPiece(Position selectedPiece); 
-    void addCheck(Position kingPosition);
-    Status getStatus(Position position) const;
-    std::list<PositionStatus> getBoardStatus() const;
-    std::list<PieceInfo> getPlayer1PiecesInfo() const;
-    std::list<PieceInfo> getPlayer2PiecesInfo() const;
+    void update(const Piece *selectedPiece);
+    std::list<PositionStatus> getHighlightedPositions() const;
+    std::list<const Piece*> getPlayer1Pieces() const;
+    std::list<const Piece*> getPlayer2Pieces() const;
 };
 
 
