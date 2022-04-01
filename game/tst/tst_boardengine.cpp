@@ -68,8 +68,8 @@ TEST_F(BoardEngineTestCase, kingEscaping)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -86,8 +86,8 @@ TEST_F(BoardEngineTestCase, kingAttacking)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -104,8 +104,8 @@ TEST_F(BoardEngineTestCase, kingProtectionFence)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -122,8 +122,8 @@ TEST_F(BoardEngineTestCase, kingProtectionAttack)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
     
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -140,8 +140,8 @@ TEST_F(BoardEngineTestCase, noSafeMovements1)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, false);
     EXPECT_EQ(is_check_mate, false);
     
@@ -159,8 +159,8 @@ TEST_F(BoardEngineTestCase, noSafeMovements2)
     int equals = countEquals(possible_movements, possible_movements_expected);
     EXPECT_EQ(possible_movements.size(), equals);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -174,8 +174,8 @@ TEST_F(BoardEngineTestCase, isCheck)
     PlayerManager *players = new PlayerManager(player1, player2, &turn);
     boardEngine = new BoardEngine(players);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), player1->getKingPosition());
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, false);
     EXPECT_EQ(is_check_mate, false);
 } 
@@ -191,8 +191,30 @@ TEST_F(BoardEngineTestCase, checkMate)
 
     EXPECT_EQ(possible_movements.size(), 0);
 
-    bool is_check_mate = boardEngine->isCheckmate();
-    bool is_check = boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), king_position);
+    bool is_check_mate = boardEngine->isCheckMate();
+    bool is_check = boardEngine->isCheck();
     EXPECT_EQ(is_check, true);
     EXPECT_EQ(is_check_mate, true);
+} 
+
+TEST_F(BoardEngineTestCase, isAttack1)
+{
+    using namespace kingProtectionAttack;
+
+    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+
+    bool is_attack = boardEngine->isAttack(Position(2,2));
+    EXPECT_EQ(is_attack, true);
+} 
+
+TEST_F(BoardEngineTestCase, isAttack2)
+{
+    using namespace kingEscaping;
+
+    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+
+    bool is_attack = boardEngine->isAttack(Position(1,1));
+    EXPECT_EQ(is_attack, false);
 } 
