@@ -1,74 +1,131 @@
-#include "gtest/gtest.h"
-#include "../src/board.h"
+#include <gtest/gtest.h>
+#include "board.h"
 #include <algorithm>
+#include "player.h"
 
 TEST(BoardTestCase, ConstructorTestCase1)
 {
-    IPlayer *player1;
-    IPlayer *player2;
-    Board board(player1, player2);
-    EXPECT_EQ(board.getBoardStatus().size(), 0);
-    EXPECT_EQ(board.getPlayer1Pieces().size(), 0);
-    EXPECT_EQ(board.getPlayer2Pieces().size(), 0);
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
+
+    EXPECT_EQ(board.isPieceSelected(), false);
 }
 
-TEST(BoardTestCase, updateBoard)
+TEST(BoardTestCase, selectingPiece)
 {
-    IPlayer *player1;
-    IPlayer *player2;
-    Board board(player1, player2);
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
 
-    std::list<Position> positions;
-    std::list<Position> opponent_positions;
+    Position position = Position(1, 0);
 
-    positions.push_back(Position(1, 1));
-    positions.push_back(Position(2, 2));
-    positions.push_back(Position(3, 3));
-    positions.push_back(Position(4, 4));
-
-    board.updateBoardStatus();
-    EXPECT_EQ(board.getBoardStatus().size(), positions.size());
-
-    std::list<PositionStatus> status = board.getBoardStatus();
-	std::list<Position>::iterator iterator;
-
-    for(auto &position : status)
-    {
-        iterator = std::find(positions.begin(), positions.end(), position.position);
-        bool found_m1 = (iterator != std::end(positions));
-        EXPECT_EQ(found_m1, true);
-    }
+    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.select(position), true);
+    EXPECT_EQ(board.isPieceSelected(), true);
 }
 
-TEST(BoardTestCase, resetBoardStatus)
+TEST(BoardTestCase, selectingEmptyPosition)
 {
-    IPlayer *player1;
-    IPlayer *player2;
-    Board board(player1, player2);
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
 
-    std::list<Position> positions;
-    std::list<Position> opponent_positions;
+    Position position = Position(4, 4);
 
-    positions.push_back(Position(1, 1));
-    positions.push_back(Position(2, 2));
-    positions.push_back(Position(3, 3));
-    positions.push_back(Position(4, 4));
-
-    board.updateBoardStatus();
-    EXPECT_EQ(board.getBoardStatus().size(), positions.size());
-
-    std::list<PositionStatus> status = board.getBoardStatus();
-	std::list<Position>::iterator iterator;
-
-    for(auto &position : status)
-    {
-        iterator = std::find(positions.begin(), positions.end(), position.position);
-        bool found_m1 = (iterator != std::end(positions));
-        EXPECT_EQ(found_m1, true);
-    }
-
-    board.resetBoardStatus();
-    EXPECT_EQ(board.getBoardStatus().size(), 0);
+    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.select(position), false);
+    EXPECT_EQ(board.isPieceSelected(), false);
 }
 
+TEST(BoardTestCase, selectingTwice)
+{
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
 
+    Position position = Position(0, 1);
+
+    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.select(position), true);
+    EXPECT_EQ(board.isPieceSelected(), true);
+    EXPECT_EQ(board.select(position), true);
+    EXPECT_EQ(board.isPieceSelected(), true);
+}
+
+TEST(BoardTestCase, unselecting)
+{
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
+
+    Position position = Position(0, 1);
+
+    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.select(position), true);
+    
+    board.unslect();
+    EXPECT_EQ(board.isPieceSelected(), false);
+}
+
+TEST(BoardTestCase, getSelectedPiece)
+{
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
+
+    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.getSeletedPiece(), nullptr);
+    
+    Position position = Position(1, 0);
+    
+    EXPECT_EQ(board.select(position), true);
+    EXPECT_NE(board.getSeletedPiece(), nullptr);
+    EXPECT_EQ(board.isPieceSelected(), true);
+}
+
+TEST(BoardTestCase, moveSelectedPiece)
+{
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
+
+    EXPECT_EQ(board.isPieceSelected(), false);    
+    
+    Position position = Position(1, 0);
+    EXPECT_EQ(board.select(position), true);
+
+    EXPECT_EQ(board.moveSelectedPiece(Position(2, 0)), true);
+    EXPECT_EQ(board.isPieceSelected(), false);
+}
+
+TEST(BoardTestCase, failMovingSelectedPiece)
+{
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager players(player1, player2, &turn); 
+    Board board(&players);
+
+    EXPECT_EQ(board.isPieceSelected(), false);    
+    
+    Position position = Position(1, 0);
+    EXPECT_EQ(board.select(position), true);
+
+    EXPECT_EQ(board.moveSelectedPiece(Position(3, 1)), false);
+    EXPECT_EQ(board.isPieceSelected(), false);
+}
