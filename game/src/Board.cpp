@@ -9,23 +9,9 @@ Board::Board(const PlayerManager *players) : players(players)
     this->unslect();
 }
 
-const BoardStatus Board::getBoardStatus()
+const Piece* Board::getSeletedPiece() const
 {
-    BoardEngine *boardEngine = new BoardEngine(players);
-    this->boardStatus.reset();
-    this->boardStatus.addPiecesInfo(this->players->getPlayer1()->getPieces(),
-                                    this->players->getPlayer2()->getPieces());
-
-    if(!this->isPieceSelected())
-        return this->boardStatus;
-
-    boardStatus.addPossibleMovements(boardEngine->getPossibleMovements(this->selectedPiece), boardEngine->getBoardPositions());
-    boardStatus.addSelectedPiece(selectedPiece->getPosition());
-
-    if(boardEngine->isCheckArrangement(boardEngine->getBoardPositions(), this->players->getCurrentPlayer()->getKingPosition()))
-        this->boardStatus.addCheck(this->players->getCurrentPlayer()->getKingPosition()); 
-
-    return this->boardStatus;
+    return this->selectedPiece;
 }
 
 void Board::unslect()

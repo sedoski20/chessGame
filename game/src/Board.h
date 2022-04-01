@@ -10,9 +10,7 @@ class Board : public IBoard
 
 private:
     const PlayerManager *players;
-
     const Piece *selectedPiece;
-    BoardStatus boardStatus;
 
 public:
     Board(const PlayerManager *players);    
@@ -20,7 +18,6 @@ public:
     bool select(Position &position);
     bool isPieceSelected() const;
     bool moveSelectedPiece(Position position);
-    const BoardStatus getBoardStatus();
-
+    const Piece *getSeletedPiece() const;
 };
 #endif // BOARD_H
