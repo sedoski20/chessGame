@@ -42,9 +42,9 @@ bool Board::moveSelectedPiece(Position position)
     if(!isPieceSelected())
         return false;
 
-    BoardEngine *boardEngine = new BoardEngine(players);
+    BoardEngine *board_engine = new BoardEngine(players);
 
-    std::list<Position> possible_movements = boardEngine->getPossibleMovements(this->selectedPiece);
+    std::list<Position> possible_movements = board_engine->getPossibleMovements(this->selectedPiece);
     bool is_possible_movement = Position::find(possible_movements, position);
 
     if(!is_possible_movement)
@@ -54,11 +54,9 @@ bool Board::moveSelectedPiece(Position position)
     if(!success_moved)
         return false;
 
-    Piece *target_piece = this->players->getOpponentPlayer()->findPiece(position);
-    bool is_attack = target_piece != NULL; 
-
+    bool is_attack = board_engine->isAttack(position); 
     if(is_attack)
-        this->players->getOpponentPlayer()->capturePiece(target_piece->getPosition());
+        this->players->getOpponentPlayer()->capturePiece(position);
 
     return true;
 }
