@@ -1,47 +1,64 @@
-#include "game.h"
 #include <iostream>
+#include "game.h"
 #include "board.h"
 #include "playermanager.h"
 #include "player.h"
+
 
 Game::Game()
 {
     IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
     IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
-    PlayerManager *players = new PlayerManager(player1, player2);
-
+    
+    this->turn = PlayerTurn::TURN_PLAYER1;
+    this->players = new PlayerManager(player1, player2, &turn);
     this->board = new Board(players);
-    this->status = GameStatus::PLAYING;
 }
 
-void Game::firstClick(Position position) 
+void Game::updateTurn() 
 {
-    board->select(position);
+    (this->turn == PlayerTurn::TURN_PLAYER1) ? this->turn = PlayerTurn::TURN_PLAYER2
+                                             : this->turn = PlayerTurn::TURN_PLAYER1;
 }
 
-void Game::secondClick(Position position) 
+bool Game::firstClick(Position position) const
+{
+    return board->select(position);
+}
+
+bool Game::secondClick(Position position) const
 {
     bool success = board->moveSelectedPiece(position);
-
     this->board->unslect();
-    
-    if(!success)
-        return;
-        
-    // this->board->updateTurn();
-
-    //After a movement the next player can be in a check mate, so
-    //Check if the game is over and set the game Status
-    this->status = (board->isCheckmate() ? GameStatus::ENDED
-                                         : GameStatus::PLAYING);
+    return success;
 }
 
-void Game::selectPosition(Position position) 
+void Game::selectPosition(Position position)
 {
     if(!board->isPieceSelected())
         firstClick(position);
     else
-        secondClick(position);
+    {
+        if(secondClick(position))
+            this->updateTurn();
+    }
+}
+
+const BoardStatus Game::getBoardStatus() const 
+{
+    BoardStatus board_status(players);
+    board_status.update(this->board->getSeletedPiece());
+
+    return board_status;
+}
+
+const GameStatus Game::getGameStatus() const
+{
+    BoardEngine board_engine(players);
+    GameStatus status = (board_engine.isCheckMate()) ? GameStatus::ENDED
+                                                     : GameStatus::PLAYING;
+
+    return status;
 }
 
 
