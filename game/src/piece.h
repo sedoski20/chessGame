@@ -1,7 +1,7 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include "pieceinfo.h"
+#include "piecetype.h"
 #include "boardpositions.h"
 #include <string>
 #include <list>
