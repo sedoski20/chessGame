@@ -6,9 +6,10 @@
 
 class Player : public IPlayer
 {
+protected:
+    std::list<Piece*> pieces;
 
 private:
-    std::list<Piece*> pieces;
     void createPawns(int referenceRow);
     void createRooks(int referenceRow);
     void createKnights(int referenceRow);
