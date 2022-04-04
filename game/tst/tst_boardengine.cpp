@@ -66,7 +66,8 @@ TEST_F(BoardEngineTestCase, kingEscaping)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
 
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
@@ -84,7 +85,8 @@ TEST_F(BoardEngineTestCase, kingAttacking)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
 
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
@@ -102,7 +104,8 @@ TEST_F(BoardEngineTestCase, kingProtectionFence)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
 
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
@@ -120,7 +123,8 @@ TEST_F(BoardEngineTestCase, kingProtectionAttack)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
     
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
@@ -138,7 +142,8 @@ TEST_F(BoardEngineTestCase, noSafeMovements1)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
 
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
@@ -157,7 +162,8 @@ TEST_F(BoardEngineTestCase, noSafeMovements2)
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
-    EXPECT_EQ(possible_movements.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), equals);
+    EXPECT_EQ(possible_movements_expected.size(), possible_movements.size());
 
     bool is_check_mate = boardEngine->isCheckMate();
     bool is_check = boardEngine->isCheck();
