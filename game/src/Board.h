@@ -11,13 +11,13 @@ class Board : public IBoard
 private:
     const PlayerManager *players;
     const Piece *selectedPiece;
+    void unselect();
 
 public:
     Board(const PlayerManager *players);    
-    void unslect();
     bool select(Position &position);
     bool isPieceSelected() const;
     bool moveSelectedPiece(Position position);
-    const Piece *getSeletedPiece() const;
+    const Piece *getSelectedPiece() const;
 };
 #endif // BOARD_H

@@ -61,23 +61,6 @@ TEST(BoardTestCase, selectingTwice)
     EXPECT_EQ(board.isPieceSelected(), true);
 }
 
-TEST(BoardTestCase, unselecting)
-{
-    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
-    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
-    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
-    PlayerManager players(player1, player2, &turn); 
-    Board board(&players);
-
-    Position position = Position(0, 1);
-
-    EXPECT_EQ(board.isPieceSelected(), false);
-    EXPECT_EQ(board.select(position), true);
-    
-    board.unslect();
-    EXPECT_EQ(board.isPieceSelected(), false);
-}
-
 TEST(BoardTestCase, getSelectedPiece)
 {
     IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
@@ -87,12 +70,12 @@ TEST(BoardTestCase, getSelectedPiece)
     Board board(&players);
 
     EXPECT_EQ(board.isPieceSelected(), false);
-    EXPECT_EQ(board.getSeletedPiece(), nullptr);
+    EXPECT_EQ(board.getSelectedPiece(), nullptr);
     
     Position position = Position(1, 0);
     
     EXPECT_EQ(board.select(position), true);
-    EXPECT_NE(board.getSeletedPiece(), nullptr);
+    EXPECT_NE(board.getSelectedPiece(), nullptr);
     EXPECT_EQ(board.isPieceSelected(), true);
 }
 

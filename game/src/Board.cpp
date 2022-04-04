@@ -6,15 +6,15 @@
 
 Board::Board(const PlayerManager *players) : players(players)
 {
-    this->unslect();
+    this->unselect();
 }
 
-const Piece* Board::getSeletedPiece() const
+const Piece* Board::getSelectedPiece() const
 {
     return this->selectedPiece;
 }
 
-void Board::unslect()
+void Board::unselect()
 {
     this->selectedPiece = nullptr;
 }
@@ -49,14 +49,14 @@ bool Board::moveSelectedPiece(Position position)
 
     if(!is_possible_movement)
     {
-        this->unslect();
+        this->unselect();
         return false;
     }
 
     bool success_moved = this->players->getCurrentPlayer()->movePiece(position, this->selectedPiece->getPosition());
     if(!success_moved)
     {
-        this->unslect();
+        this->unselect();
         return false;
     }
 
@@ -64,6 +64,6 @@ bool Board::moveSelectedPiece(Position position)
     if(is_attack)
         this->players->getOpponentPlayer()->capturePiece(position);
 
-    this->unslect();
+    this->unselect();
     return true;
 }
