@@ -30,8 +30,16 @@ void BoardStatus::addCheck()
 {
     Position king_position = this->players->getCurrentPlayer()->getKingPosition();
 
-    if(this->boardEngine->isCheck())
-        this->boardStatus.push_back(PositionStatus(king_position, Status::CHECK)); 
+    if(!this->boardEngine->isCheck())
+        return;
+
+    Piece *selected_piece = this->players->getCurrentPlayer()->findPiece(king_position);
+    bool is_king_selected =  selected_piece->getType() == PieceType::KING;
+    
+    if(is_king_selected)
+        this->boardStatus.remove(PositionStatus(king_position, Status::SELECTED));
+        
+    this->boardStatus.push_back(PositionStatus(king_position, Status::CHECK)); 
 }
 
 void BoardStatus::addSelectedPiece(const Piece * selectedPiece) 
