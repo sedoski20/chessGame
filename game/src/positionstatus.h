@@ -21,6 +21,7 @@ class PositionStatus
         PositionStatus(Position position, Status status);
         Status getStatus() const { return status; }
         Position getPosition() const { return position; }
+        bool operator==(const PositionStatus &other) const;
 };
 
 #endif // POSITIONSTATUS_H
