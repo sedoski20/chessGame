@@ -1,65 +1,159 @@
 #include <gtest/gtest.h>
-#include "../src/game.h"
-#include "../src/player.h"
-#include "../src/iplayer.h"
-#include "../src/igame.h"
+#include <gmock/gmock.h>
 #include <algorithm>
+#include "game.h"
+#include "player.h"
+#include "iplayer.h"
+#include "pawn.h"
+#include "board.h"
+#include "boardengine_testcases_data.h"
 
-
-TEST(GameTestCase, FirstClickOnBlocked)
+class BoardMock : public IBoard
 {
+    public:
+    MOCK_METHOD(bool, isPieceSelected, (), (const, override));
+    MOCK_METHOD(bool, select, (Position&), (override));
+    MOCK_METHOD(bool, moveSelectedPiece, (Position), (override));
+    MOCK_METHOD(const Piece *, getSelectedPiece, (), (const, override));
+};
 
-    Player p1(MovementDirection::MOVING_UP, "p1");
-    Player p2(MovementDirection::MOVING_DOWN, "p2");
+class PlayerMock : public IPlayer
+{
+    public:
+    MOCK_METHOD(Piece*, findPiece, (Position), (const));
+    MOCK_METHOD(const std::list<const Piece *>, getPieces, (), (const));
+    MOCK_METHOD(bool, capturePiece, (Position));
+    MOCK_METHOD(bool, movePiece, (Position, Position));
+    MOCK_METHOD(Position, getKingPosition, (), (const));
+};
 
-    IPlayer* players[] = {&p1, &p2};
-    Game game(players[0], players[1]);
+using ::testing::Return;
+using ::testing::AtLeast;
 
-    EXPECT_EQ(game.getBoardStatus().size(), 0);
+TEST(GameTestCase, Starting)
+{
+    Game game;
 
-    //Try to select a blocked piece
-    game.selectPosition(Position(0, 0));
-    EXPECT_EQ(game.getBoardStatus().size(), 1);
-    EXPECT_EQ(p1.isPieceSelected(), true);
-    EXPECT_EQ(p2.isPieceSelected(), false);
-
+    EXPECT_EQ(game.getGameStatus(), GameStatus::PLAYING);
+    EXPECT_EQ(game.getBoardStatus().getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
 }
+
 TEST(GameTestCase, FirstClickOnEmpty)
 {
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
 
-    Player p1(MovementDirection::MOVING_UP, "p1");
-    Player p2(MovementDirection::MOVING_DOWN, "p2");
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager * players = new PlayerManager(player1, player2, &turn);
 
-    IPlayer* players[] = {&p1, &p2};
-    Game game(players[0], players[1]);
+    BoardMock mock;
+    IBoard* board = &mock;
+    Game game(board, players);
+    Position first_click(5, 5);
+    
 
-    EXPECT_EQ(game.getBoardStatus().size(), 0);
+    EXPECT_CALL(mock, isPieceSelected())
+    .WillOnce(Return(false));
+
+    EXPECT_CALL(mock, getSelectedPiece())
+    .WillOnce(Return(nullptr))
+    .WillOnce(Return(nullptr));
+
+    EXPECT_CALL(mock, select(first_click))
+    .WillOnce(Return(false));
+
+    BoardStatus status = game.getBoardStatus(); 
+    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
 
     //Try to select a empty position
     game.selectPosition(Position(5, 5));
-    EXPECT_EQ(game.getBoardStatus().size(), 0);
-    EXPECT_EQ(p1.isPieceSelected(), false);
-    EXPECT_EQ(p2.isPieceSelected(), false);
+
+    status = game.getBoardStatus(); 
+    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
 }
+
 TEST(GameTestCase, MoveTestCase1)
 {
-    Player p1(MovementDirection::MOVING_UP, "p1");
-    Player p2(MovementDirection::MOVING_DOWN, "p2");
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
 
-    IPlayer* players[] = {&p1, &p2};
-    Game game(players[0], players[1]);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager * players = new PlayerManager(player1, player2, &turn);
 
-    EXPECT_EQ(game.getBoardStatus().size(), 0);
+    BoardMock mock;
+    IBoard* board = &mock;
+    Game game(board, players);
 
+    BoardStatus status = game.getBoardStatus(); 
+    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    
+    Position first_click(1, 0);
+    Position second_click(3, 0);
+    const Piece *selected_piece = new Pawn(first_click);
+
+    EXPECT_CALL(mock, isPieceSelected())
+    .WillOnce(Return(false))
+    .WillOnce(Return(true));
+
+    EXPECT_CALL(mock, getSelectedPiece())
+    .WillOnce(Return(selected_piece))
+    .WillOnce(Return(nullptr));
+
+    EXPECT_CALL(mock, select(first_click))
+    .WillOnce(Return(true));
+
+    EXPECT_CALL(mock, moveSelectedPiece(second_click))
+    .WillOnce(Return(true));
+    
     //Try to select a first pawn
-    game.selectPosition(Position(1, 0));
-    EXPECT_EQ(game.getBoardStatus().size(), 3);
-    EXPECT_EQ(p1.isPieceSelected(), true);
-    EXPECT_EQ(p2.isPieceSelected(), false);
+    EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
+    game.selectPosition(first_click);
+
+    status = game.getBoardStatus();
+    EXPECT_EQ(status.getHighlightedPositions().size(), 3);
 
     //Try to move the first pawn
-    game.selectPosition(Position(3, 0));
-    EXPECT_EQ(game.getBoardStatus().size(), 0);
-    EXPECT_EQ(p1.isPieceSelected(), false);
-    EXPECT_EQ(p2.isPieceSelected(), false);
+    game.selectPosition(second_click);
+    status = game.getBoardStatus();
+
+    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER2);
+}
+
+TEST(GameTestCase, EndingGame)
+{
+    using namespace checkMate;
+
+    IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
+    IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
+    PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
+    PlayerManager * players = new PlayerManager(player1, player2, &turn);
+
+    // Creating a initial state game and checking status
+    Board board = Board(players);
+    IBoard* iboard = &board;
+    
+    Game game(iboard, players);
+
+    EXPECT_EQ(game.getGameStatus(), GameStatus::PLAYING);
+
+    // Changing the state to check mate mocking the players objects
+
+    PlayerMock mock1;
+    PlayerMock mock2;
+
+    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+
+    player1 = &mock1;
+    player2 = &mock2;
+
+    players = new PlayerManager(player1, player2, &turn);
+    board = Board(players);
+    iboard = &board;
+    game = Game(iboard, players);
+
+    EXPECT_EQ(game.getGameStatus(), GameStatus::ENDED);
 }
