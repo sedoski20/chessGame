@@ -15,6 +15,11 @@ Game::Game()
     this->board = new Board(players);
 }
 
+Game::Game(IBoard *board, PlayerManager *players) : board(board), players(players)
+{
+    this->turn = PlayerTurn::TURN_PLAYER1;
+}
+
 void Game::updateTurn() 
 {
     (this->turn == PlayerTurn::TURN_PLAYER1) ? this->turn = PlayerTurn::TURN_PLAYER2
@@ -46,7 +51,7 @@ void Game::selectPosition(Position position)
 const BoardStatus Game::getBoardStatus() const 
 {
     BoardStatus board_status(players);
-    board_status.update(this->board->getSeletedPiece());
+    board_status.update(this->board->getSelectedPiece());
 
     return board_status;
 }

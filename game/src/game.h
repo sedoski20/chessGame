@@ -20,9 +20,11 @@ private:
 
 public:
     Game();
+    Game(IBoard *board, PlayerManager * players);
     void selectPosition(Position position);
     const BoardStatus getBoardStatus() const;
     const GameStatus getGameStatus() const;
+    PlayerTurn getPlayerTurn() const {return this->turn; };
 };
 
 #endif // GAME_H
