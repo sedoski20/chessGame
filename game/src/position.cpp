@@ -10,6 +10,7 @@ Position::Position()
 
 Position::Position(int row, int column)
 {
+	// TODO: add assert here to check if the position is valid
 	this->row = row;
 	this->column = column;
 }

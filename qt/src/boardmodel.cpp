@@ -107,7 +107,8 @@ bool BoardModel::select(int index)
     }
 
     updatePieces();
-    // setIsPlayer1Turn(i_game->isPlayer1Turn());
+    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    setIsPlayer1Turn(is_player1_turn);
 
     GameStatus status = i_game->getGameStatus();
     setIsGameEnded((status == GameStatus::ENDED) ? true : false);

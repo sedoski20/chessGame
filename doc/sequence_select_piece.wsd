@@ -1,0 +1,102 @@
+@startuml
+    actor User 
+    participant Game
+    participant Board
+    participant PlayerManager
+    participant Player
+    participant BoardEngine
+    participant Piece
+
+    skinparam SequenceGroupBackgroundColor #DD7E7E
+
+    group First Click 
+        User -> Game: select(position)
+        activate User
+            activate Game
+                Game -> Board: isPieceSelected()
+                activate Board
+                    Board --> Game : **false** 
+                    deactivate Board
+
+                Game -> Board: select(position)
+
+                activate Board
+                    Board -> PlayerManager : getCurrentPlayer()
+
+                    activate PlayerManager
+                        PlayerManager --> Board 
+                    deactivate PlayerManager
+
+                    Board -> Player : findPiece(position)
+
+                    activate Player
+                        Player --> Board 
+                    deactivate Player 
+
+                    Board --> Game : **true** = Piece found\n**false**  = There's no piece on position 
+
+                deactivate Board
+
+                Game --> User
+
+            deactivate Game
+        deactivate User
+    end
+
+    group Second Click 
+        User -> Game: select(position)
+        activate User
+            activate Game
+                Game -> Board: isPieceSelected()
+                activate Board
+                    Board --> Game : **true**
+                    deactivate Board
+
+                Game -> Board: moveSelectedPiece(position)
+
+                activate Board
+                    Board -> BoardEngine : getPossibleMovements(selectedPiece)
+
+                    activate BoardEngine
+
+                        BoardEngine -> Piece : getPossibleMovements()
+
+                        activate Piece
+                            Piece --> BoardEngine
+                        deactivate Piece
+
+                        BoardEngine -> BoardEngine : removeUnsafeMovements
+                        BoardEngine --> Board
+
+                    deactivate BoardEngine
+
+                    Board -> PlayerManager : getCurrentPlayer()
+
+                    activate PlayerManager
+                        PlayerManager --> Board 
+                    deactivate PlayerManager
+
+                    Board -> Player : movePiece(position)
+
+                    activate Player
+
+                        Player -> Piece : move(position)
+
+                        activate Piece
+                            Piece --> Player
+                        deactivate Piece
+
+                        Player --> Board
+
+                    deactivate Player
+
+
+                    Board --> Game 
+                deactivate Board
+
+                Game --> User
+
+            deactivate Game
+        deactivate User
+    end
+@enduml

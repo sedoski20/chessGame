@@ -1,0 +1,181 @@
+@startuml Class Diagram
+
+hide empty members
+skinparam groupInheritance 6
+
+enum PlayerTurn
+{
+    TURN_PLAYER1
+    TURN_PLAYER2
+}
+
+enum Status
+{
+    NORMAL
+    HIGHLIGHTED
+    SELECTED
+    ATTACK
+    CHECK
+}
+
+class Position
+{
+    + int row;
+    + int column;
+
+    + isValidaPosition()    
+}
+
+interface Piece
+{
+    - position;
+    - type
+    + getPossibleMovements()
+    + getPosition()
+    + getType()
+    + move()
+}
+
+class Pawn 
+class Rook 
+class Knight 
+class Bishop 
+class Queen 
+class King 
+
+interface iPlayer
+
+class Player implements iPlayer
+{
+    - List pieces
+
+    - createPawns()
+    - createRooks()
+    - createKnights()
+    - createBishops()
+    - createQueen()
+    - createKing()
+    + movePiece()
+    + capturePiece()
+    + getKingPosition()
+    + findPiece()
+    + getPieces()
+}
+
+class PlayerManager
+{
+    - iPlayer *player1;
+    - iPlayer *player2;
+    - PlayerTurn *turn;
+
+    + getPlayer1()
+    + getPlayer2()
+    + getCurrentPlayer()
+    + getOpponentPlayer()
+}
+
+interface iBoard
+
+class Board implements iBoard
+{
+    - PlayerManager *players
+    - selectedPiece
+
+    - unselect()
+    + select()
+    + isPieceSelected()
+    + moveSelectedPiece()
+    + getSelectedPiece()
+}
+
+class BoardEngine
+{
+    - PlayerManager *players
+
+    - removeUnsafeMovents()
+    - isCheckArrangement()
+    - getNewArrangementFromMovements()
+    + getPossibleMovements()
+    + getBoardPositions()
+    + isCheck()
+    + isCheckMate()
+    + isAttack()
+}
+
+class BoardPositions
+{
+    - currentPlayerPositions
+    - opponentPlayerPositions
+    + getCurrentPlayerPositions
+    + getOpponentPlayerPositions
+}
+
+class BoardStatus
+{
+    - BoardEngine *BoardEngine
+    - PlayerManager *players
+    - List boardStatus
+
+    - addPossibleMovements()
+    - addSelectedPiece()
+    - addCheck()
+    + update()
+    + reset()
+    + getHighlightedPositions()
+    - getPlayer1Pieces()
+    - getPlayer2Pieces()
+}
+
+class PositionStatus
+{
+    - position
+    - status
+    + getStatus()
+}
+
+interface iGame
+
+class Game implements iGame
+{
+    - updateTurn()
+    - firstClick()
+    - secondClick()
+    + select()
+    + getBoardStatus()
+    + getGameStatus()
+    + getPlayerTurn()
+
+    - IBoard *board
+    - PlayerManager *players
+    - PlayerTurn turn
+}
+
+BoardPositions <- Piece
+BoardEngine --> BoardPositions
+
+Piece -* Player
+Piece <|--- Pawn
+Piece <|--- Rook
+Piece <|--- Knight
+Piece <|--- Bishop
+Piece <|--- Queen
+Piece <|--- King
+
+PlayerManager *--- iPlayer
+Game *- PlayerManager
+PlayerManager --* Board
+PlayerManager --* BoardEngine
+
+PositionStatus *- BoardStatus  
+BoardStatus -* Game
+BoardStatus --* BoardEngine
+Game *-- iBoard
+Game ---> BoardEngine
+BoardEngine <- Board
+
+Status <-- PositionStatus
+Position -[hidden]> BoardPositions
+
+PlayerTurn *-- PlayerManager
+PlayerTurn *-- Game
+@enduml

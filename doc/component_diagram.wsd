@@ -1,0 +1,32 @@
+@startuml
+
+
+    package GameInterface {
+        component QtQuickApplication
+        component Qt <<shared lib>>
+    }
+
+    package GameEngine {
+        component hidden
+        component GameLibrary  <<static lib>>
+    }
+
+    package GameTesting {
+        component TestingApplication
+        component GoogleTest <<static lib>>
+    }
+
+    skinparam component {
+        backgroundColor<<static lib>> #B5EFF7
+        backgroundColor<<shared lib>> #AFF4A1
+    }
+
+    hide hidden
+    hidden -- GameLibrary
+    QtQuickApplication -- Qt
+    QtQuickApplication ..> GameLibrary
+    TestingApplication ..> GameLibrary
+    TestingApplication -- GoogleTest
+
+
+@enduml
