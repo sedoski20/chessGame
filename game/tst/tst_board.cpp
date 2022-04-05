@@ -11,7 +11,7 @@ TEST(BoardTestCase, ConstructorTestCase1)
     PlayerManager players(player1, player2, &turn); 
     Board board(&players);
 
-    EXPECT_EQ(board.isPieceSelected(), false);
+    EXPECT_EQ(board.isPieceSelected(), true);
 }
 
 TEST(BoardTestCase, selectingPiece)
