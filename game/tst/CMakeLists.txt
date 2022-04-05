@@ -4,11 +4,14 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 
 set(SOURCES ${TEST_SOURCES})
 
-add_executable(${BINARY} ${TEST_SOURCES})
-add_test(NAME ${BINARY} COMMAND ${BINARY})
-target_link_libraries(${BINARY} PUBLIC ChessGame_lib gtest)
+include_directories(${PROJECT_SOURCE_DIR}/lib/googletest/googletest/include)
+include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/lib/googletest/googlemock/include)
+include(GoogleTest)
 
-include_directories(${PROJECT_SOURCE_DIR}/lib/googletest/include)
+add_executable(${BINARY} ${SOURCES})
+add_test(NAME ${BINARY} COMMAND ${BINARY})
+target_link_libraries(${BINARY} PUBLIC ChessGame_lib gtest gmock)
+
 
 set_target_properties( ${BINARY}
   PROPERTIES
