@@ -3,9 +3,7 @@
 
 #include <list>
 #include "position.h"
-#include "iplayer.h"
-#include "boardstatus.h"
-
+#include "piece.h"
 class IBoard
 {
 public:
