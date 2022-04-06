@@ -9,6 +9,7 @@ private:
 
 public:
     Knight(Position initialPosition) : Piece(initialPosition){type = PieceType::KNIGHT;};
+    ~Knight() {};
     std::list<Position> getPossibleMovements(const BoardPositions &board) const;
 };
 

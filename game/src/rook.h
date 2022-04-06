@@ -7,6 +7,7 @@ class Rook : virtual public Piece
 {
 public:
     Rook(Position initialPosition) : Piece(initialPosition){type = PieceType::ROOK;};
+    ~Rook() {};
     std::list<Position> getPossibleMovements(const BoardPositions &board) const;
 
 protected:

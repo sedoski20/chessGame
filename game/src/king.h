@@ -6,6 +6,7 @@ class King : public Piece
 {
 public:
     King(Position initialPosition) : Piece(initialPosition){type = PieceType::KING;};
+    ~King() {};
     std::list<Position> getPossibleMovements(const BoardPositions &board) const;
 
 private:
