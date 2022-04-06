@@ -19,7 +19,7 @@ private:
 
 public:
     Player(MovementDirection direction);
-    //TODO: create destructor to deallocate memory
+    ~Player();
     
     const std::list<const Piece *> getPieces() const;
     bool capturePiece(Position target);
