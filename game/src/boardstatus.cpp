@@ -3,7 +3,6 @@
 
 BoardStatus::BoardStatus(const PlayerManager *players) : players(players)
 { 
-    this->boardEngine = new BoardEngine(players);
     this->reset();
 }
 
@@ -14,12 +13,13 @@ void BoardStatus::reset()
 
 void BoardStatus::addPossibleMovements(const Piece * selectedPiece) 
 {
-    std::list<Position> possible_movements = this->boardEngine->getPossibleMovements(selectedPiece);
+    BoardEngine board_engine(players);
+    std::list<Position> possible_movements = board_engine.getPossibleMovements(selectedPiece);
 
     //Add Highlighted and attack positions to the board status
     for (auto &movement : possible_movements)
     {
-        Status status = (this->boardEngine->isAttack(movement)) ? Status::ATTACK
+        Status status = (board_engine.isAttack(movement)) ? Status::ATTACK
                                                                 : Status::HIGHLIGHTED;
 
             this->boardStatus.push_back(PositionStatus(movement, status)); 
@@ -29,8 +29,9 @@ void BoardStatus::addPossibleMovements(const Piece * selectedPiece)
 void BoardStatus::addCheck()  
 {
     Position king_position = this->players->getCurrentPlayer()->getKingPosition();
+    BoardEngine board_engine(players);
 
-    if(!this->boardEngine->isCheck())
+    if(!board_engine.isCheck())
         return;
 
     Piece *selected_piece = this->players->getCurrentPlayer()->findPiece(king_position);

@@ -10,7 +10,6 @@
 class BoardStatus
 {
 private:
-    const BoardEngine *boardEngine;
     const PlayerManager *players;
     std::list<PositionStatus> boardStatus;
 
