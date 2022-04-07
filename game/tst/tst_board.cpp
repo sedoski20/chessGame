@@ -12,6 +12,9 @@ TEST(BoardTestCase, ConstructorTestCase1)
     Board board(&players);
 
     EXPECT_EQ(board.isPieceSelected(), false);
+    
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, selectingPiece)
@@ -27,6 +30,9 @@ TEST(BoardTestCase, selectingPiece)
     EXPECT_EQ(board.isPieceSelected(), false);
     EXPECT_EQ(board.select(position), true);
     EXPECT_EQ(board.isPieceSelected(), true);
+    
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, selectingEmptyPosition)
@@ -42,6 +48,9 @@ TEST(BoardTestCase, selectingEmptyPosition)
     EXPECT_EQ(board.isPieceSelected(), false);
     EXPECT_EQ(board.select(position), false);
     EXPECT_EQ(board.isPieceSelected(), false);
+    
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, selectingTwice)
@@ -59,6 +68,9 @@ TEST(BoardTestCase, selectingTwice)
     EXPECT_EQ(board.isPieceSelected(), true);
     EXPECT_EQ(board.select(position), true);
     EXPECT_EQ(board.isPieceSelected(), true);
+    
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, getSelectedPiece)
@@ -77,6 +89,9 @@ TEST(BoardTestCase, getSelectedPiece)
     EXPECT_EQ(board.select(position), true);
     EXPECT_NE(board.getSelectedPiece(), nullptr);
     EXPECT_EQ(board.isPieceSelected(), true);
+
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, moveSelectedPiece)
@@ -94,6 +109,9 @@ TEST(BoardTestCase, moveSelectedPiece)
 
     EXPECT_EQ(board.moveSelectedPiece(Position(2, 0)), true);
     EXPECT_EQ(board.isPieceSelected(), false);
+
+    delete player1;
+    delete player2;
 }
 
 TEST(BoardTestCase, failMovingSelectedPiece)
@@ -111,4 +129,7 @@ TEST(BoardTestCase, failMovingSelectedPiece)
 
     EXPECT_EQ(board.moveSelectedPiece(Position(3, 1)), false);
     EXPECT_EQ(board.isPieceSelected(), false);
+
+    delete player1;
+    delete player2;
 }
