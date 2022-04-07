@@ -8,6 +8,8 @@
 class PlayerMock : public IPlayer
 {
     public:
+    PlayerMock() {};
+    ~PlayerMock() {};
     MOCK_METHOD(Piece*, findPiece, (Position), (const));
     MOCK_METHOD(const std::list<const Piece *>, getPieces, (), (const));
     MOCK_METHOD(bool, capturePiece, (Position));
@@ -20,21 +22,22 @@ class BoardEngineTestCase : public ::testing::Test
     protected:
         void SetUp() override
         {
-            IPlayer *player1 = &mock1;
-            IPlayer *player2 = &mock2; 
             turn = PlayerTurn::TURN_PLAYER1;
 
-            players = new PlayerManager(player1, player2, &turn);
+            players = new PlayerManager(mock1, mock2, &turn);
             boardEngine = new BoardEngine(players);
         }
 
         void TearDown() override 
         { 
             delete players;
-            delete boardEngine; 
+            delete boardEngine;
+            delete mock1;
+            delete mock2; 
         }
 
-        PlayerMock mock1, mock2;
+        PlayerMock *const mock1 = new PlayerMock();
+        PlayerMock *const mock2 = new PlayerMock();
         BoardEngine *boardEngine;
         PlayerManager *players;
         PlayerTurn turn;
@@ -60,9 +63,9 @@ TEST_F(BoardEngineTestCase, kingEscaping)
 {
     using namespace kingEscaping;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -79,9 +82,9 @@ TEST_F(BoardEngineTestCase, kingAttacking)
 {
     using namespace kingAttacking;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -98,9 +101,9 @@ TEST_F(BoardEngineTestCase, kingProtectionFence)
 {
     using namespace kingProtectionFence;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -117,9 +120,9 @@ TEST_F(BoardEngineTestCase, kingProtectionAttack)
 {
     using namespace kingProtectionAttack;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -136,9 +139,9 @@ TEST_F(BoardEngineTestCase, noSafeMovements1)
 {
     using namespace noSafeMovements1;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -156,9 +159,9 @@ TEST_F(BoardEngineTestCase, noSafeMovements2)
 {
     using namespace noSafeMovements2;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     int equals = countEquals(possible_movements, possible_movements_expected);
@@ -190,9 +193,9 @@ TEST_F(BoardEngineTestCase, checkMate)
 {
     using namespace checkMate;
 
-    EXPECT_CALL(mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
     std::list<Position> possible_movements = boardEngine->getPossibleMovements(selected_piece);
 
     EXPECT_EQ(possible_movements.size(), 0);
@@ -207,8 +210,8 @@ TEST_F(BoardEngineTestCase, isAttack1)
 {
     using namespace kingProtectionAttack;
 
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
 
     bool is_attack = boardEngine->isAttack(Position(2,2));
     EXPECT_EQ(is_attack, true);
@@ -218,8 +221,8 @@ TEST_F(BoardEngineTestCase, isAttack2)
 {
     using namespace kingEscaping;
 
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
 
     bool is_attack = boardEngine->isAttack(Position(1,1));
     EXPECT_EQ(is_attack, false);
