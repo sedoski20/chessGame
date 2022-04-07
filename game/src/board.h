@@ -14,7 +14,8 @@ private:
     void unselect();
 
 public:
-    Board(const PlayerManager *players);    
+    Board(const PlayerManager *players);
+    ~Board();   
     bool select(Position &position);
     bool isPieceSelected() const;
     bool moveSelectedPiece(Position position);
