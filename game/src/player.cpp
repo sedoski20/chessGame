@@ -111,6 +111,8 @@ bool Player::capturePiece(Position target)
         return false;
 
     this->pieces.remove(piece);
+    
+    delete piece;
     return true;
 }
 
