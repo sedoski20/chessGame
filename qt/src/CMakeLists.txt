@@ -1,3 +1,5 @@
+project(ChessGame)
+
 set(SRCS
     main.cpp
     boardmodel.cpp

@@ -1,7 +1,9 @@
 
-set(BINARY ${PROJECT_NAME})
+project(ChessGame)
 
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
+set(BINARY ${PROJECT_NAME}_lib)
+
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.cpp)
 
 set(SOURCES ${SOURCES})
 

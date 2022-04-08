@@ -1,4 +1,6 @@
-set(BINARY ${PROJECT_NAME}_tst)
+project(ChessGame)
+
+set(BINARY ${PROJECT_NAME}_lib_tst)
 
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.cpp)
 
