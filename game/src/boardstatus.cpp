@@ -26,16 +26,15 @@ void BoardStatus::addPossibleMovements(const Piece * selectedPiece)
     }
 }
 
-void BoardStatus::addCheck()  
+void BoardStatus::addCheck(const Piece *selectedPiece)  
 {
-    Position king_position = this->players->getCurrentPlayer()->getKingPosition();
     BoardEngine board_engine(players);
 
     if(!board_engine.isCheck())
         return;
 
-    Piece *selected_piece = this->players->getCurrentPlayer()->findPiece(king_position);
-    bool is_king_selected =  selected_piece->getType() == PieceType::KING;
+    Position king_position = this->players->getCurrentPlayer()->getKingPosition();
+    bool is_king_selected =  selectedPiece->getType() == PieceType::KING;
     
     if(is_king_selected)
         this->boardStatus.remove(PositionStatus(king_position, Status::SELECTED));
@@ -72,5 +71,5 @@ void BoardStatus::update(const Piece *selectedPiece)
 
     this->addPossibleMovements(selectedPiece);
     this->addSelectedPiece(selectedPiece);
-    this->addCheck();
+    this->addCheck(selectedPiece);
 }

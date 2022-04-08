@@ -15,7 +15,7 @@ private:
 
     void addPossibleMovements(const Piece *selectedPiece);
     void addSelectedPiece(const Piece *selectedPiece); 
-    void addCheck();
+    void addCheck(const Piece *selectedPiece);
 
 public:
     BoardStatus(const PlayerManager *players);
