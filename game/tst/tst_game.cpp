@@ -6,7 +6,7 @@
 #include "iplayer.h"
 #include "pawn.h"
 #include "board.h"
-#include "boardengine_testcases_data.h"
+#include "testcases_data.h"
 
 class BoardMock : public IBoard
 {
@@ -128,7 +128,7 @@ TEST(GameTestCase, MoveTestCase1)
 
 TEST(GameTestCase, EndingGame)
 {
-    using namespace checkMate;
+    CheckMate t;
 
     IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
     IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
@@ -147,9 +147,9 @@ TEST(GameTestCase, EndingGame)
     PlayerMock* const mock1 = new PlayerMock();
     PlayerMock* const mock2 = new PlayerMock();
 
-    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(king_position));
-    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
     players = new PlayerManager(mock1, mock2, &turn);
     board = new Board(players);
