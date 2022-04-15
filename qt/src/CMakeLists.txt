@@ -3,7 +3,7 @@ set(SRCS
     boardmodel.cpp
     squaremodel.cpp
 )
-set(BINARY ${PROJECT_NAME})
+set(BINARY ${PROJECT_NAME}_client)
 
 qt5_add_resources(RESOURCES ../qml.qrc)
 add_executable(${BINARY} ${SRCS} ${RESOURCES})
