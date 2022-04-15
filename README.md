@@ -3,15 +3,13 @@ Didactic project created to test and implement C++ in a Object Oriented approach
 
 [![CMake](https://github.com/sedoski20/chessGame/actions/workflows/build.yml/badge.svg)](https://github.com/sedoski20/chessGame/actions/workflows/build.yml) [![Microsoft C++ Code Analysis](https://github.com/sedoski20/chessGame/actions/workflows/msvc.yml/badge.svg)](https://github.com/sedoski20/chessGame/actions/workflows/msvc.yml)
 
-![](https://github.com/sedoski20/chessGame/tree/master/doc/main.PNG)
-
-* Add image off the game
-* Add badges
-
+![](/doc/main.PNG)
 
 ## Contents
 
 * Introduction
+* The Game
+* Project Requirements
 * Setting Up
 * How to contribute
 * Documentation
@@ -52,15 +50,20 @@ For more game details and rules: https://www.chess.com/learn-how-to-play-chess.
 
 The gameplay is simple, the two players must use the same device and the interaction is done by mouse clicks. The player 1 starts with the bottom pieces (whites). 
 
-* By clicking in one piece, it will be selected and possible movements will be highlighted on the board. With a second click, if the position is one of the possible movements, it is possible to move the selected piece,  otherwise the piece will be unselected. 
+![](https://i.giphy.com/media/71wW6cZUvQyMdet34g/giphy.gif)
 
-* After a movement the turn will be updated to the next player.
+
+* By clicking in one piece, it will be selected and possible movements will be highlighted on the board. 
+  
+* With a second click, if the position is valid, the selected piece can be moved,  otherwise the piece will be unselected. 
 
 * When the one of the possible movement is an attack, the highlighted color will be red and after the movement the opponent piece will be captured.
 
 * When the king of the current player is in check and it isn't the selected piece its position will be red highlighted as well.
 
 * When the player is in check mate the game ends and a message is shown to inform the winner.
+  
+* After a movement the turn will be updated to the next player.
 
 ## Project Requirements
 
