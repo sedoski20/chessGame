@@ -1,7 +1,9 @@
 # ChessGame
 Didactic project created to test and implement C++ in a Object Oriented approach and following the Clear Code rules.
 
-![] doc/main.PNG
+[![CMake](https://github.com/sedoski20/chessGame/actions/workflows/build.yml/badge.svg)](https://github.com/sedoski20/chessGame/actions/workflows/build.yml) [![Microsoft C++ Code Analysis](https://github.com/sedoski20/chessGame/actions/workflows/msvc.yml/badge.svg)](https://github.com/sedoski20/chessGame/actions/workflows/msvc.yml)
+
+![](https://github.com/sedoski20/chessGame/doc/main.PNG)
 
 * Add image off the game
 * Add badges
