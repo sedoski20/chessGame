@@ -22,6 +22,14 @@ Player::Player(MovementDirection direction)
     createPawns(second_row);
 }
 
+Player::~Player()
+{
+    for(auto piece : this->pieces)
+        delete piece;
+        
+    this->pieces.clear();
+}
+
 
 void Player::createPawns(int referenceRow) 
 {
@@ -103,6 +111,8 @@ bool Player::capturePiece(Position target)
         return false;
 
     this->pieces.remove(piece);
+    
+    delete piece;
     return true;
 }
 

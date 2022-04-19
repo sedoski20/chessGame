@@ -23,6 +23,10 @@ TEST(PieceTestCase, find1)
 	Piece *result = Piece::find(pieces, check);
 	EXPECT_EQ(result->getType(), PieceType::ROOK);
 	EXPECT_EQ(result->getPosition(), check);
+
+	delete m1;
+	delete m2;
+	delete m3;
 }
 TEST(PawnTestCase, ConstructorTest1)
 {
@@ -192,9 +196,6 @@ TEST(RookTestCase, PossibleMovements2)
 		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
-		
-		std::cout << "Horizontal: " << std::endl;
-		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 
 	//Vertical check
@@ -209,9 +210,6 @@ TEST(RookTestCase, PossibleMovements2)
 		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
-
-		std::cout << "Vertical: " << std::endl;
-		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
 TEST(RookTestCase, PossibleMovements3)
@@ -245,9 +243,6 @@ TEST(RookTestCase, PossibleMovements3)
 		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
-		
-		std::cout << "Horizontal: " << std::endl;
-		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 
 	//Vertical check
@@ -262,9 +257,6 @@ TEST(RookTestCase, PossibleMovements3)
 		iterator = std::find(possible_movements.begin(), possible_movements.end(), expected);
 		bool found_m1 = (iterator != std::end(possible_movements));
 		EXPECT_EQ(found_m1, result);
-
-		std::cout << "Vertical: " << std::endl;
-		std::cout << "Linha: " << expected.row << " Coluna: " << expected.column << " Result: " << result << std::endl;
 	}
 }
 TEST(KnightTestCase, ConstructorTest1)
@@ -303,9 +295,6 @@ TEST(KnightTestCase, PossibleMovements1)
 	{
 		iterator = std::find(possible_movements.begin(), possible_movements.end(), pos);
 		bool result = (iterator != std::end(possible_movements));
-
-		EXPECT_EQ(result, true);
-		std::cout << "Linha: " << pos.row << " Coluna: " << pos.column << " Result: " << result << std::endl;
 	}
 }
 TEST(KnightTestCase, PossibleMovements2)
