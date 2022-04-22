@@ -1,8 +1,9 @@
 #include <iostream>
 #include "game.h"
 #include "board.h"
-#include "playermanager.h"
 #include "player.h"
+#include "boardengine.h"
+#include "boardstatus.h"
 
 
 Game::Game()
@@ -48,12 +49,28 @@ void Game::selectPosition(Position position)
     }
 }
 
-const BoardStatus Game::getBoardStatus() const 
+const std::list<PositionStatus> Game::getHighlightedPositions() const
 {
     BoardStatus board_status(players);
     board_status.update(this->board->getSelectedPiece());
 
-    return board_status;
+    return board_status.getHighlightedPositions();
+}
+
+const std::list<PieceInfo> Game::getPlayer1Pieces() const
+{
+    BoardStatus board_status(players);
+    board_status.update(this->board->getSelectedPiece());
+
+    return board_status.getPlayer1Pieces();   
+}
+
+const std::list<PieceInfo> Game::getPlayer2Pieces() const
+{
+    BoardStatus board_status(players);
+    board_status.update(this->board->getSelectedPiece());
+
+    return board_status.getPlayer2Pieces();   
 }
 
 const GameStatus Game::getGameStatus() const

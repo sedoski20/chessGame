@@ -2,7 +2,8 @@
 #define GAMEINTERFACE_H
 
 #include "position.h"
-#include "boardstatus.h"
+#include "pieceinfo.h"
+#include "positionstatus.h"
 
 enum class GameStatus
 {
@@ -17,8 +18,10 @@ class IGame
 public:
     virtual void selectPosition(Position position) = 0;
     virtual const GameStatus getGameStatus() const = 0;
-    virtual const BoardStatus getBoardStatus() const = 0;
-    virtual PlayerTurn getPlayerTurn() const = 0;
+    virtual const std::list<PositionStatus> getHighlightedPositions() const = 0;
+    virtual const std::list<PieceInfo> getPlayer1Pieces() const = 0;
+    virtual const std::list<PieceInfo> getPlayer2Pieces() const = 0;
+    // virtual PlayerTurn getPlayerTurn() const = 0;
 };
 
 #endif // GAMEINTERFACE_H
