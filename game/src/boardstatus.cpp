@@ -52,14 +52,24 @@ std::list<PositionStatus> BoardStatus::getHighlightedPositions() const
     return this->boardStatus;
 }
 
-std::list<const Piece*> BoardStatus::getPlayer1Pieces() const 
+std::list<PieceInfo> BoardStatus::getPlayer1Pieces() const 
 {
-    return this->players->getPlayer1()->getPieces();
+    std::list<PieceInfo> pieces;
+
+    for(auto piece : this->players->getPlayer1()->getPieces())
+        pieces.push_back(PieceInfo(piece->getPosition(), piece->getType()));
+
+    return pieces;
 }
 
-std::list<const Piece*> BoardStatus::getPlayer2Pieces() const 
+std::list<PieceInfo> BoardStatus::getPlayer2Pieces() const 
 {
-    return this->players->getPlayer2()->getPieces();
+    std::list<PieceInfo> pieces;
+
+    for(auto piece : this->players->getPlayer2()->getPieces())
+        pieces.push_back(PieceInfo(piece->getPosition(), piece->getType()));
+
+    return pieces;
 }
 
 void BoardStatus::update(const Piece *selectedPiece)
