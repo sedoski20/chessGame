@@ -8,6 +8,7 @@
 #include "boardmodel.h"
 #include "igame.h"
 #include "game.h"
+#include "serverinterface.h"
 
 
 int main(int argc, char *argv[])
@@ -15,7 +16,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    Game game;
+    // Game game;
+    ServerInterface game("localhost:50051");
     IGame *igame = &game;
 
     BoardModel board(igame);
