@@ -1,0 +1,74 @@
+syntax = "proto3";
+package GameInterface;
+
+service ServerRequest
+{
+    rpc connect(Name) returns (PlayerID) {};
+    rpc click(Position) returns (Empty) {};
+    rpc getGameStatus(Empty) returns (GameStatus) {};
+    rpc getHighLightedPositions(Empty) returns (stream PositionStatus) {};
+    rpc getPlayer1Pieces(Empty) returns (stream PlayerPieces) {};
+    rpc getPlayer2Pieces(Empty) returns (stream PlayerPieces) {};
+}
+
+message Empty {}
+
+message Name
+{
+    string name = 1;
+}
+
+message PlayerID
+{
+    int32 id = 1;
+}
+
+message Position
+{
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message GameStatus
+{
+    enum Status
+    {
+        INITIAL = 0;
+        PLAYING = 1;
+        ENDED = 2;
+    };
+
+    Status status = 1;
+}
+
+message PositionStatus
+{
+    enum Status
+    {
+        NORMAL = 0;
+        HIGHLIGHTED = 1;
+        SELECTED = 2;
+        ATTACK = 3;
+        CHECK = 4;
+    };
+
+    Position position = 1;
+    Status status = 2;
+}
+
+message PlayerPieces
+{
+    enum PieceType
+    {
+        ROOK = 0;
+        KNIGHT = 1;
+        BISHOP = 2; 
+        QUEEN = 3;
+        KING = 4;
+        PAWN = 5;
+    };
+
+    Position position = 1;
+    PieceType pieceType = 2;
+}
+
