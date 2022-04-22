@@ -93,7 +93,7 @@ bool BoardModel::select(int index)
     SquareModel *square = dynamic_cast<SquareModel*>(findSquare(index));
     i_game->selectPosition(Position(square->getRow(), square->getColumn()));
 
-    std::list<PositionStatus> board_status = i_game->getBoardStatus().getHighlightedPositions();
+    std::list<PositionStatus> board_status = i_game->getHighlightedPositions();
 
     resetSquares();
 
@@ -107,7 +107,8 @@ bool BoardModel::select(int index)
     }
 
     updatePieces();
-    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    // bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    bool is_player1_turn = true;
     setIsPlayer1Turn(is_player1_turn);
 
     GameStatus status = i_game->getGameStatus();
@@ -119,33 +120,33 @@ bool BoardModel::select(int index)
 
 void BoardModel::updatePieces()
 {
-    std::list<const Piece*> player1 = i_game->getBoardStatus().getPlayer1Pieces();
-    std::list<const Piece*> player2 = i_game->getBoardStatus().getPlayer2Pieces();
+    std::list<PieceInfo> player1 = i_game->getPlayer1Pieces();
+    std::list<PieceInfo> player2 = i_game->getPlayer2Pieces();
 
     for(auto piece : player1)
     {
-        int row = piece->getPosition().row;
-        int column = piece->getPosition().column;
+        int row = piece.position().row;
+        int column = piece.position().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece->getType(), true);
+            QString path = getPiecePath(piece.type(), true);
             square->setIconPath(path);
         }
     }
 
     for(auto piece : player2)
     {
-        int row = piece->getPosition().row;
-        int column = piece->getPosition().column;
+        int row = piece.position().row;
+        int column = piece.position().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece->getType(), false);
+            QString path = getPiecePath(piece.type(), false);
             square->setIconPath(path);
         }
     }
