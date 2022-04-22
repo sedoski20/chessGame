@@ -41,7 +41,7 @@ grpc::Status Request::getGameStatus(ServerContext* context, const Empty* request
 
 grpc::Status Request::getHighLightedPositions(ServerContext* context, const Empty* request, ServerWriter<GameInterface::PositionStatus>* writer) 
 {
-    std::list<PositionStatus> positions = this->game->getBoardStatus().getHighlightedPositions();
+    std::list<PositionStatus> positions = this->game->getHighlightedPositions();
 
     for(auto status : positions)
     {
@@ -64,7 +64,7 @@ grpc::Status Request::getHighLightedPositions(ServerContext* context, const Empt
 
 grpc::Status Request::getPlayer1Pieces(ServerContext* context, const Empty* request, ServerWriter<PlayerPieces>* writer) 
 {
-    std::list<const Piece *> pieces = this->game->getBoardStatus().getPlayer1Pieces();
+    std::list<PieceInfo> pieces = this->game->getPlayer1Pieces();
 
     for(auto piece : pieces)
     {
@@ -72,9 +72,9 @@ grpc::Status Request::getPlayer1Pieces(ServerContext* context, const Empty* requ
         ::GameInterface::Position position;
         ::GameInterface::PlayerPieces_PieceType type;
 
-        position.set_x(piece->getPosition().row);
-        position.set_y(piece->getPosition().column);
-        type = static_cast<::GameInterface::PlayerPieces_PieceType>(piece->getType());
+        position.set_x(piece.position().row);
+        position.set_y(piece.position().column);
+        type = static_cast<::GameInterface::PlayerPieces_PieceType>(piece.type());
 
         player_piece->set_piecetype(type);
         player_piece->set_allocated_position(&position);
@@ -87,7 +87,7 @@ grpc::Status Request::getPlayer1Pieces(ServerContext* context, const Empty* requ
 
 grpc::Status Request::getPlayer2Pieces(ServerContext* context, const Empty* request, ServerWriter<PlayerPieces>* writer) 
 {
-    std::list<const Piece *> pieces = this->game->getBoardStatus().getPlayer2Pieces();
+    std::list<PieceInfo> pieces = this->game->getPlayer2Pieces();
 
     for(auto piece : pieces)
     {
@@ -95,9 +95,9 @@ grpc::Status Request::getPlayer2Pieces(ServerContext* context, const Empty* requ
         ::GameInterface::Position position;
         ::GameInterface::PlayerPieces_PieceType type;
 
-        position.set_x(piece->getPosition().row);
-        position.set_y(piece->getPosition().column);
-        type = static_cast<::GameInterface::PlayerPieces_PieceType>(piece->getType());
+        position.set_x(piece.position().row);
+        position.set_y(piece.position().column);
+        type = static_cast<::GameInterface::PlayerPieces_PieceType>(piece.type());
 
         player_piece->set_piecetype(type);
         player_piece->set_allocated_position(&position);
