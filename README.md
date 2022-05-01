@@ -10,7 +10,10 @@ Didactic project created to test and implement C++ in a Object Oriented approach
 * Introduction
 * The Game
 * Project Requirements
+<<<<<<< Updated upstream
 * Project Architecture
+=======
+>>>>>>> Stashed changes
 * Setting Up
 * How to contribute
 * Documentation
@@ -53,6 +56,13 @@ The gameplay is simple, the two players must use the same device and the interac
 
 ![](https://i.giphy.com/media/71wW6cZUvQyMdet34g/giphy.gif)
 
+<<<<<<< Updated upstream
+=======
+
+* By clicking in one piece, it will be selected and possible movements will be highlighted on the board. 
+  
+* With a second click, if the position is valid, the selected piece can be moved,  otherwise the piece will be unselected. 
+>>>>>>> Stashed changes
 
 * By clicking in a piece, it will be selected and possible movements will be highlighted on the board. 
   
@@ -60,9 +70,13 @@ The gameplay is simple, the two players must use the same device and the interac
 
 * When one of the possible movement is an attack, the highlighted color will be red and after the movement, the opponent piece will be captured.
 
+<<<<<<< Updated upstream
 * When the king of the current player is in check and it isn't the selected piece, its position will be red highlighted as well.
 
 * When the player is in check mate, the game ends and the winner is showed in a message.
+=======
+* When the player is in check mate the game ends and a message is shown to inform the winner.
+>>>>>>> Stashed changes
   
 * After a movement the turn will be updated to the next player.
 
