@@ -10,6 +10,7 @@ Didactic project created to test and implement C++ in a Object Oriented approach
 * Introduction
 * The Game
 * Project Requirements
+* Project Architecture
 * Setting Up
 * How to contribute
 * Documentation
@@ -20,7 +21,7 @@ ChessGame is a C++ project that enables the user to play Chess in a virtual envi
 The engine use STL's functions and all the logic was created during the development. 
 We use Qt and QML for the GUI, which allow us to create some great effects and provide a better user experience.
 
-Learning and understanding software design and development is the main goal of this project. It includes many concepts such as object oriented programming, C++, Qt, CMake, software Architecture, UML and software documentation. Writing this simple README also has a value for the learning process as a Software Engineer.
+Learning software design and development is the main goal of this project. It includes many concepts such as object oriented programming, C++, Qt, CMake, software Architecture, UML and software documentation. Writing this simple README also has a value for the learning process as a Software Engineer.
 
 ## The Game
 
@@ -37,7 +38,7 @@ The game follow the rules of the well known chess. There are a board, two player
 
 And each piece has your own rule to move on the board.
 
-There are 3 important situations:
+There are 4 special situations:
 
 * **Check:** when the king is one unsafe position and can be captured.
 * **Check Mate:** When the king certaily will be captured on the next turn, so the game has finished
@@ -53,15 +54,15 @@ The gameplay is simple, the two players must use the same device and the interac
 ![](https://i.giphy.com/media/71wW6cZUvQyMdet34g/giphy.gif)
 
 
-* By clicking in one piece, it will be selected and possible movements will be highlighted on the board. 
+* By clicking in a piece, it will be selected and possible movements will be highlighted on the board. 
   
 * With a second click, if the position is valid, the selected piece can be moved,  otherwise the piece will be unselected. 
 
-* When the one of the possible movement is an attack, the highlighted color will be red and after the movement the opponent piece will be captured.
+* When one of the possible movement is an attack, the highlighted color will be red and after the movement, the opponent piece will be captured.
 
-* When the king of the current player is in check and it isn't the selected piece its position will be red highlighted as well.
+* When the king of the current player is in check and it isn't the selected piece, its position will be red highlighted as well.
 
-* When the player is in check mate the game ends and a message is shown to inform the winner.
+* When the player is in check mate, the game ends and the winner is showed in a message.
   
 * After a movement the turn will be updated to the next player.
 
@@ -83,6 +84,21 @@ This sections aims to list the main requirements of this project.
 * The game must highlight the king when it is in check.
 * The game must show a message when the game finishes.
 
+### Project Architecture
+
+## Setting Up
+
+### Prerequisits
+
+You will need:
+
+* CMake 
+* C++ Compiler
+
+### Building the Game
+### Running the Game
+### Building the Tests 
+### Running the Tests
 
 
 
