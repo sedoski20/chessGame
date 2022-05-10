@@ -35,7 +35,7 @@ TEST(GameTestCase, Starting)
     Game game;
 
     EXPECT_EQ(game.getGameStatus(), GameStatus::PLAYING);
-    EXPECT_EQ(game.getBoardStatus().getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
 }
 
@@ -63,14 +63,12 @@ TEST(GameTestCase, FirstClickOnEmpty)
     EXPECT_CALL(mock, select(first_click))
     .WillOnce(Return(false));
 
-    BoardStatus status = game.getBoardStatus(); 
-    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 0);
 
     //Try to select a empty position
     game.selectPosition(Position(5, 5));
 
-    status = game.getBoardStatus(); 
-    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
 }
 
@@ -86,8 +84,7 @@ TEST(GameTestCase, MoveTestCase1)
     IBoard* board = &mock;
     Game game(board, players);
 
-    BoardStatus status = game.getBoardStatus(); 
-    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     
     Position first_click(1, 0);
     Position second_click(3, 0);
@@ -111,14 +108,12 @@ TEST(GameTestCase, MoveTestCase1)
     EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER1);
     game.selectPosition(first_click);
 
-    status = game.getBoardStatus();
-    EXPECT_EQ(status.getHighlightedPositions().size(), 3);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 3);
 
     //Try to move the first pawn
     game.selectPosition(second_click);
-    status = game.getBoardStatus();
 
-    EXPECT_EQ(status.getHighlightedPositions().size(), 0);
+    EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER2);
 }
 
