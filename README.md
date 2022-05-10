@@ -10,9 +10,10 @@ Didactic project created to test and implement C++ in a Object Oriented approach
 * Introduction
 * The Game
 * Project Requirements
+* Project Architecture
 * Setting Up
 * How to contribute
-* Documentation
+  
 
 ## Introduction
 
@@ -52,14 +53,13 @@ The gameplay is simple, the two players must use the same device and the interac
 
 ![](https://i.giphy.com/media/71wW6cZUvQyMdet34g/giphy.gif)
 
-
 * By clicking in one piece, it will be selected and possible movements will be highlighted on the board. 
   
 * With a second click, if the position is valid, the selected piece can be moved,  otherwise the piece will be unselected. 
 
-* When the one of the possible movement is an attack, the highlighted color will be red and after the movement the opponent piece will be captured.
+* When one of the possible movement is an attack, the highlighted color will be red and after the movement the opponent piece will be captured.
 
-* When the king of the current player is in check and it isn't the selected piece its position will be red highlighted as well.
+* When the king of the current player is in check and it isn't the selected piece, its position will be red highlighted as well.
 
 * When the player is in check mate the game ends and a message is shown to inform the winner.
   
@@ -67,22 +67,65 @@ The gameplay is simple, the two players must use the same device and the interac
 
 ## Project Requirements
 
-This sections aims to list the main requirements of this project.
-
-* The game must have a board with 64 positions.
+* The game must follow the rules of a conventional chess game.
 * The game board must have 2 different colors.
-* The game must have 2 players.
-* The player must start with 16 Pieces.
-* The player pieces must be arranged as follow: 16 paws, 2 rooks, 2 knights, 2 bishops, 1 queen and 1  king.
-* The pieces must have 2 colors.
-* The player must select a piece by cicking on it position.
-* The player must move a piece by clicking in a valid destination.
+* The player must be able to select a piece by cicking on it position.
+* The player must be able to move a piece by clicking in a valid destination.
 * The piece must be moved only when it was selected previously.
-* The game must highlight the possible movements when a piece is selected.
-* The game must highlight the attacks.
-* The game must highlight the king when it is in check.
-* The game must show a message when the game finishes.
+* The game interface must highlight the possible movements when a piece is selected.
+* The game interface must highlight the attacks.
+* The game interface must highlight the king when it is in check.
+* The game interface must show a message when the game finishes.
 
+### Project Architecture
+
+The project architecture illustraded in the diagram below, shows the modules of the game and the relation among them. The server-client pattern is used to ensure the multiplayer mode remotly. When the user wants to play chess with a friend in different devices, the server side handle the connections, and execute the game engine. Otherwise, when the user wants to play offline, the client side create an instance of the game engine and runs it internally.
+
+In the online mode, the connection between the devices is done by the gRPC framework, which create the sockets, manage the requests from each side and handle refuse errors. If you want to get more details of gRPC way of working please refer to https://grpc.io/.
+
+The client side is responsible to render the graphical interface, this is done by the Qt framework. The graphics were created using QtQuick module (QML), which enable us to get complex effects and animations easyier than the most C++ GUI frameworks.
+
+Finally, an executable responsible for testing the game engine is part of the architecture as well. Google Testing framework was used here to unit testing and mocking. The testcases provided ensures that the game logic's is working as expected.
+
+![](/doc/component_diagram.png)
+
+## Setting Up
+
+First of all you need to clone this repository into your file system, make sure to include the **submodules** adding the `--recurse-submodules -j8` parameter in the command.
+
+```git clone --recurse-submodules -j8 https://github.com/sedoski20/chessGame```
+
+### Prerequisits
+
+* CMake 
+* C++ Compiler 
+* Qt 5.12 or higher 
+* Protobuf
+* gRPC
+
+### Building the Project
+
+Go to the directory where you have clone the repository. Run the following commands:
+
+```bash
+$ cd chessgame
+$ cmake -S ./ -B ./build
+$ cmake --build ./build --config Release
+```
+
+After building the project, the artifacts will be available as follow:
+
+```bash
+./build/bin/
+├── game
+│   └── ChessGame_tst
+├── server
+│   └── ChessGame_server
+└── client
+    └── ChessGame_client
+```
+
+Another files are built and linked during the building, but the just these 3 executables are relevant to the user.
 
 
 
