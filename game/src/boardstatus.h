@@ -10,13 +10,12 @@
 class BoardStatus
 {
 private:
-    const BoardEngine *boardEngine;
     const PlayerManager *players;
     std::list<PositionStatus> boardStatus;
 
     void addPossibleMovements(const Piece *selectedPiece);
     void addSelectedPiece(const Piece *selectedPiece); 
-    void addCheck();
+    void addCheck(const Piece *selectedPiece);
 
 public:
     BoardStatus(const PlayerManager *players);

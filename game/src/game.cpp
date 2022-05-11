@@ -20,6 +20,14 @@ Game::Game(IBoard *board, PlayerManager *players) : board(board), players(player
     this->turn = PlayerTurn::TURN_PLAYER1;
 }
 
+Game::~Game()
+{
+    delete this->board;
+    delete this->players->getPlayer1();
+    delete this->players->getPlayer2();
+    delete this->players;
+}
+
 void Game::updateTurn() 
 {
     (this->turn == PlayerTurn::TURN_PLAYER1) ? this->turn = PlayerTurn::TURN_PLAYER2

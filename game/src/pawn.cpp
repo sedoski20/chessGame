@@ -12,6 +12,8 @@ Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
 		this->direction = MovementDirection::MOVING_DOWN;
 }
 
+Pawn::~Pawn() {}
+
 std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) const
 {
 	std::list<Position> possible_movements;

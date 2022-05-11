@@ -21,6 +21,7 @@ private:
 public:
     Game();
     Game(IBoard *board, PlayerManager * players);
+    ~Game();
     void selectPosition(Position position);
     const BoardStatus getBoardStatus() const;
     const GameStatus getGameStatus() const;

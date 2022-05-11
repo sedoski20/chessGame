@@ -6,6 +6,8 @@ Piece::Piece(Position initialPostion)
 	this->position = initialPostion;
 }
 
+Piece::~Piece() {}
+
 Position Piece::getPosition() const
 {
 	return this->position;
