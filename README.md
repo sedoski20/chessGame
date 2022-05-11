@@ -21,7 +21,7 @@ ChessGame is a C++ project that enables the user to play Chess in a virtual envi
 The engine use STL's functions and all the logic was created during the development. 
 We use Qt and QML for the GUI, which allow us to create some great effects and provide a better user experience.
 
-Learning and understanding software design and development is the main goal of this project. It includes many concepts such as object oriented programming, C++, Qt, CMake, software Architecture, UML and software documentation. Writing this simple README also has a value for the learning process as a Software Engineer.
+Learning the main goal of this project, which includes many concepts such as object oriented programming, C++, Qt, CMake, software Architecture, UML and software documentation. Writing this simple README has a value for the learning process as well.
 
 ## The Game
 
@@ -38,7 +38,7 @@ The game follow the rules of the well known chess. There are a board, two player
 
 And each piece has your own rule to move on the board.
 
-There are 3 important situations:
+There are 4 special situations:
 
 * **Check:** when the king is one unsafe position and can be captured.
 * **Check Mate:** When the king certaily will be captured on the next turn, so the game has finished
@@ -49,7 +49,7 @@ For more game details and rules: https://www.chess.com/learn-how-to-play-chess.
 
 ### Gameplay
 
-The gameplay is simple, the two players must use the same device and the interaction is done by mouse clicks. The player 1 starts with the bottom pieces (whites). 
+The gameplay is simple, the  players can use the same device or play remotly. The interaction is done by mouse clicks.
 
 ![](https://i.giphy.com/media/71wW6cZUvQyMdet34g/giphy.gif)
 
@@ -68,7 +68,6 @@ The gameplay is simple, the two players must use the same device and the interac
 ## Project Requirements
 
 * The game must follow the rules of a conventional chess game.
-* The game board must have 2 different colors.
 * The player must be able to select a piece by cicking on it position.
 * The player must be able to move a piece by clicking in a valid destination.
 * The piece must be moved only when it was selected previously.
@@ -127,6 +126,37 @@ After building the project, the artifacts will be available as follow:
 
 Another files are built and linked during the building, but the just these 3 executables are relevant to the user.
 
+### Running the game
+
+You can run the game in different ways according to the mode you want to play. For online mode you will need to run both the server and the client application. If you want to play in just one screen you will need to run only the client application.
+
+* Online Mode
+
+```bash
+$ cd chessgame/build/bin/server
+$ ./ChessGame_server
+
+$ cd chessgame/build/bin/client
+$ ./ChessGame_client
+```
+
+* Offline Mode
+
+```bash
+$ cd chessgame/build/bin/client
+$ ./ChessGame_client
+```
+
+### Running the tests
+
+The game engine can be tested using the testing application. This uses the Google testing framework to create test reports, improve the testing code and provide mocking classes. To get the result of the unit tests, you just need to run the test application and a summary will be printed on the terminal. 
+
+If you added some feature to the project, you will need to update the unit tests to cover this feature as well.
+
+```bash
+$ cd chessgame/build/bin/game
+$ ./ChessGame_tst
+```
 
 
 
