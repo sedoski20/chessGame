@@ -3,7 +3,6 @@
 
 #include "iboard.h"
 #include "igame.h"
-#include "playerturn.h"
 #include "playermanager.h"
 
 class Game : public IGame
