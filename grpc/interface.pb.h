@@ -48,7 +48,7 @@ struct TableStruct_interface_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[7]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,6 +56,9 @@ struct TableStruct_interface_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_interface_2eproto;
 namespace GameInterface {
+class ClickRequest;
+struct ClickRequestDefaultTypeInternal;
+extern ClickRequestDefaultTypeInternal _ClickRequest_default_instance_;
 class Empty;
 struct EmptyDefaultTypeInternal;
 extern EmptyDefaultTypeInternal _Empty_default_instance_;
@@ -79,6 +82,7 @@ struct PositionStatusDefaultTypeInternal;
 extern PositionStatusDefaultTypeInternal _PositionStatus_default_instance_;
 }  // namespace GameInterface
 PROTOBUF_NAMESPACE_OPEN
+template<> ::GameInterface::ClickRequest* Arena::CreateMaybeMessage<::GameInterface::ClickRequest>(Arena*);
 template<> ::GameInterface::Empty* Arena::CreateMaybeMessage<::GameInterface::Empty>(Arena*);
 template<> ::GameInterface::GameStatus* Arena::CreateMaybeMessage<::GameInterface::GameStatus>(Arena*);
 template<> ::GameInterface::Name* Arena::CreateMaybeMessage<::GameInterface::Name>(Arena*);
@@ -1307,6 +1311,178 @@ class PlayerPieces final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_interface_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ClickRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:GameInterface.ClickRequest) */ {
+ public:
+  inline ClickRequest() : ClickRequest(nullptr) {}
+  ~ClickRequest() override;
+  explicit constexpr ClickRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ClickRequest(const ClickRequest& from);
+  ClickRequest(ClickRequest&& from) noexcept
+    : ClickRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ClickRequest& operator=(const ClickRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ClickRequest& operator=(ClickRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ClickRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ClickRequest* internal_default_instance() {
+    return reinterpret_cast<const ClickRequest*>(
+               &_ClickRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(ClickRequest& a, ClickRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ClickRequest* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ClickRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ClickRequest* New() const final {
+    return new ClickRequest();
+  }
+
+  ClickRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ClickRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ClickRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const ClickRequest& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ClickRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "GameInterface.ClickRequest";
+  }
+  protected:
+  explicit ClickRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPositionFieldNumber = 1,
+    kIdFieldNumber = 2,
+  };
+  // .GameInterface.Position position = 1;
+  bool has_position() const;
+  private:
+  bool _internal_has_position() const;
+  public:
+  void clear_position();
+  const ::GameInterface::Position& position() const;
+  PROTOBUF_MUST_USE_RESULT ::GameInterface::Position* release_position();
+  ::GameInterface::Position* mutable_position();
+  void set_allocated_position(::GameInterface::Position* position);
+  private:
+  const ::GameInterface::Position& _internal_position() const;
+  ::GameInterface::Position* _internal_mutable_position();
+  public:
+  void unsafe_arena_set_allocated_position(
+      ::GameInterface::Position* position);
+  ::GameInterface::Position* unsafe_arena_release_position();
+
+  // .GameInterface.PlayerID id = 2;
+  bool has_id() const;
+  private:
+  bool _internal_has_id() const;
+  public:
+  void clear_id();
+  const ::GameInterface::PlayerID& id() const;
+  PROTOBUF_MUST_USE_RESULT ::GameInterface::PlayerID* release_id();
+  ::GameInterface::PlayerID* mutable_id();
+  void set_allocated_id(::GameInterface::PlayerID* id);
+  private:
+  const ::GameInterface::PlayerID& _internal_id() const;
+  ::GameInterface::PlayerID* _internal_mutable_id();
+  public:
+  void unsafe_arena_set_allocated_id(
+      ::GameInterface::PlayerID* id);
+  ::GameInterface::PlayerID* unsafe_arena_release_id();
+
+  // @@protoc_insertion_point(class_scope:GameInterface.ClickRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::GameInterface::Position* position_;
+  ::GameInterface::PlayerID* id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_interface_2eproto;
+};
 // ===================================================================
 
 
@@ -1688,9 +1864,195 @@ inline void PlayerPieces::set_piecetype(::GameInterface::PlayerPieces_PieceType 
   // @@protoc_insertion_point(field_set:GameInterface.PlayerPieces.pieceType)
 }
 
+// -------------------------------------------------------------------
+
+// ClickRequest
+
+// .GameInterface.Position position = 1;
+inline bool ClickRequest::_internal_has_position() const {
+  return this != internal_default_instance() && position_ != nullptr;
+}
+inline bool ClickRequest::has_position() const {
+  return _internal_has_position();
+}
+inline void ClickRequest::clear_position() {
+  if (GetArenaForAllocation() == nullptr && position_ != nullptr) {
+    delete position_;
+  }
+  position_ = nullptr;
+}
+inline const ::GameInterface::Position& ClickRequest::_internal_position() const {
+  const ::GameInterface::Position* p = position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::GameInterface::Position&>(
+      ::GameInterface::_Position_default_instance_);
+}
+inline const ::GameInterface::Position& ClickRequest::position() const {
+  // @@protoc_insertion_point(field_get:GameInterface.ClickRequest.position)
+  return _internal_position();
+}
+inline void ClickRequest::unsafe_arena_set_allocated_position(
+    ::GameInterface::Position* position) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position_);
+  }
+  position_ = position;
+  if (position) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:GameInterface.ClickRequest.position)
+}
+inline ::GameInterface::Position* ClickRequest::release_position() {
+  
+  ::GameInterface::Position* temp = position_;
+  position_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::GameInterface::Position* ClickRequest::unsafe_arena_release_position() {
+  // @@protoc_insertion_point(field_release:GameInterface.ClickRequest.position)
+  
+  ::GameInterface::Position* temp = position_;
+  position_ = nullptr;
+  return temp;
+}
+inline ::GameInterface::Position* ClickRequest::_internal_mutable_position() {
+  
+  if (position_ == nullptr) {
+    auto* p = CreateMaybeMessage<::GameInterface::Position>(GetArenaForAllocation());
+    position_ = p;
+  }
+  return position_;
+}
+inline ::GameInterface::Position* ClickRequest::mutable_position() {
+  ::GameInterface::Position* _msg = _internal_mutable_position();
+  // @@protoc_insertion_point(field_mutable:GameInterface.ClickRequest.position)
+  return _msg;
+}
+inline void ClickRequest::set_allocated_position(::GameInterface::Position* position) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete position_;
+  }
+  if (position) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::GameInterface::Position>::GetOwningArena(position);
+    if (message_arena != submessage_arena) {
+      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, position, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  position_ = position;
+  // @@protoc_insertion_point(field_set_allocated:GameInterface.ClickRequest.position)
+}
+
+// .GameInterface.PlayerID id = 2;
+inline bool ClickRequest::_internal_has_id() const {
+  return this != internal_default_instance() && id_ != nullptr;
+}
+inline bool ClickRequest::has_id() const {
+  return _internal_has_id();
+}
+inline void ClickRequest::clear_id() {
+  if (GetArenaForAllocation() == nullptr && id_ != nullptr) {
+    delete id_;
+  }
+  id_ = nullptr;
+}
+inline const ::GameInterface::PlayerID& ClickRequest::_internal_id() const {
+  const ::GameInterface::PlayerID* p = id_;
+  return p != nullptr ? *p : reinterpret_cast<const ::GameInterface::PlayerID&>(
+      ::GameInterface::_PlayerID_default_instance_);
+}
+inline const ::GameInterface::PlayerID& ClickRequest::id() const {
+  // @@protoc_insertion_point(field_get:GameInterface.ClickRequest.id)
+  return _internal_id();
+}
+inline void ClickRequest::unsafe_arena_set_allocated_id(
+    ::GameInterface::PlayerID* id) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(id_);
+  }
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:GameInterface.ClickRequest.id)
+}
+inline ::GameInterface::PlayerID* ClickRequest::release_id() {
+  
+  ::GameInterface::PlayerID* temp = id_;
+  id_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::GameInterface::PlayerID* ClickRequest::unsafe_arena_release_id() {
+  // @@protoc_insertion_point(field_release:GameInterface.ClickRequest.id)
+  
+  ::GameInterface::PlayerID* temp = id_;
+  id_ = nullptr;
+  return temp;
+}
+inline ::GameInterface::PlayerID* ClickRequest::_internal_mutable_id() {
+  
+  if (id_ == nullptr) {
+    auto* p = CreateMaybeMessage<::GameInterface::PlayerID>(GetArenaForAllocation());
+    id_ = p;
+  }
+  return id_;
+}
+inline ::GameInterface::PlayerID* ClickRequest::mutable_id() {
+  ::GameInterface::PlayerID* _msg = _internal_mutable_id();
+  // @@protoc_insertion_point(field_mutable:GameInterface.ClickRequest.id)
+  return _msg;
+}
+inline void ClickRequest::set_allocated_id(::GameInterface::PlayerID* id) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete id_;
+  }
+  if (id) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::GameInterface::PlayerID>::GetOwningArena(id);
+    if (message_arena != submessage_arena) {
+      id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, id, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  id_ = id;
+  // @@protoc_insertion_point(field_set_allocated:GameInterface.ClickRequest.id)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

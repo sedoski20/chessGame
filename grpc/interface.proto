@@ -4,7 +4,7 @@ package GameInterface;
 service ServerRequest
 {
     rpc connect(Name) returns (PlayerID) {};
-    rpc click(Position) returns (Empty) {};
+    rpc click(ClickRequest) returns (Empty) {};
     rpc getGameStatus(Empty) returns (GameStatus) {};
     rpc getHighLightedPositions(Empty) returns (stream PositionStatus) {};
     rpc getPlayer1Pieces(Empty) returns (stream PlayerPieces) {};
@@ -72,3 +72,8 @@ message PlayerPieces
     PieceType pieceType = 2;
 }
 
+message ClickRequest
+{
+    Position position = 1;
+    PlayerID id = 2;
+}

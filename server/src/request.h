@@ -22,13 +22,14 @@ using GameInterface::Empty;
 using GameInterface::Name;
 using GameInterface::PlayerID;
 using GameInterface::PlayerPieces;
+using GameInterface::ClickRequest;
 
 class Request : public ServerRequest::Service
 {
     public:
         Request(IGame *game) : game(game) {};
         grpc::Status connect(ServerContext* context, const Name* request, PlayerID* response) override;
-        grpc::Status click(ServerContext* context, const GameInterface::Position* request, Empty* response) override;
+        grpc::Status click(ServerContext* context, const GameInterface::ClickRequest* request, Empty* response) override;
         grpc::Status getGameStatus(ServerContext* context, const Empty* request, GameInterface::GameStatus* response) override;
         grpc::Status getHighLightedPositions(ServerContext* context, const Empty* request, ServerWriter<GameInterface::PositionStatus>* writer) override;
         grpc::Status getPlayer1Pieces(ServerContext* context, const Empty* request, ServerWriter<PlayerPieces>* writer) override;

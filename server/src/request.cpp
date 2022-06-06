@@ -10,17 +10,25 @@ grpc::Status Request::connect(ServerContext* context, const Name* request, Playe
     response->set_id(clients);
 
     std::cout << "Connect requested!" << std::endl;
+    std::cout << "Player " << clients << " Conneted!" << std::endl;
     return  grpc::Status::OK;
 }
 
-grpc::Status Request::click(ServerContext* context, const GameInterface::Position* request, Empty* response) 
+grpc::Status Request::click(ServerContext* context, const GameInterface::ClickRequest* request, Empty* response) 
 {
     if(this->game->getGameStatus() == GameStatus::INITIAL)
         return grpc::Status(StatusCode::FAILED_PRECONDITION, "The game has not started yet!");
 
+    PlayerTurn turn = this->game->getPlayerTurn();
+
+    bool isNotTurn = int(request->id().id()) != (int(turn) + 1);
+
+    if(isNotTurn)
+       return grpc::Status(StatusCode::FAILED_PRECONDITION, "Is not your turn!"); 
+
     Position position;
-    position.row = request->x();
-    position.column = request->y();
+    position.row = request->position().x();
+    position.column = request->position().y();
 
     this->game->selectPosition(position);
 

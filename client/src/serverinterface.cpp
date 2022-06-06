@@ -16,33 +16,51 @@ ServerInterface::ServerInterface(std::string address)
 {
     std::shared_ptr<Channel> channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
     stub = ServerRequest::NewStub(channel);
+    
+    this->isConnected = this->connect("name");
 }
 
-void ServerInterface::connect(std::string name) 
+bool ServerInterface::connect(std::string name) 
 {
     ClientContext context;
     GameInterface::Name name_;
     GameInterface::PlayerID player_id;
 
     name_.set_name(name);
-    stub->connect(&context, name_, &player_id);
+    grpc::Status status = stub->connect(&context, name_, &player_id);
+
+    if(!status.ok())
+        return false;
 
     this->playerId = static_cast<int>(player_id.id());
+    return true;
 }
 
 void ServerInterface::selectPosition(Position position) 
 {
-    ClientContext context;
-    GameInterface::Position target;
-    GameInterface::Empty empty;
-    target.set_x(position.row);
-    target.set_y(position.column);
+    if(!this->isConnected)
+        return;
 
-    stub->click(&context, target, &empty);
+    ClientContext context;
+    GameInterface::PlayerID *player_id = new GameInterface::PlayerID();
+    GameInterface::Position *target = new GameInterface::Position();
+    GameInterface::Empty empty;
+    GameInterface::ClickRequest request;
+
+    target->set_x(position.row);
+    target->set_y(position.column);
+    player_id->set_id(this->playerId);
+    request.set_allocated_id(player_id);
+    request.set_allocated_position(target);
+
+    stub->click(&context, request, &empty);
 }
 
 const GameStatus ServerInterface::getGameStatus() const 
 {
+    if(!this->isConnected)
+        GameStatus::INITIAL;
+        
     ClientContext context;
     GameInterface::Empty empty;
     GameInterface::GameStatus status;
@@ -54,10 +72,14 @@ const GameStatus ServerInterface::getGameStatus() const
 
 const std::list<PositionStatus> ServerInterface::getHighlightedPositions() const 
 {
+    std::list<PositionStatus> highlighted_positions;
+
+    if(!this->isConnected)
+        return highlighted_positions;
+
     ClientContext context;
     GameInterface::Empty empty;
     GameInterface::PositionStatus grpc_position_status;
-    std::list<PositionStatus> highlighted_positions;
 
     std::unique_ptr<ClientReader<GameInterface::PositionStatus>> 
     reader(stub->getHighLightedPositions(&context, empty));
@@ -81,10 +103,14 @@ const std::list<PositionStatus> ServerInterface::getHighlightedPositions() const
 
 const std::list<PieceInfo> ServerInterface::getPlayer1Pieces() const 
 {
+    std::list<PieceInfo> pieces;
+    
+    if(!this->isConnected)
+        return pieces;
+
     ClientContext context;
     GameInterface::Empty empty;
     GameInterface::PlayerPieces grpc_piece;
-    std::list<PieceInfo> pieces;
 
     std::unique_ptr<ClientReader<GameInterface::PlayerPieces>> 
     reader(stub->getPlayer1Pieces(&context, empty));
@@ -108,10 +134,14 @@ const std::list<PieceInfo> ServerInterface::getPlayer1Pieces() const
 
 const std::list<PieceInfo> ServerInterface::getPlayer2Pieces() const 
 {
+    std::list<PieceInfo> pieces;
+
+    if(!this->isConnected)
+        return pieces;
+
     ClientContext context;
     GameInterface::Empty empty;
     GameInterface::PlayerPieces grpc_piece;
-    std::list<PieceInfo> pieces;
 
     std::unique_ptr<ClientReader<GameInterface::PlayerPieces>> 
     reader(stub->getPlayer2Pieces(&context, empty));
@@ -131,5 +161,11 @@ const std::list<PieceInfo> ServerInterface::getPlayer2Pieces() const
     grpc::Status status = reader->Finish();
 
     return pieces;
+}
+
+PlayerTurn ServerInterface::getPlayerTurn() const
+{
+    std::cout << "Not implemented";
+    return PlayerTurn::TURN_PLAYER1;
 }
 

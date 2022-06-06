@@ -42,11 +42,11 @@ class ServerRequest final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerID>> PrepareAsyncconnect(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerID>>(PrepareAsyncconnectRaw(context, request, cq));
     }
-    virtual ::grpc::Status click(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::GameInterface::Empty* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>> Asyncclick(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
+    virtual ::grpc::Status click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::GameInterface::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>> Asyncclick(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>>(AsyncclickRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>> PrepareAsyncclick(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>> PrepareAsyncclick(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>>(PrepareAsyncclickRaw(context, request, cq));
     }
     virtual ::grpc::Status getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::GameInterface::GameStatus* response) = 0;
@@ -88,8 +88,8 @@ class ServerRequest final {
       virtual ~async_interface() {}
       virtual void connect(::grpc::ClientContext* context, const ::GameInterface::Name* request, ::GameInterface::PlayerID* response, std::function<void(::grpc::Status)>) = 0;
       virtual void connect(::grpc::ClientContext* context, const ::GameInterface::Name* request, ::GameInterface::PlayerID* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::GameStatus* response, std::function<void(::grpc::Status)>) = 0;
       virtual void getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::GameStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void getHighLightedPositions(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PositionStatus>* reactor) = 0;
@@ -102,8 +102,8 @@ class ServerRequest final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerID>* AsyncconnectRaw(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerID>* PrepareAsyncconnectRaw(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>* AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>* PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>* AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::Empty>* PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::GameStatus>* AsyncgetGameStatusRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::GameStatus>* PrepareAsyncgetGameStatusRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderInterface< ::GameInterface::PositionStatus>* getHighLightedPositionsRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request) = 0;
@@ -126,11 +126,11 @@ class ServerRequest final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerID>> PrepareAsyncconnect(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerID>>(PrepareAsyncconnectRaw(context, request, cq));
     }
-    ::grpc::Status click(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::GameInterface::Empty* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>> Asyncclick(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
+    ::grpc::Status click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::GameInterface::Empty* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>> Asyncclick(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>>(AsyncclickRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>> PrepareAsyncclick(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>> PrepareAsyncclick(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>>(PrepareAsyncclickRaw(context, request, cq));
     }
     ::grpc::Status getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::GameInterface::GameStatus* response) override;
@@ -172,8 +172,8 @@ class ServerRequest final {
      public:
       void connect(::grpc::ClientContext* context, const ::GameInterface::Name* request, ::GameInterface::PlayerID* response, std::function<void(::grpc::Status)>) override;
       void connect(::grpc::ClientContext* context, const ::GameInterface::Name* request, ::GameInterface::PlayerID* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)>) override;
-      void click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)>) override;
+      void click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) override;
       void getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::GameStatus* response, std::function<void(::grpc::Status)>) override;
       void getGameStatus(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::GameStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
       void getHighLightedPositions(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PositionStatus>* reactor) override;
@@ -192,8 +192,8 @@ class ServerRequest final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerID>* AsyncconnectRaw(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerID>* PrepareAsyncconnectRaw(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::GameInterface::GameStatus>* AsyncgetGameStatusRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::GameInterface::GameStatus>* PrepareAsyncgetGameStatusRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientReader< ::GameInterface::PositionStatus>* getHighLightedPositionsRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request) override;
@@ -219,7 +219,7 @@ class ServerRequest final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status connect(::grpc::ServerContext* context, const ::GameInterface::Name* request, ::GameInterface::PlayerID* response);
-    virtual ::grpc::Status click(::grpc::ServerContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response);
+    virtual ::grpc::Status click(::grpc::ServerContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response);
     virtual ::grpc::Status getGameStatus(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::GameInterface::GameStatus* response);
     virtual ::grpc::Status getHighLightedPositions(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::grpc::ServerWriter< ::GameInterface::PositionStatus>* writer);
     virtual ::grpc::Status getPlayer1Pieces(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::grpc::ServerWriter< ::GameInterface::PlayerPieces>* writer);
@@ -257,11 +257,11 @@ class ServerRequest final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestclick(::grpc::ServerContext* context, ::GameInterface::Position* request, ::grpc::ServerAsyncResponseWriter< ::GameInterface::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestclick(::grpc::ServerContext* context, ::GameInterface::ClickRequest* request, ::grpc::ServerAsyncResponseWriter< ::GameInterface::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -380,25 +380,25 @@ class ServerRequest final {
    public:
     WithCallbackMethod_click() {
       ::grpc::Service::MarkMethodCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::GameInterface::Position, ::GameInterface::Empty>(
+          new ::grpc::internal::CallbackUnaryHandler< ::GameInterface::ClickRequest, ::GameInterface::Empty>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response) { return this->click(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response) { return this->click(context, request, response); }));}
     void SetMessageAllocatorFor_click(
-        ::grpc::MessageAllocator< ::GameInterface::Position, ::GameInterface::Empty>* allocator) {
+        ::grpc::MessageAllocator< ::GameInterface::ClickRequest, ::GameInterface::Empty>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::GameInterface::Position, ::GameInterface::Empty>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::GameInterface::ClickRequest, ::GameInterface::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~WithCallbackMethod_click() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* click(
-      ::grpc::CallbackServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/)  { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithCallbackMethod_getGameStatus : public BaseClass {
@@ -524,7 +524,7 @@ class ServerRequest final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -629,7 +629,7 @@ class ServerRequest final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -754,7 +754,7 @@ class ServerRequest final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -884,10 +884,10 @@ class ServerRequest final {
     WithStreamedUnaryMethod_click() {
       ::grpc::Service::MarkMethodStreamed(1,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::GameInterface::Position, ::GameInterface::Empty>(
+          ::GameInterface::ClickRequest, ::GameInterface::Empty>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::GameInterface::Position, ::GameInterface::Empty>* streamer) {
+                     ::GameInterface::ClickRequest, ::GameInterface::Empty>* streamer) {
                        return this->Streamedclick(context,
                          streamer);
                   }));
@@ -896,12 +896,12 @@ class ServerRequest final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::Position* /*request*/, ::GameInterface::Empty* /*response*/) override {
+    ::grpc::Status click(::grpc::ServerContext* /*context*/, const ::GameInterface::ClickRequest* /*request*/, ::GameInterface::Empty* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedclick(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::GameInterface::Position,::GameInterface::Empty>* server_unary_streamer) = 0;
+    virtual ::grpc::Status Streamedclick(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::GameInterface::ClickRequest,::GameInterface::Empty>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_getGameStatus : public BaseClass {

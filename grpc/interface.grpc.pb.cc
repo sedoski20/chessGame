@@ -68,23 +68,23 @@ void ServerRequest::Stub::async::connect(::grpc::ClientContext* context, const :
   return result;
 }
 
-::grpc::Status ServerRequest::Stub::click(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::GameInterface::Empty* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::GameInterface::Position, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_click_, context, request, response);
+::grpc::Status ServerRequest::Stub::click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::GameInterface::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::GameInterface::ClickRequest, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_click_, context, request, response);
 }
 
-void ServerRequest::Stub::async::click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::GameInterface::Position, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_click_, context, request, response, std::move(f));
+void ServerRequest::Stub::async::click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::GameInterface::ClickRequest, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_click_, context, request, response, std::move(f));
 }
 
-void ServerRequest::Stub::async::click(::grpc::ClientContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) {
+void ServerRequest::Stub::async::click(::grpc::ClientContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_click_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* ServerRequest::Stub::PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::GameInterface::Empty, ::GameInterface::Position, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_click_, context, request);
+::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* ServerRequest::Stub::PrepareAsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::GameInterface::Empty, ::GameInterface::ClickRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_click_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* ServerRequest::Stub::AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::Position& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::GameInterface::Empty>* ServerRequest::Stub::AsyncclickRaw(::grpc::ClientContext* context, const ::GameInterface::ClickRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncclickRaw(context, request, cq);
   result->StartCall();
@@ -176,10 +176,10 @@ ServerRequest::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ServerRequest_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ServerRequest::Service, ::GameInterface::Position, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< ServerRequest::Service, ::GameInterface::ClickRequest, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ServerRequest::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::GameInterface::Position* req,
+             const ::GameInterface::ClickRequest* req,
              ::GameInterface::Empty* resp) {
                return service->click(ctx, req, resp);
              }, this)));
@@ -235,7 +235,7 @@ ServerRequest::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ServerRequest::Service::click(::grpc::ServerContext* context, const ::GameInterface::Position* request, ::GameInterface::Empty* response) {
+::grpc::Status ServerRequest::Service::click(::grpc::ServerContext* context, const ::GameInterface::ClickRequest* request, ::GameInterface::Empty* response) {
   (void) context;
   (void) request;
   (void) response;
