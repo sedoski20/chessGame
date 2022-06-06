@@ -15,6 +15,7 @@ enum class MovementDirection
 class Piece
 {
 	public:	
+		//TODO: remove this method from here, it should be in a separated source file
 		template<class T>
 		static T* find(const std::list<T*> pieces, Position positon)
 		{
@@ -30,12 +31,12 @@ class Piece
 		}
 
 
-protected: 
+private: 
 	Position position;
 	PieceType type;
 
 public: 
-	Piece(Position initialPostion);
+	Piece(Position initialPostion, PieceType type);
     virtual bool move(Position position);
 	PieceType getType() const { return type; }
 	Position getPosition() const;

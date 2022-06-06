@@ -8,7 +8,7 @@ class Knight : virtual public Piece
 private:
 
 public:
-    Knight(Position initialPosition) : Piece(initialPosition){type = PieceType::KNIGHT;};
+    Knight(Position initialPosition) : Piece(initialPosition, PieceType::KNIGHT){};
     std::list<Position> getPossibleMovements(const BoardPositions &board) const;
 };
 

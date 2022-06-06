@@ -13,8 +13,8 @@ std::list<Position> King::getPossibleMovements(const BoardPositions &board) cons
 std::list<Position> King::getDiagonalMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
-    int row = this->position.row;
-    int colunm = this->position.column;
+    int row = this->getPosition().row;
+    int colunm = this->getPosition().column;
 
     Position pos = Position(row + 1, colunm + 1);
     
@@ -42,8 +42,8 @@ std::list<Position> King::getDiagonalMovements(const BoardPositions &board) cons
 std::list<Position> King::getHorizontalMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
-    int row = this->position.row;
-    int colunm = this->position.column;
+    int row = this->getPosition().row;
+    int colunm = this->getPosition().column;
 
     Position pos = Position(row, colunm + 1);
 
@@ -61,8 +61,8 @@ std::list<Position> King::getHorizontalMovements(const BoardPositions &board) co
 std::list<Position> King::getVerticalMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
-    int row = this->position.row;
-    int colunm = this->position.column;
+    int row = this->getPosition().row;
+    int colunm = this->getPosition().column;
 
     Position pos = Position(row + 1, colunm);
     

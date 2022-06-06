@@ -1,10 +1,9 @@
 #include "piece.h"
 #include "algorithm"
 
-Piece::Piece(Position initialPostion)
-{
-	this->position = initialPostion;
-}
+Piece::Piece(Position initialPostion, PieceType type) : position(initialPostion),
+														type(type) {}
+
 
 Position Piece::getPosition() const
 {
