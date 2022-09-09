@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/Square.qml</file>
+        <file>qml/MainMenu.qml</file>
         <file>images/black_bishop.png</file>
         <file>images/black_king.png</file>
         <file>images/black_knight.png</file>
