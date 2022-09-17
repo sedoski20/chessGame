@@ -15,7 +15,7 @@ grpc::Status Request::connect(ServerContext* context, const Name* request, Playe
     response->set_id(clients);
 
     std::cout << "Connect requested!" << std::endl;
-    std::cout << "Player " << clients << " Conneted!" << std::endl;
+    std::cout << "Player " << clients << ": " << request->name() << " Conneted!" << std::endl;
     return  grpc::Status::OK;
 }
 
