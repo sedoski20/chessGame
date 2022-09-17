@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 
 Rectangle
@@ -10,6 +10,7 @@ Rectangle
     property bool option2Enabled: true
     property bool firstSelected: option1Enabled
     property bool hovered: button1.hovered + button2.hovered
+    signal stateChanged()
 
 
     id: toggle_button
@@ -34,7 +35,11 @@ Rectangle
             height: row.height
             checked: toggle_button.firstSelected
 
-            onClicked: toggle_button.firstSelected = true
+            onClicked: 
+            {
+                toggle_button.firstSelected = true
+                toggle_button.stateChanged()
+            }
         }
 
         Rectangle
@@ -53,7 +58,11 @@ Rectangle
             height: row.height
             checked: !toggle_button.firstSelected
 
-            onClicked: toggle_button.firstSelected = false
+            onClicked: 
+            {
+                toggle_button.firstSelected = false
+                toggle_button.stateChanged()
+            }
         }
     }
 }

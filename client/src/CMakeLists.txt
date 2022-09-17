@@ -4,6 +4,7 @@ set(SRCS
     main.cpp
     boardmodel.cpp
     squaremodel.cpp
+    mainmenumodel.cpp
     serverinterface.cpp
 )
 qt5_add_resources(RESOURCES ../qml.qrc)

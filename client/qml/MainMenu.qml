@@ -1,17 +1,19 @@
-import QtQuick 2.15
+import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.15
+import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
  
-Window
+Rectangle
 {
-    id: main_menu
+    id: root
     width: 1200
     height: 800
     visible: true
 
     color: "#1e1e1e"
+
+    property bool finished: false
 
     Rectangle
     {
@@ -87,16 +89,17 @@ Window
             property var labelFontSize: 14
         
             Text { text: "Game Mode"; font.pointSize: parent.labelFontSize; color:  game_mode.hovered ? "#2c6ad5" :"gray" }
-            ToggleButton { option1: "Offline"; option2: "Online"; id: game_mode; width: 300}
+            ToggleButton { option1: "Offline"; option2: "Online"; id: game_mode; width: 300; onStateChanged: mainMenuModel.gameMode = firstSelected}
 
             Text { text: "Player 1 Name "; font.pointSize: grid.labelFontSize; color: player1.hovered ? "#2c6ad5" :"gray" }
-            TextField { placeholderText: "Marcelo"; font.pointSize: grid.textFieldFontSize; width: 300; id: player1 }
+            TextField { placeholderText: "Marcelo"; font.pointSize: grid.textFieldFontSize; width: 300; id: player1; onTextChanged: mainMenuModel.player1 = text}
 
             Text { text: "Player 2 Name "; font.pointSize: grid.labelFontSize; color: player2.hovered ? "#2c6ad5" :"gray" }
-            TextField { placeholderText: "Flavia"; font.pointSize: grid.textFieldFontSize; width: 300 ; id: player2}
+            TextField { placeholderText: "Flavia"; font.pointSize: grid.textFieldFontSize; width: 300 ; id: player2; onTextChanged: mainMenuModel.player2 = text}
 
             Text { text: "Server Address"; font.pointSize: grid.labelFontSize; visible: !game_mode.firstSelected; color: address.hovered ? "#2c6ad5" :"gray"}
-            TextField { placeholderText: "172.45.123.66"; font.pointSize: grid.textFieldFontSize; visible: !game_mode.firstSelected; width: 300; id: address}
+            TextField { placeholderText: "172.45.123.66"; font.pointSize: grid.textFieldFontSize; visible: !game_mode.firstSelected; width: 300; id: address; onTextChanged: mainMenuModel.serverAddress = text}
+
         }
     }
 
@@ -114,6 +117,12 @@ Window
             right: parent.right
             bottom: parent.bottom
             margins: 20
+        }
+
+        onClicked: 
+        {
+            root.finished = true
+            mainMenuModel.start()
         }
     }
 }

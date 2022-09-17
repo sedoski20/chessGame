@@ -3,6 +3,10 @@
         <file>qml/main.qml</file>
         <file>qml/Square.qml</file>
         <file>qml/MainMenu.qml</file>
+        <file>qml/Menu.qml</file>
+        <file>qml/Player.qml</file>
+        <file>qml/Button_TB.qml</file>
+        <file>qml/ToggleButton.qml</file>
         <file>images/black_bishop.png</file>
         <file>images/black_king.png</file>
         <file>images/black_knight.png</file>
@@ -15,8 +19,6 @@
         <file>images/white_pawn.png</file>
         <file>images/white_queen.png</file>
         <file>images/white_rook.png</file>
-        <file>qml/Menu.qml</file>
         <file>images/black_square.jfif</file>
-        <file>qml/Player.qml</file>
     </qresource>
 </RCC>
