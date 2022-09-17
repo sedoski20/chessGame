@@ -1,6 +1,11 @@
 #include "request.h"
 #include <iostream>
 
+Request::~Request()
+{
+    delete game;
+}
+
 grpc::Status Request::connect(ServerContext* context, const Name* request, PlayerID* response) 
 {
     if(clients > 1)

@@ -28,6 +28,7 @@ class Request : public ServerRequest::Service
 {
     public:
         Request(IGame *game) : game(game) {};
+        ~Request();
         grpc::Status connect(ServerContext* context, const Name* request, PlayerID* response) override;
         grpc::Status click(ServerContext* context, const GameInterface::ClickRequest* request, Empty* response) override;
         grpc::Status getGameStatus(ServerContext* context, const Empty* request, GameInterface::GameStatus* response) override;
