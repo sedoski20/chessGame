@@ -11,13 +11,20 @@ using grpc::ClientContext;
 using grpc::ClientReader;
 using grpc::StatusCode;
 
-
-ServerInterface::ServerInterface(std::string address) 
+ServerInterface::ServerInterface(QObject *parent) : QObject(parent) 
 {
-    std::shared_ptr<Channel> channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
+    setServerAddress("127.0.0.1");
+}
+
+ServerInterface::ServerInterface(std::string address, QObject *parent) : QObject(parent)
+{
+    setServerAddress(address);
+}
+
+void ServerInterface::setServerAddress(std::string address)
+{
+    std::shared_ptr<Channel> channel = grpc::CreateChannel(address + ":50051", grpc::InsecureChannelCredentials());
     stub = ServerRequest::NewStub(channel);
-    
-    this->isConnected = this->connect("name");
 }
 
 bool ServerInterface::connect(std::string name) 
@@ -167,5 +174,13 @@ PlayerTurn ServerInterface::getPlayerTurn() const
 {
     std::cout << "Not implemented";
     return PlayerTurn::TURN_PLAYER1;
+}
+
+void ServerInterface::connectRequest(QString name, QString address)
+{
+    if(address != "")
+        this->setServerAddress(address.toStdString());
+
+    this->connect(name.toStdString());
 }
 

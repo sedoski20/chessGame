@@ -94,8 +94,8 @@ Rectangle
             Text { text: "Player 1 Name "; font.pointSize: grid.labelFontSize; color: player1.hovered ? "#2c6ad5" :"gray" }
             TextField { placeholderText: "Marcelo"; font.pointSize: grid.textFieldFontSize; width: 300; id: player1; onTextChanged: mainMenuModel.player1 = text}
 
-            Text { text: "Player 2 Name "; font.pointSize: grid.labelFontSize; color: player2.hovered ? "#2c6ad5" :"gray" }
-            TextField { placeholderText: "Flavia"; font.pointSize: grid.textFieldFontSize; width: 300 ; id: player2; onTextChanged: mainMenuModel.player2 = text}
+            Text { text: "Player 2 Name "; font.pointSize: grid.labelFontSize; color: player2.hovered ? "#2c6ad5" :"gray";  visible: game_mode.firstSelected; }
+            TextField { placeholderText: "Flavia"; font.pointSize: grid.textFieldFontSize; width: 300 ; id: player2; onTextChanged: mainMenuModel.player2 = text;  visible: game_mode.firstSelected;}
 
             Text { text: "Server Address"; font.pointSize: grid.labelFontSize; visible: !game_mode.firstSelected; color: address.hovered ? "#2c6ad5" :"gray"}
             TextField { placeholderText: "172.45.123.66"; font.pointSize: grid.textFieldFontSize; visible: !game_mode.firstSelected; width: 300; id: address; onTextChanged: mainMenuModel.serverAddress = text}

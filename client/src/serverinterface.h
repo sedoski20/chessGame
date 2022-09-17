@@ -3,11 +3,14 @@
 
 #include "igame.h"
 #include "interface.grpc.pb.h"
+#include <QObject>
 
 using GameInterface::ServerRequest;
 
-class ServerInterface : public IGame
+class ServerInterface : public QObject, public IGame
 {
+    Q_OBJECT
+
     private:
         int playerId;
         bool isConnected;
@@ -15,14 +18,21 @@ class ServerInterface : public IGame
         
 
     public:
-        ServerInterface(std::string address);
+        ServerInterface(QObject *parent = nullptr);
+        ServerInterface(std::string address, QObject *parent = nullptr);
         bool connect(std::string name);
-        void selectPosition(Position position);
-        const GameStatus getGameStatus() const; 
-        const std::list<PositionStatus> getHighlightedPositions() const;
-        const std::list<PieceInfo> getPlayer1Pieces() const;
-        const std::list<PieceInfo> getPlayer2Pieces() const;
-        PlayerTurn getPlayerTurn() const;
+        void setServerAddress(std::string address);
+        void selectPosition(Position position) override;
+        const GameStatus getGameStatus() const override; 
+        const std::list<PositionStatus> getHighlightedPositions() const override;
+        const std::list<PieceInfo> getPlayer1Pieces() const override;
+        const std::list<PieceInfo> getPlayer2Pieces() const override;
+        PlayerTurn getPlayerTurn() const override;
+
+    public slots:
+        void connectRequest(QString name, QString address);
+
+
 };
 
 

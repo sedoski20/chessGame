@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     // Game game;
-    ServerInterface game;
     MainMenuModel main_menu;
+    ServerInterface game;
     IGame *igame = &game;
     BoardModel board(igame);
 
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("mainMenuModel", &main_menu );
     engine.rootContext()->setContextProperty("boardModel", &board );
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
