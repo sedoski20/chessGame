@@ -2,10 +2,9 @@
 #include <QQmlEngine>
 #include "boardstatus.h"
 
-BoardModel::BoardModel(IGame *game)
+BoardModel::BoardModel(IGame *game, QObject *parent) : QObject(parent)
 {
     squares.clear();
-
 
     for(int i = 0; i < 8; i++)
     {
@@ -17,9 +16,26 @@ BoardModel::BoardModel(IGame *game)
 
     this->i_game = game;
     resetSquares();
-    updatePieces();
+    setIsGameEnded(false);
+    setIsPlayer1Turn(true);
+}
 
-     setIsPlayer1Turn(true);
+BoardModel::BoardModel(QObject *parent) 
+{
+    squares.clear();
+
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            squares.append(new SquareModel(i,j));
+        }
+    }
+
+    this->i_game = nullptr;
+    resetSquares();
+    setIsGameEnded(false);
+    setIsPlayer1Turn(true);
 }
 
 BoardModel::~BoardModel()
@@ -62,6 +78,9 @@ void BoardModel::reset()
 
 void BoardModel::setIsPlayer1Turn(bool value)
 {
+    if(!isLoaded())
+        return;
+        
     if(this->isPlayer1Turn == value)
         return;
 
@@ -90,6 +109,9 @@ bool BoardModel::getIsGameEnded()
 
 bool BoardModel::select(int index)
 {
+    if(!isLoaded())
+        return false;
+
     SquareModel *square = dynamic_cast<SquareModel*>(findSquare(index));
     i_game->selectPosition(Position(square->getRow(), square->getColumn()));
 
@@ -113,13 +135,15 @@ bool BoardModel::select(int index)
 
     GameStatus status = i_game->getGameStatus();
     setIsGameEnded((status == GameStatus::ENDED) ? true : false);
-
     return true;
 }
 
 
 void BoardModel::updatePieces()
 {
+    if(!isLoaded())
+        return;
+
     std::list<PieceInfo> player1 = i_game->getPlayer1Pieces();
     std::list<PieceInfo> player2 = i_game->getPlayer2Pieces();
 
@@ -180,6 +204,34 @@ QString BoardModel::getPiecePath(PieceType type, bool isPlayer1)
     return path;
 }
 
+void BoardModel::update()
+{
+    // if(i_game)
+    // GameStatus status = i_game->getGameStatus();
 
+    // if(status == GameStatus::INITIAL)
+    // {
+    //     updatePieces();
+
+    // }
+
+    // setIsGameEnded((status == GameStatus::ENDED) ? true : false);
+    // bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    // setIsPlayer1Turn(is_player1_turn);
+}
+
+bool BoardModel::isLoaded()
+{
+    return i_game != nullptr;
+}
+
+void BoardModel::setGameInterface(IGame *game)
+{
+    i_game = game;
+    this->updatePieces();
+
+    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    setIsPlayer1Turn(is_player1_turn);
+}
 
 

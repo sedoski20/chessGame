@@ -10,10 +10,10 @@ Rectangle
     width: 1200
     height: 800
     visible: true
-
     color: "#1e1e1e"
 
-    property bool finished: false
+    // signal finished()
+    
 
     Rectangle
     {
@@ -73,7 +73,6 @@ Rectangle
             bottomMargin: 20
 
         }
-        
 
         Grid
         {
@@ -121,8 +120,8 @@ Rectangle
 
         onClicked: 
         {
-            root.finished = true
             mainMenuModel.start()
         }
     }
+
 }

@@ -13,6 +13,7 @@ class MainMenuModel : public QObject
     Q_PROPERTY(QString serverAddress READ getServerAddress WRITE setServerAddress)
     Q_PROPERTY(bool gameMode READ getGameMode WRITE setGameMode)
     Q_PROPERTY(bool multiplayer READ getMultiplayer WRITE setMultiplayer)
+    Q_PROPERTY(bool finished READ getFinished NOTIFY finishedChanged)
 
 public:
     explicit MainMenuModel(QObject *parent = nullptr);
@@ -21,6 +22,7 @@ public:
     QString getServerAddress();
     bool getGameMode();
     bool getMultiplayer();
+    bool getFinished();
     Q_INVOKABLE void start();
 
 private:
@@ -29,10 +31,12 @@ private:
     QString serverAddress;
     bool gameMode;
     bool multiplayer;
+    bool finished;
 
 
 signals:
     void connect(QString name, QString address);
+    void finishedChanged();
 
 public slots:
 
@@ -41,6 +45,7 @@ public slots:
     void setServerAddress(const QString &value);
     void setGameMode(bool value);
     void setMultiplayer(bool value);
+    void connectResult(bool value);
 };
 
 #endif //MAINMENUMODEL

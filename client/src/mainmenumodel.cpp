@@ -1,6 +1,7 @@
 #include "mainmenumodel.h"
+#include <iostream>
 
-MainMenuModel::MainMenuModel(QObject *parent) : QObject(parent) {}
+MainMenuModel::MainMenuModel(QObject *parent) : QObject(parent) { finished = false; }
 
 QString MainMenuModel::getPlayer1()
 {
@@ -55,4 +56,17 @@ void MainMenuModel::setMultiplayer(bool value)
 void MainMenuModel::start()
 {
     emit connect(player1, serverAddress);
+}
+
+bool MainMenuModel::getFinished()
+{
+    return finished;
+}
+
+void MainMenuModel::connectResult(bool value)
+{
+    finished = value;
+
+    if(finished)
+        emit finishedChanged();
 }

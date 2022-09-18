@@ -181,6 +181,7 @@ void ServerInterface::connectRequest(QString name, QString address)
     if(address != "")
         this->setServerAddress(address.toStdString());
 
-    this->connect(name.toStdString());
+    this->isConnected = this->connect(name.toStdString());
+    emit connectResult(this->isConnected);        
 }
 

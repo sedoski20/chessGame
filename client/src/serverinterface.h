@@ -29,6 +29,9 @@ class ServerInterface : public QObject, public IGame
         const std::list<PieceInfo> getPlayer2Pieces() const override;
         PlayerTurn getPlayerTurn() const override;
 
+    signals:
+        void connectResult(bool result);
+
     public slots:
         void connectRequest(QString name, QString address);
 

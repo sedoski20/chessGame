@@ -10,34 +10,44 @@
 #include "game.h"
 #include "mainmenumodel.h"
 #include "serverinterface.h"
+#include "application.h"
 
+// void loadMainMenu(const MainMenuModel &menu, int argc, char *argv[]);
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+    Application app(argc, argv);
+}
 
     // Game game;
-    MainMenuModel main_menu;
-    ServerInterface game;
-    IGame *igame = &game;
-    BoardModel board(igame);
+    // MainMenuModel main_menu;
+    // ServerInterface game;
+    // IGame *igame = &game;
+    // BoardModel board(igame);
 
-    QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
+    // QObject::connect(&main_menu, SIGNAL(connect(QString, QString)), &game, SLOT(connectRequest(QString, QString)));
+    // QObject::connect(&game, SIGNAL(connectResult(bool), &board )
+    // loadMainMenu(main_menu, argc, argv);
 
-    QObject::connect(&main_menu, SIGNAL(connect(QString, QString)), &game, SLOT(connectRequest(QString, QString)));
 
-    engine.rootContext()->setContextProperty("mainMenuModel", &main_menu );
-    engine.rootContext()->setContextProperty("boardModel", &board );
 
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+// void loadMainMenu(const MainMenuModel &menu, const BoardModel &board, int argc, char *argv[])
+// {
+//     QGuiApplication app(argc, argv);
+//     QQmlApplicationEngine engine;
+//     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
 
-    app.setWindowIcon(QIcon(":/images/black_king.png"));
-    return app.exec();
-}
+//     engine.rootContext()->setContextProperty("mainMenuModel", &menu);
+//     engine.rootContext()->setContextProperty("boardModel", &board );
+
+//     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+//                      &app, [url](QObject *obj, const QUrl &objUrl) {
+//         if (!obj && url == objUrl)
+//             QCoreApplication::exit(-1);
+//     }, Qt::QueuedConnection);
+//     engine.load(url);
+
+//     app.setWindowIcon(QIcon(":/images/black_king.png"));
+//     app.exec();
+// }
