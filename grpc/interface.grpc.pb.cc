@@ -28,6 +28,7 @@ static const char* ServerRequest_method_names[] = {
   "/GameInterface.ServerRequest/getHighLightedPositions",
   "/GameInterface.ServerRequest/getPlayer1Pieces",
   "/GameInterface.ServerRequest/getPlayer2Pieces",
+  "/GameInterface.ServerRequest/getPlayerTurn",
 };
 
 std::unique_ptr< ServerRequest::Stub> ServerRequest::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -43,6 +44,7 @@ ServerRequest::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& chan
   , rpcmethod_getHighLightedPositions_(ServerRequest_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   , rpcmethod_getPlayer1Pieces_(ServerRequest_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   , rpcmethod_getPlayer2Pieces_(ServerRequest_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_getPlayerTurn_(ServerRequest_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ServerRequest::Stub::connect(::grpc::ClientContext* context, const ::GameInterface::Name& request, ::GameInterface::PlayerID* response) {
@@ -162,6 +164,29 @@ void ServerRequest::Stub::async::getPlayer2Pieces(::grpc::ClientContext* context
   return ::grpc::internal::ClientAsyncReaderFactory< ::GameInterface::PlayerPieces>::Create(channel_.get(), cq, rpcmethod_getPlayer2Pieces_, context, request, false, nullptr);
 }
 
+::grpc::Status ServerRequest::Stub::getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::GameInterface::PlayerTurnRequest* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getPlayerTurn_, context, request, response);
+}
+
+void ServerRequest::Stub::async::getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getPlayerTurn_, context, request, response, std::move(f));
+}
+
+void ServerRequest::Stub::async::getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getPlayerTurn_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>* ServerRequest::Stub::PrepareAsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::GameInterface::PlayerTurnRequest, ::GameInterface::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getPlayerTurn_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>* ServerRequest::Stub::AsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncgetPlayerTurnRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ServerRequest::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ServerRequest_method_names[0],
@@ -223,6 +248,16 @@ ServerRequest::Service::Service() {
              ::grpc::ServerWriter<::GameInterface::PlayerPieces>* writer) {
                return service->getPlayer2Pieces(ctx, req, writer);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ServerRequest_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ServerRequest::Service, ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ServerRequest::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::GameInterface::Empty* req,
+             ::GameInterface::PlayerTurnRequest* resp) {
+               return service->getPlayerTurn(ctx, req, resp);
+             }, this)));
 }
 
 ServerRequest::Service::~Service() {
@@ -267,6 +302,13 @@ ServerRequest::Service::~Service() {
   (void) context;
   (void) request;
   (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ServerRequest::Service::getPlayerTurn(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response) {
+  (void) context;
+  (void) request;
+  (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

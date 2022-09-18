@@ -172,8 +172,16 @@ const std::list<PieceInfo> ServerInterface::getPlayer2Pieces() const
 
 PlayerTurn ServerInterface::getPlayerTurn() const
 {
-    std::cout << "Not implemented";
-    return PlayerTurn::TURN_PLAYER1;
+    if(!this->isConnected)
+        return PlayerTurn::TURN_PLAYER1;
+        
+    ClientContext context;
+    GameInterface::Empty empty;
+    GameInterface::PlayerTurnRequest turn_request;
+    
+    stub->getPlayerTurn(&context, empty, &turn_request);
+
+    return static_cast<PlayerTurn>(turn_request.turn());
 }
 
 void ServerInterface::connectRequest(QString name, QString address)

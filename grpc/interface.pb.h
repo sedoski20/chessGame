@@ -48,7 +48,7 @@ struct TableStruct_interface_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -74,6 +74,9 @@ extern PlayerIDDefaultTypeInternal _PlayerID_default_instance_;
 class PlayerPieces;
 struct PlayerPiecesDefaultTypeInternal;
 extern PlayerPiecesDefaultTypeInternal _PlayerPieces_default_instance_;
+class PlayerTurnRequest;
+struct PlayerTurnRequestDefaultTypeInternal;
+extern PlayerTurnRequestDefaultTypeInternal _PlayerTurnRequest_default_instance_;
 class Position;
 struct PositionDefaultTypeInternal;
 extern PositionDefaultTypeInternal _Position_default_instance_;
@@ -88,6 +91,7 @@ template<> ::GameInterface::GameStatus* Arena::CreateMaybeMessage<::GameInterfac
 template<> ::GameInterface::Name* Arena::CreateMaybeMessage<::GameInterface::Name>(Arena*);
 template<> ::GameInterface::PlayerID* Arena::CreateMaybeMessage<::GameInterface::PlayerID>(Arena*);
 template<> ::GameInterface::PlayerPieces* Arena::CreateMaybeMessage<::GameInterface::PlayerPieces>(Arena*);
+template<> ::GameInterface::PlayerTurnRequest* Arena::CreateMaybeMessage<::GameInterface::PlayerTurnRequest>(Arena*);
 template<> ::GameInterface::Position* Arena::CreateMaybeMessage<::GameInterface::Position>(Arena*);
 template<> ::GameInterface::PositionStatus* Arena::CreateMaybeMessage<::GameInterface::PositionStatus>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -175,6 +179,31 @@ inline bool PlayerPieces_PieceType_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PlayerPieces_PieceType* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerPieces_PieceType>(
     PlayerPieces_PieceType_descriptor(), name, value);
+}
+enum PlayerTurnRequest_PlayerTurn : int {
+  PlayerTurnRequest_PlayerTurn_PLAYER1_TURN = 0,
+  PlayerTurnRequest_PlayerTurn_PLAYER2_TURN = 1,
+  PlayerTurnRequest_PlayerTurn_PlayerTurnRequest_PlayerTurn_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PlayerTurnRequest_PlayerTurn_PlayerTurnRequest_PlayerTurn_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool PlayerTurnRequest_PlayerTurn_IsValid(int value);
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest_PlayerTurn_PlayerTurn_MIN = PlayerTurnRequest_PlayerTurn_PLAYER1_TURN;
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest_PlayerTurn_PlayerTurn_MAX = PlayerTurnRequest_PlayerTurn_PLAYER2_TURN;
+constexpr int PlayerTurnRequest_PlayerTurn_PlayerTurn_ARRAYSIZE = PlayerTurnRequest_PlayerTurn_PlayerTurn_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerTurnRequest_PlayerTurn_descriptor();
+template<typename T>
+inline const std::string& PlayerTurnRequest_PlayerTurn_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PlayerTurnRequest_PlayerTurn>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function PlayerTurnRequest_PlayerTurn_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    PlayerTurnRequest_PlayerTurn_descriptor(), enum_t_value);
+}
+inline bool PlayerTurnRequest_PlayerTurn_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PlayerTurnRequest_PlayerTurn* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerTurnRequest_PlayerTurn>(
+    PlayerTurnRequest_PlayerTurn_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -1483,6 +1512,179 @@ class ClickRequest final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_interface_2eproto;
 };
+// -------------------------------------------------------------------
+
+class PlayerTurnRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:GameInterface.PlayerTurnRequest) */ {
+ public:
+  inline PlayerTurnRequest() : PlayerTurnRequest(nullptr) {}
+  ~PlayerTurnRequest() override;
+  explicit constexpr PlayerTurnRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PlayerTurnRequest(const PlayerTurnRequest& from);
+  PlayerTurnRequest(PlayerTurnRequest&& from) noexcept
+    : PlayerTurnRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline PlayerTurnRequest& operator=(const PlayerTurnRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerTurnRequest& operator=(PlayerTurnRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerTurnRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerTurnRequest* internal_default_instance() {
+    return reinterpret_cast<const PlayerTurnRequest*>(
+               &_PlayerTurnRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(PlayerTurnRequest& a, PlayerTurnRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PlayerTurnRequest* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerTurnRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PlayerTurnRequest* New() const final {
+    return new PlayerTurnRequest();
+  }
+
+  PlayerTurnRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PlayerTurnRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PlayerTurnRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const PlayerTurnRequest& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PlayerTurnRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "GameInterface.PlayerTurnRequest";
+  }
+  protected:
+  explicit PlayerTurnRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef PlayerTurnRequest_PlayerTurn PlayerTurn;
+  static constexpr PlayerTurn PLAYER1_TURN =
+    PlayerTurnRequest_PlayerTurn_PLAYER1_TURN;
+  static constexpr PlayerTurn PLAYER2_TURN =
+    PlayerTurnRequest_PlayerTurn_PLAYER2_TURN;
+  static inline bool PlayerTurn_IsValid(int value) {
+    return PlayerTurnRequest_PlayerTurn_IsValid(value);
+  }
+  static constexpr PlayerTurn PlayerTurn_MIN =
+    PlayerTurnRequest_PlayerTurn_PlayerTurn_MIN;
+  static constexpr PlayerTurn PlayerTurn_MAX =
+    PlayerTurnRequest_PlayerTurn_PlayerTurn_MAX;
+  static constexpr int PlayerTurn_ARRAYSIZE =
+    PlayerTurnRequest_PlayerTurn_PlayerTurn_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  PlayerTurn_descriptor() {
+    return PlayerTurnRequest_PlayerTurn_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& PlayerTurn_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, PlayerTurn>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function PlayerTurn_Name.");
+    return PlayerTurnRequest_PlayerTurn_Name(enum_t_value);
+  }
+  static inline bool PlayerTurn_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      PlayerTurn* value) {
+    return PlayerTurnRequest_PlayerTurn_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTurnFieldNumber = 1,
+  };
+  // .GameInterface.PlayerTurnRequest.PlayerTurn turn = 1;
+  void clear_turn();
+  ::GameInterface::PlayerTurnRequest_PlayerTurn turn() const;
+  void set_turn(::GameInterface::PlayerTurnRequest_PlayerTurn value);
+  private:
+  ::GameInterface::PlayerTurnRequest_PlayerTurn _internal_turn() const;
+  void _internal_set_turn(::GameInterface::PlayerTurnRequest_PlayerTurn value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:GameInterface.PlayerTurnRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  int turn_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_interface_2eproto;
+};
 // ===================================================================
 
 
@@ -2048,9 +2250,35 @@ inline void ClickRequest::set_allocated_id(::GameInterface::PlayerID* id) {
   // @@protoc_insertion_point(field_set_allocated:GameInterface.ClickRequest.id)
 }
 
+// -------------------------------------------------------------------
+
+// PlayerTurnRequest
+
+// .GameInterface.PlayerTurnRequest.PlayerTurn turn = 1;
+inline void PlayerTurnRequest::clear_turn() {
+  turn_ = 0;
+}
+inline ::GameInterface::PlayerTurnRequest_PlayerTurn PlayerTurnRequest::_internal_turn() const {
+  return static_cast< ::GameInterface::PlayerTurnRequest_PlayerTurn >(turn_);
+}
+inline ::GameInterface::PlayerTurnRequest_PlayerTurn PlayerTurnRequest::turn() const {
+  // @@protoc_insertion_point(field_get:GameInterface.PlayerTurnRequest.turn)
+  return _internal_turn();
+}
+inline void PlayerTurnRequest::_internal_set_turn(::GameInterface::PlayerTurnRequest_PlayerTurn value) {
+  
+  turn_ = value;
+}
+inline void PlayerTurnRequest::set_turn(::GameInterface::PlayerTurnRequest_PlayerTurn value) {
+  _internal_set_turn(value);
+  // @@protoc_insertion_point(field_set:GameInterface.PlayerTurnRequest.turn)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -2086,6 +2314,11 @@ template <> struct is_proto_enum< ::GameInterface::PlayerPieces_PieceType> : ::s
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::GameInterface::PlayerPieces_PieceType>() {
   return ::GameInterface::PlayerPieces_PieceType_descriptor();
+}
+template <> struct is_proto_enum< ::GameInterface::PlayerTurnRequest_PlayerTurn> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::GameInterface::PlayerTurnRequest_PlayerTurn>() {
+  return ::GameInterface::PlayerTurnRequest_PlayerTurn_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

@@ -83,6 +83,13 @@ class ServerRequest final {
     std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::GameInterface::PlayerPieces>> PrepareAsyncgetPlayer2Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::GameInterface::PlayerPieces>>(PrepareAsyncgetPlayer2PiecesRaw(context, request, cq));
     }
+    virtual ::grpc::Status getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::GameInterface::PlayerTurnRequest* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>> AsyncgetPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>>(AsyncgetPlayerTurnRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>> PrepareAsyncgetPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>>(PrepareAsyncgetPlayerTurnRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -95,6 +102,8 @@ class ServerRequest final {
       virtual void getHighLightedPositions(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PositionStatus>* reactor) = 0;
       virtual void getPlayer1Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PlayerPieces>* reactor) = 0;
       virtual void getPlayer2Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PlayerPieces>* reactor) = 0;
+      virtual void getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -115,6 +124,8 @@ class ServerRequest final {
     virtual ::grpc::ClientReaderInterface< ::GameInterface::PlayerPieces>* getPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::GameInterface::PlayerPieces>* AsyncgetPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::GameInterface::PlayerPieces>* PrepareAsyncgetPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>* AsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::GameInterface::PlayerTurnRequest>* PrepareAsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -167,6 +178,13 @@ class ServerRequest final {
     std::unique_ptr< ::grpc::ClientAsyncReader< ::GameInterface::PlayerPieces>> PrepareAsyncgetPlayer2Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncReader< ::GameInterface::PlayerPieces>>(PrepareAsyncgetPlayer2PiecesRaw(context, request, cq));
     }
+    ::grpc::Status getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::GameInterface::PlayerTurnRequest* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>> AsyncgetPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>>(AsyncgetPlayerTurnRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>> PrepareAsyncgetPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>>(PrepareAsyncgetPlayerTurnRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -179,6 +197,8 @@ class ServerRequest final {
       void getHighLightedPositions(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PositionStatus>* reactor) override;
       void getPlayer1Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PlayerPieces>* reactor) override;
       void getPlayer2Pieces(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::grpc::ClientReadReactor< ::GameInterface::PlayerPieces>* reactor) override;
+      void getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, std::function<void(::grpc::Status)>) override;
+      void getPlayerTurn(::grpc::ClientContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -205,12 +225,15 @@ class ServerRequest final {
     ::grpc::ClientReader< ::GameInterface::PlayerPieces>* getPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request) override;
     ::grpc::ClientAsyncReader< ::GameInterface::PlayerPieces>* AsyncgetPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReader< ::GameInterface::PlayerPieces>* PrepareAsyncgetPlayer2PiecesRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>* AsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::GameInterface::PlayerTurnRequest>* PrepareAsyncgetPlayerTurnRaw(::grpc::ClientContext* context, const ::GameInterface::Empty& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_connect_;
     const ::grpc::internal::RpcMethod rpcmethod_click_;
     const ::grpc::internal::RpcMethod rpcmethod_getGameStatus_;
     const ::grpc::internal::RpcMethod rpcmethod_getHighLightedPositions_;
     const ::grpc::internal::RpcMethod rpcmethod_getPlayer1Pieces_;
     const ::grpc::internal::RpcMethod rpcmethod_getPlayer2Pieces_;
+    const ::grpc::internal::RpcMethod rpcmethod_getPlayerTurn_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -224,6 +247,7 @@ class ServerRequest final {
     virtual ::grpc::Status getHighLightedPositions(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::grpc::ServerWriter< ::GameInterface::PositionStatus>* writer);
     virtual ::grpc::Status getPlayer1Pieces(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::grpc::ServerWriter< ::GameInterface::PlayerPieces>* writer);
     virtual ::grpc::Status getPlayer2Pieces(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::grpc::ServerWriter< ::GameInterface::PlayerPieces>* writer);
+    virtual ::grpc::Status getPlayerTurn(::grpc::ServerContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_connect : public BaseClass {
@@ -345,7 +369,27 @@ class ServerRequest final {
       ::grpc::Service::RequestAsyncServerStreaming(5, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_connect<WithAsyncMethod_click<WithAsyncMethod_getGameStatus<WithAsyncMethod_getHighLightedPositions<WithAsyncMethod_getPlayer1Pieces<WithAsyncMethod_getPlayer2Pieces<Service > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestgetPlayerTurn(::grpc::ServerContext* context, ::GameInterface::Empty* request, ::grpc::ServerAsyncResponseWriter< ::GameInterface::PlayerTurnRequest>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_connect<WithAsyncMethod_click<WithAsyncMethod_getGameStatus<WithAsyncMethod_getHighLightedPositions<WithAsyncMethod_getPlayer1Pieces<WithAsyncMethod_getPlayer2Pieces<WithAsyncMethod_getPlayerTurn<Service > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_connect : public BaseClass {
    private:
@@ -493,7 +537,34 @@ class ServerRequest final {
     virtual ::grpc::ServerWriteReactor< ::GameInterface::PlayerPieces>* getPlayer2Pieces(
       ::grpc::CallbackServerContext* /*context*/, const ::GameInterface::Empty* /*request*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_connect<WithCallbackMethod_click<WithCallbackMethod_getGameStatus<WithCallbackMethod_getHighLightedPositions<WithCallbackMethod_getPlayer1Pieces<WithCallbackMethod_getPlayer2Pieces<Service > > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::GameInterface::Empty* request, ::GameInterface::PlayerTurnRequest* response) { return this->getPlayerTurn(context, request, response); }));}
+    void SetMessageAllocatorFor_getPlayerTurn(
+        ::grpc::MessageAllocator< ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* getPlayerTurn(
+      ::grpc::CallbackServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_connect<WithCallbackMethod_click<WithCallbackMethod_getGameStatus<WithCallbackMethod_getHighLightedPositions<WithCallbackMethod_getPlayer1Pieces<WithCallbackMethod_getPlayer2Pieces<WithCallbackMethod_getPlayerTurn<Service > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_connect : public BaseClass {
@@ -593,6 +664,23 @@ class ServerRequest final {
     }
     // disable synchronous version of this method
     ::grpc::Status getPlayer2Pieces(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::grpc::ServerWriter< ::GameInterface::PlayerPieces>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -715,6 +803,26 @@ class ServerRequest final {
     }
     void RequestgetPlayer2Pieces(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncServerStreaming(5, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestgetPlayerTurn(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -850,6 +958,28 @@ class ServerRequest final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->getPlayerTurn(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* getPlayerTurn(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_connect : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -930,7 +1060,34 @@ class ServerRequest final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedgetGameStatus(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::GameInterface::Empty,::GameInterface::GameStatus>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_connect<WithStreamedUnaryMethod_click<WithStreamedUnaryMethod_getGameStatus<Service > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_getPlayerTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_getPlayerTurn() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::GameInterface::Empty, ::GameInterface::PlayerTurnRequest>* streamer) {
+                       return this->StreamedgetPlayerTurn(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_getPlayerTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status getPlayerTurn(::grpc::ServerContext* /*context*/, const ::GameInterface::Empty* /*request*/, ::GameInterface::PlayerTurnRequest* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedgetPlayerTurn(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::GameInterface::Empty,::GameInterface::PlayerTurnRequest>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_connect<WithStreamedUnaryMethod_click<WithStreamedUnaryMethod_getGameStatus<WithStreamedUnaryMethod_getPlayerTurn<Service > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_getHighLightedPositions : public BaseClass {
    private:
@@ -1013,7 +1170,7 @@ class ServerRequest final {
     virtual ::grpc::Status StreamedgetPlayer2Pieces(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::GameInterface::Empty,::GameInterface::PlayerPieces>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_getHighLightedPositions<WithSplitStreamingMethod_getPlayer1Pieces<WithSplitStreamingMethod_getPlayer2Pieces<Service > > > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_connect<WithStreamedUnaryMethod_click<WithStreamedUnaryMethod_getGameStatus<WithSplitStreamingMethod_getHighLightedPositions<WithSplitStreamingMethod_getPlayer1Pieces<WithSplitStreamingMethod_getPlayer2Pieces<Service > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_connect<WithStreamedUnaryMethod_click<WithStreamedUnaryMethod_getGameStatus<WithSplitStreamingMethod_getHighLightedPositions<WithSplitStreamingMethod_getPlayer1Pieces<WithSplitStreamingMethod_getPlayer2Pieces<WithStreamedUnaryMethod_getPlayerTurn<Service > > > > > > > StreamedService;
 };
 
 }  // namespace GameInterface

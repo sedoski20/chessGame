@@ -120,3 +120,11 @@ grpc::Status Request::getPlayer2Pieces(ServerContext* context, const Empty* requ
     std::cout << "Player2Pieces requested!" << std::endl;
     return  grpc::Status::OK;
 }
+
+grpc::Status Request::getPlayerTurn(ServerContext* context, const Empty* request, PlayerTurnRequest* response) 
+{
+    GameInterface::PlayerTurnRequest_PlayerTurn turn;
+    turn = static_cast<GameInterface::PlayerTurnRequest_PlayerTurn >(this->game->getPlayerTurn());
+    response->set_turn(turn);
+    return  grpc::Status::OK;
+}

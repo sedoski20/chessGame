@@ -23,6 +23,7 @@ using GameInterface::Name;
 using GameInterface::PlayerID;
 using GameInterface::PlayerPieces;
 using GameInterface::ClickRequest;
+using GameInterface::PlayerTurnRequest;
 
 class Request : public ServerRequest::Service
 {
@@ -35,6 +36,8 @@ class Request : public ServerRequest::Service
         grpc::Status getHighLightedPositions(ServerContext* context, const Empty* request, ServerWriter<GameInterface::PositionStatus>* writer) override;
         grpc::Status getPlayer1Pieces(ServerContext* context, const Empty* request, ServerWriter<PlayerPieces>* writer) override;
         grpc::Status getPlayer2Pieces(ServerContext* context, const Empty* request, ServerWriter<PlayerPieces>* writer) override;
+        grpc::Status getPlayerTurn(ServerContext* context, const Empty* request, ::GameInterface::PlayerTurnRequest* response) override;
+                     
 
     private:
         int clients = 0;

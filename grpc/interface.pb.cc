@@ -119,9 +119,22 @@ struct ClickRequestDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ClickRequestDefaultTypeInternal _ClickRequest_default_instance_;
+constexpr PlayerTurnRequest::PlayerTurnRequest(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : turn_(0)
+{}
+struct PlayerTurnRequestDefaultTypeInternal {
+  constexpr PlayerTurnRequestDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~PlayerTurnRequestDefaultTypeInternal() {}
+  union {
+    PlayerTurnRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PlayerTurnRequestDefaultTypeInternal _PlayerTurnRequest_default_instance_;
 }  // namespace GameInterface
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_interface_2eproto[8];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_interface_2eproto[3];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_interface_2eproto[9];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_interface_2eproto[4];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_interface_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_interface_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -184,6 +197,13 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_interface_2eproto::offsets[] P
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GameInterface::ClickRequest, position_),
   PROTOBUF_FIELD_OFFSET(::GameInterface::ClickRequest, id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::GameInterface::PlayerTurnRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::GameInterface::PlayerTurnRequest, turn_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GameInterface::Empty)},
@@ -194,6 +214,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 35, -1, -1, sizeof(::GameInterface::PositionStatus)},
   { 43, -1, -1, sizeof(::GameInterface::PlayerPieces)},
   { 51, -1, -1, sizeof(::GameInterface::ClickRequest)},
+  { 59, -1, -1, sizeof(::GameInterface::PlayerTurnRequest)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -205,6 +226,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::GameInterface::_PositionStatus_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::GameInterface::_PlayerPieces_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::GameInterface::_ClickRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::GameInterface::_PlayerTurnRequest_default_instance_),
 };
 
 const char descriptor_table_protodef_interface_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -225,24 +247,29 @@ const char descriptor_table_protodef_interface_2eproto[] PROTOBUF_SECTION_VARIAB
   "OOK\020\000\022\n\n\006KNIGHT\020\001\022\n\n\006BISHOP\020\002\022\t\n\005QUEEN\020\003"
   "\022\010\n\004KING\020\004\022\010\n\004PAWN\020\005\"^\n\014ClickRequest\022)\n\010"
   "position\030\001 \001(\0132\027.GameInterface.Position\022"
-  "#\n\002id\030\002 \001(\0132\027.GameInterface.PlayerID2\266\003\n"
-  "\rServerRequest\0229\n\007connect\022\023.GameInterfac"
-  "e.Name\032\027.GameInterface.PlayerID\"\000\022<\n\005cli"
-  "ck\022\033.GameInterface.ClickRequest\032\024.GameIn"
-  "terface.Empty\"\000\022B\n\rgetGameStatus\022\024.GameI"
-  "nterface.Empty\032\031.GameInterface.GameStatu"
-  "s\"\000\022R\n\027getHighLightedPositions\022\024.GameInt"
-  "erface.Empty\032\035.GameInterface.PositionSta"
-  "tus\"\0000\001\022I\n\020getPlayer1Pieces\022\024.GameInterf"
-  "ace.Empty\032\033.GameInterface.PlayerPieces\"\000"
-  "0\001\022I\n\020getPlayer2Pieces\022\024.GameInterface.E"
-  "mpty\032\033.GameInterface.PlayerPieces\"\0000\001b\006p"
-  "roto3"
+  "#\n\002id\030\002 \001(\0132\027.GameInterface.PlayerID\"\200\001\n"
+  "\021PlayerTurnRequest\0229\n\004turn\030\001 \001(\0162+.GameI"
+  "nterface.PlayerTurnRequest.PlayerTurn\"0\n"
+  "\nPlayerTurn\022\020\n\014PLAYER1_TURN\020\000\022\020\n\014PLAYER2"
+  "_TURN\020\0012\201\004\n\rServerRequest\0229\n\007connect\022\023.G"
+  "ameInterface.Name\032\027.GameInterface.Player"
+  "ID\"\000\022<\n\005click\022\033.GameInterface.ClickReque"
+  "st\032\024.GameInterface.Empty\"\000\022B\n\rgetGameSta"
+  "tus\022\024.GameInterface.Empty\032\031.GameInterfac"
+  "e.GameStatus\"\000\022R\n\027getHighLightedPosition"
+  "s\022\024.GameInterface.Empty\032\035.GameInterface."
+  "PositionStatus\"\0000\001\022I\n\020getPlayer1Pieces\022\024"
+  ".GameInterface.Empty\032\033.GameInterface.Pla"
+  "yerPieces\"\0000\001\022I\n\020getPlayer2Pieces\022\024.Game"
+  "Interface.Empty\032\033.GameInterface.PlayerPi"
+  "eces\"\0000\001\022I\n\rgetPlayerTurn\022\024.GameInterfac"
+  "e.Empty\032 .GameInterface.PlayerTurnReques"
+  "t\"\000b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_interface_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_interface_2eproto = {
-  false, false, 1165, descriptor_table_protodef_interface_2eproto, "interface.proto", 
-  &descriptor_table_interface_2eproto_once, nullptr, 0, 8,
+  false, false, 1371, descriptor_table_protodef_interface_2eproto, "interface.proto", 
+  &descriptor_table_interface_2eproto_once, nullptr, 0, 9,
   schemas, file_default_instances, TableStruct_interface_2eproto::offsets,
   file_level_metadata_interface_2eproto, file_level_enum_descriptors_interface_2eproto, file_level_service_descriptors_interface_2eproto,
 };
@@ -331,6 +358,27 @@ constexpr PlayerPieces_PieceType PlayerPieces::PAWN;
 constexpr PlayerPieces_PieceType PlayerPieces::PieceType_MIN;
 constexpr PlayerPieces_PieceType PlayerPieces::PieceType_MAX;
 constexpr int PlayerPieces::PieceType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerTurnRequest_PlayerTurn_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_interface_2eproto);
+  return file_level_enum_descriptors_interface_2eproto[3];
+}
+bool PlayerTurnRequest_PlayerTurn_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest::PLAYER1_TURN;
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest::PLAYER2_TURN;
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest::PlayerTurn_MIN;
+constexpr PlayerTurnRequest_PlayerTurn PlayerTurnRequest::PlayerTurn_MAX;
+constexpr int PlayerTurnRequest::PlayerTurn_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
@@ -1844,6 +1892,187 @@ void ClickRequest::InternalSwap(ClickRequest* other) {
       file_level_metadata_interface_2eproto[7]);
 }
 
+// ===================================================================
+
+class PlayerTurnRequest::_Internal {
+ public:
+};
+
+PlayerTurnRequest::PlayerTurnRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor();
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:GameInterface.PlayerTurnRequest)
+}
+PlayerTurnRequest::PlayerTurnRequest(const PlayerTurnRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  turn_ = from.turn_;
+  // @@protoc_insertion_point(copy_constructor:GameInterface.PlayerTurnRequest)
+}
+
+void PlayerTurnRequest::SharedCtor() {
+turn_ = 0;
+}
+
+PlayerTurnRequest::~PlayerTurnRequest() {
+  // @@protoc_insertion_point(destructor:GameInterface.PlayerTurnRequest)
+  if (GetArenaForAllocation() != nullptr) return;
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+inline void PlayerTurnRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void PlayerTurnRequest::ArenaDtor(void* object) {
+  PlayerTurnRequest* _this = reinterpret_cast< PlayerTurnRequest* >(object);
+  (void)_this;
+}
+void PlayerTurnRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void PlayerTurnRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void PlayerTurnRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:GameInterface.PlayerTurnRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  turn_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PlayerTurnRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .GameInterface.PlayerTurnRequest.PlayerTurn turn = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_turn(static_cast<::GameInterface::PlayerTurnRequest_PlayerTurn>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PlayerTurnRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:GameInterface.PlayerTurnRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .GameInterface.PlayerTurnRequest.PlayerTurn turn = 1;
+  if (this->_internal_turn() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_turn(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:GameInterface.PlayerTurnRequest)
+  return target;
+}
+
+size_t PlayerTurnRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:GameInterface.PlayerTurnRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .GameInterface.PlayerTurnRequest.PlayerTurn turn = 1;
+  if (this->_internal_turn() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_turn());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PlayerTurnRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    PlayerTurnRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PlayerTurnRequest::GetClassData() const { return &_class_data_; }
+
+void PlayerTurnRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<PlayerTurnRequest *>(to)->MergeFrom(
+      static_cast<const PlayerTurnRequest &>(from));
+}
+
+
+void PlayerTurnRequest::MergeFrom(const PlayerTurnRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:GameInterface.PlayerTurnRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_turn() != 0) {
+    _internal_set_turn(from._internal_turn());
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PlayerTurnRequest::CopyFrom(const PlayerTurnRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GameInterface.PlayerTurnRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PlayerTurnRequest::IsInitialized() const {
+  return true;
+}
+
+void PlayerTurnRequest::InternalSwap(PlayerTurnRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(turn_, other->turn_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PlayerTurnRequest::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_interface_2eproto_getter, &descriptor_table_interface_2eproto_once,
+      file_level_metadata_interface_2eproto[8]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace GameInterface
 PROTOBUF_NAMESPACE_OPEN
@@ -1870,6 +2099,9 @@ template<> PROTOBUF_NOINLINE ::GameInterface::PlayerPieces* Arena::CreateMaybeMe
 }
 template<> PROTOBUF_NOINLINE ::GameInterface::ClickRequest* Arena::CreateMaybeMessage< ::GameInterface::ClickRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::GameInterface::ClickRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::GameInterface::PlayerTurnRequest* Arena::CreateMaybeMessage< ::GameInterface::PlayerTurnRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::GameInterface::PlayerTurnRequest >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -9,6 +9,7 @@ service ServerRequest
     rpc getHighLightedPositions(Empty) returns (stream PositionStatus) {};
     rpc getPlayer1Pieces(Empty) returns (stream PlayerPieces) {};
     rpc getPlayer2Pieces(Empty) returns (stream PlayerPieces) {};
+    rpc getPlayerTurn(Empty) returns (PlayerTurnRequest) {};
 }
 
 message Empty {}
@@ -76,4 +77,15 @@ message ClickRequest
 {
     Position position = 1;
     PlayerID id = 2;
+}
+
+message PlayerTurnRequest
+{
+    enum PlayerTurn
+    {
+        PLAYER1_TURN = 0;
+        PLAYER2_TURN = 1;
+    };
+
+    PlayerTurn turn = 1;
 }
