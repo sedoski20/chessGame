@@ -21,7 +21,7 @@ private:
     bool isPlayer1Turn;
     bool isGameEnded;
     QString getPiecePath(PieceType type, bool isPlayer1);
-    QTimer refreshTimer;
+    QTimer *refreshTimer;
 
 
 public:
