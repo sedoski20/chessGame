@@ -18,7 +18,8 @@ jobs:
       with: 
         submodules: true
 
-    if: ${{ failure() }}
+    - name: Setup tmate session
+      if: ${{ failure() }}
       uses: mxschmitt/action-tmate@v3
 
     - name: Install Qt
