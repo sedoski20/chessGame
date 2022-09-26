@@ -20,8 +20,10 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.0.0
 
-    - name: Install protobuf compiler
-      run: sudo apt install protobuf-compiler
+    - name: Install protobuf and grpc
+      uses: eWaterCycle/setup-grpc@v5
+        with:
+          grpc-version: 1.43.0
 
 
     - name: Configure CMake
