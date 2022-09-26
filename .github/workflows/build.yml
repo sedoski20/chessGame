@@ -41,8 +41,13 @@ jobs:
       if: ${{ failure() }}
       uses: mxschmitt/action-tmate@v3
     
-    - name: Upload Artifacts
+    - name: Upload Artifact [Client]
       uses: actions/upload-artifact@v3
         with:
-          path:  ${{github.workspace}}/build/bin/
+          name: ChessGame_client  
+
+    - name: Upload Artifact [Server]
+      uses: actions/upload-artifact@v3
+        with:
+          name: ChessGame_server 
 
