@@ -44,10 +44,12 @@ jobs:
     - name: Upload Artifact [Client]
       uses: actions/upload-artifact@v3
         with:
-          name: ChessGame_client  
+          name: ChessGame_client
+          path: ${{github.workspace}}/build/bin/client/ChessGame_client
 
     - name: Upload Artifact [Server]
       uses: actions/upload-artifact@v3
         with:
-          name: ChessGame_server 
+          name: ChessGame_server
+          path: ${{github.workspace}}/build/bin/server/ChessGame_server
 
