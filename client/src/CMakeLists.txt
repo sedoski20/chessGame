@@ -13,7 +13,7 @@ qt5_add_resources(RESOURCES ../qml.qrc)
 add_executable(${BINARY} ${SRCS} ${RESOURCES})
 target_include_directories(${BINARY} PUBLIC ${PROJECT_SOURCE_DIR}/client/src)
 target_include_directories(${BINARY} PUBLIC ${PROJECT_SOURCE_DIR}/game/src)
-target_include_directories(${BINARY} PUBLIC ${PROJECT_SOURCE_DIR}/grpc)    
+target_include_directories(${BINARY} PUBLIC ${PROJECT_SOURCE_DIR}/interface)    
 target_link_libraries(${BINARY} PUBLIC
     interface
     ChessGame_lib 

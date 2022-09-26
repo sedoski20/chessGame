@@ -1,8 +1,8 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-#include "../../grpc/interface.pb.h"
-#include "../../grpc/interface.grpc.pb.h"
+#include "../../interface/interface.pb.h"
+#include "../../interface/interface.grpc.pb.h"
 
 #include <grpc/grpc.h>
 #include <grpcpp/security/server_credentials.h>
