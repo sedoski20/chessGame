@@ -21,7 +21,7 @@ jobs:
       uses: jurplel/install-qt-action@v3.0.0
 
     - name: Install protobuf and grpc
-      uses: eWaterCycle/setup-grpc@v5
+      uses: sedoski20/setup-grpc
       with:
         grpc-version: 1.43.0
 
