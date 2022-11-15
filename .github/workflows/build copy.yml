@@ -7,6 +7,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  
 
 jobs:
   build-ubuntu:
@@ -63,6 +64,9 @@ jobs:
 
     steps:
     
+    - env:
+        GRPC_INSTALL_PATH: "C:/Program Files/grpc/"
+    
     - name: Clone repository
       uses: actions/checkout@v3
       with: 
@@ -76,11 +80,11 @@ jobs:
         cd cmake
         mkdir build
         cd build
-        # cmake -DgRPC_INSTALL=ON -DgRPC_SSL_PROVIDER=package -DgRPC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=GRPC_INSTALL_PATH ../..
+        cmake -DgRPC_INSTALL=ON -DgRPC_SSL_PROVIDER=package -DgRPC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${{env.GRPC_INSTALL_PATH}} ../..
         echo "Building grpc"
-        # make
-        # echo "Installing grpc in "
-        # make install
+        make
+        echo "Installing grpc in ${{env.GRPC_INSTALL_PATH}}"
+        make install
         cd ../../..
       
     - name: Install Qt
