@@ -61,8 +61,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-
-    name: Clone repository
+    
+    - name: Clone repository
       uses: actions/checkout@v3
       with: 
         submodules: true
