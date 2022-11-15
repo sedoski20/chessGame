@@ -3,6 +3,7 @@ name: CMake
 on: push
 
 env:
+  GRPC_INSTALL_PATH: ${{ runner.tool_cache }}
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
@@ -60,16 +61,29 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+
+    name: Clone repository
+      uses: actions/checkout@v3
       with: 
         submodules: true
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3.0.0
 
     - name: Install protobuf and grpc
-      uses: eWaterCycle/setup-grpc@v5
-      with:
-        grpc-version: 1.43.0
+      run: |
+        echo "Cloning grpc"
+        git clone --depth 1 --recurse-submodules --shallow-submodules -b -1.4.3 "https://github.com/grpc/grpc"
+        cd grpc
+        mkdir build
+        cd build
+        cmake -DgRPC_INSTALL=ON -DgRPC_SSL_PROVIDER=package -DgRPC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=$env:GRPC_INSTALL_PATH ../
+        echo "Building grpc"
+        make
+        echo "Installing grpc in $env:GRPC_INSTALL_PATH"
+        make install
+        export GRPC_ROOT=${{$env:GRPC_INSTALL_PATH}}/bin/
+        cd ../..
+      
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3.0.0
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
