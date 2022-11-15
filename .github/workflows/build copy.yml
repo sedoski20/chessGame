@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  GRPC_INSTALL_PATH: ${{ runner.tool_cache }}
+  GRPC_INSTALL_PATH: $HOME/grpc/bin
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
