@@ -63,16 +63,15 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    
-    - env:
-        GRPC_INSTALL_PATH: "C:/Program Files/grpc/"
-    
+
     - name: Clone repository
       uses: actions/checkout@v3
       with: 
         submodules: true
 
     - name: Install protobuf and grpc
+      env:
+        GRPC_INSTALL_PATH: "C:/Program Files/grpc/"
       run: |
         echo "Cloning grpc"
         git clone --depth 1 --recurse-submodules --shallow-submodules -b v1.4.3 "https://github.com/grpc/grpc"
