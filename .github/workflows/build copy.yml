@@ -71,7 +71,7 @@ jobs:
     - name: Install protobuf and grpc
       run: |
         echo "Cloning grpc"
-        git clone --depth 1 --recurse-submodules --shallow-submodules -b -"v1.4.3" "https://github.com/grpc/grpc"
+        git clone --depth 1 --recurse-submodules --shallow-submodules -b v1.4.3 "https://github.com/grpc/grpc"
         cd grpc
         mkdir build
         cd build
