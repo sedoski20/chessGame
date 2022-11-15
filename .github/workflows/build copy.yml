@@ -1,6 +1,8 @@
 name: CMake
 
-on: push
+on: 
+  push:
+  workflow_dispatch:
 
 env:
   GRPC_INSTALL_PATH: ${{ runner.tool_cache }}
@@ -22,7 +24,7 @@ jobs:
       uses: jurplel/install-qt-action@v3.0.0
 
     - name: Install protobuf and grpc
-      uses: sedoski20/setup-grpc
+      uses: eWaterCycle/setup-grpc@v5
       with:
         grpc-version: 1.43.0
 
