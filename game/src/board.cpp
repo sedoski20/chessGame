@@ -9,6 +9,8 @@ Board::Board(const PlayerManager *players) : players(players)
     this->unselect();
 }
 
+Board::~Board() {}
+
 const Piece* Board::getSelectedPiece() const
 {
     return this->selectedPiece;

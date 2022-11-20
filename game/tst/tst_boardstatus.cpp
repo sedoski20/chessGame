@@ -1,21 +1,18 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <algorithm>
 #include "boardstatus.h"
-#include "boardengine_testcases_data.h"
+#include "testcases_data.h"
 
-class PlayerFake : public Player
-{   
+class PlayerMock : public IPlayer
+{
     public:
-    PlayerFake(MovementDirection direction) : Player(direction){}; 
-    
-    void setPieces(std::list<const Piece *> pieces)
-    {
-        this->pieces.clear();
-
-        for(const Piece * piece : pieces)
-            this->pieces.push_back(const_cast<Piece *>(piece));
-
-    }
+    PlayerMock() {};
+    MOCK_METHOD(Piece*, findPiece, (Position), (const));
+    MOCK_METHOD(const std::list<const Piece *>, getPieces, (), (const));
+    MOCK_METHOD(bool, capturePiece, (Position));
+    MOCK_METHOD(bool, movePiece, (Position, Position));
+    MOCK_METHOD(Position, getKingPosition, (), (const));
 };
 
 class BoardStatusTestCase : public ::testing::Test
@@ -23,13 +20,10 @@ class BoardStatusTestCase : public ::testing::Test
     protected:
         void SetUp() override
         {
-            mock1 = new PlayerFake(MovementDirection::MOVING_UP);
-            mock2 = new PlayerFake(MovementDirection::MOVING_DOWN); 
-            IPlayer * player1 = mock1;  
-            IPlayer * player2 = mock2;
             turn = PlayerTurn::TURN_PLAYER1;
-
-            players = new PlayerManager(player1, player2, &turn);
+            mock1 = new PlayerMock();
+            mock2 = new PlayerMock();
+            players = new PlayerManager(mock1, mock2, &turn);
             boardEngine = new BoardEngine(players);
         }
 
@@ -37,16 +31,23 @@ class BoardStatusTestCase : public ::testing::Test
         { 
             delete players;
             delete boardEngine; 
+            deleteMocks();
+        }
+
+        void deleteMocks()
+        {
             delete mock1;
             delete mock2;
         }
 
-        PlayerFake *mock1;
-        PlayerFake *mock2;
+        PlayerMock *mock1; 
+        PlayerMock *mock2;
         BoardEngine *boardEngine;
         PlayerManager *players;
         PlayerTurn turn;
 };
+
+using ::testing::Return;
 
 template<typename T>
 int countEquals(std::list<T> a, std::list<T> b)
@@ -64,13 +65,14 @@ int countEquals(std::list<T> a, std::list<T> b)
 
 TEST_F(BoardStatusTestCase, kingEscaping)
 {
-    using namespace kingEscaping;
+    KingEscaping t;
 
-    mock1->setPieces(current_player);
-    mock2->setPieces(opponent_player);
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
     BoardStatus status(players);
-    status.update(selected_piece);
+    status.update(t.selected_piece);
 
     std::list<PositionStatus> highlited_positions = status.getHighlightedPositions();
 
@@ -87,13 +89,14 @@ TEST_F(BoardStatusTestCase, kingEscaping)
 
 TEST_F(BoardStatusTestCase, kingAttacking)
 {
-    using namespace kingAttacking;
+    KingAttacking t;
 
-    mock1->setPieces(current_player);
-    mock2->setPieces(opponent_player);
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
     BoardStatus status(players);
-    status.update(selected_piece);
+    status.update(t.selected_piece);
 
     std::list<PositionStatus> highlited_positions = status.getHighlightedPositions();
 
@@ -109,13 +112,15 @@ TEST_F(BoardStatusTestCase, kingAttacking)
 
 TEST_F(BoardStatusTestCase, kingProtectionFence)
 {
-    using namespace kingProtectionFence;
+    KingProtectionFence t;
 
-    mock1->setPieces(current_player);
-    mock2->setPieces(opponent_player);
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
+
 
     BoardStatus status(players);
-    status.update(selected_piece);
+    status.update(t.selected_piece);
 
     std::list<PositionStatus> highlited_positions = status.getHighlightedPositions();
 
@@ -131,13 +136,14 @@ TEST_F(BoardStatusTestCase, kingProtectionFence)
 
 TEST_F(BoardStatusTestCase, kingProtectionAttack)
 {
-    using namespace kingProtectionAttack;
+    KingProtectionAttack t;
 
-    mock1->setPieces(current_player);
-    mock2->setPieces(opponent_player);
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
     BoardStatus status(players);
-    status.update(selected_piece);
+    status.update(t.selected_piece);
 
     std::list<PositionStatus> highlited_positions = status.getHighlightedPositions();
 
@@ -154,13 +160,14 @@ TEST_F(BoardStatusTestCase, kingProtectionAttack)
 
 TEST_F(BoardStatusTestCase, noSafeMovements1)
 {
-    using namespace noSafeMovements1;
+    NoSafeMovements1 t;
 
-    mock1->setPieces(current_player);
-    mock2->setPieces(opponent_player);
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
     BoardStatus status(players);
-    status.update(selected_piece);
+    status.update(t.selected_piece);
 
     std::list<PositionStatus> highlited_positions = status.getHighlightedPositions();
 

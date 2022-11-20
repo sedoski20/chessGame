@@ -1,32 +1,43 @@
 @startuml
 
-
-    package GameInterface {
-        component QtQuickApplication
+    package Client #LightGrey {
+        artifact Client_Application
         component Qt <<shared lib>>
+        component GameEngine as game1 <<static lib>>
+        component gRPC_client as gRPC1 <<generated>>
     }
 
-    package GameEngine {
-        component hidden
-        component GameLibrary  <<static lib>>
+    package Server #LightGrey {     
+            artifact Server_Application  
+            component gRPC_service as gRPC2 <<generated>>
+            component GameEngine as game2 <<static lib>>
     }
 
-    package GameTesting {
-        component TestingApplication
-        component GoogleTest <<static lib>>
+    cloud Internet as i1 #CadetBlue
+
+    package GameTesting #LightGrey {
+        artifact Testing_Application
+        component GoogleTest <<shared lib>>
+        component GameEngine as game3 <<static lib>>
     }
 
     skinparam component {
         backgroundColor<<static lib>> #B5EFF7
         backgroundColor<<shared lib>> #AFF4A1
+        backgroundColor<<generated>> #LightSteelBlue
     }
 
     hide hidden
-    hidden -- GameLibrary
-    QtQuickApplication -- Qt
-    QtQuickApplication ..> GameLibrary
-    TestingApplication ..> GameLibrary
-    TestingApplication -- GoogleTest
+    Client_Application --> Qt
+    Client_Application --> game1
+    Client_Application --> gRPC1
+    gRPC1 -(0)-> i1
 
+    Server_Application --> gRPC2
+    Server_Application --> game2
+    gRPC2 -(0)-> i1
+
+    Testing_Application --> GoogleTest
+    Testing_Application --> game3
 
 @enduml

@@ -7,6 +7,7 @@
 class IBoard
 {
 public:
+	virtual ~IBoard() {}; 
 	virtual bool isPieceSelected() const = 0;
 	virtual bool select(Position &position) = 0;
     virtual bool moveSelectedPiece(Position position) = 0;

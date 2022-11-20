@@ -14,6 +14,9 @@ TEST(PlayerManagerTestCase, ConstructorTest)
     EXPECT_EQ(players.getOpponentPlayer(), player2);
     EXPECT_EQ(players.getPlayer1(), player1);
     EXPECT_EQ(players.getPlayer2(), player2);
+
+    delete player1;
+    delete player2;
 }
 
 TEST(PlayerManagerTestCase, UpdatingTurn)
@@ -35,4 +38,7 @@ TEST(PlayerManagerTestCase, UpdatingTurn)
     EXPECT_EQ(players.getOpponentPlayer(), player1);
     EXPECT_EQ(players.getPlayer1(), player1);
     EXPECT_EQ(players.getPlayer2(), player2);
+
+    delete player1;
+    delete player2;
 }

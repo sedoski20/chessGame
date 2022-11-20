@@ -1,6 +1,8 @@
-set(BINARY ${PROJECT_NAME}_tst)
+project(ChessGame)
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+set(BINARY ${PROJECT_NAME}_lib_tst)
+
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.cpp)
 
 set(SOURCES ${TEST_SOURCES})
 set(GTEST ${PROJECT_SOURCE_DIR}/game/lib/googletest/)

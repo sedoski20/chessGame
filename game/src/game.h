@@ -21,6 +21,7 @@ private:
 public:
     Game();
     Game(IBoard *board, PlayerManager * players);
+    ~Game();
     void selectPosition(Position position);
     const std::list<PositionStatus> getHighlightedPositions() const;
     const std::list<PieceInfo> getPlayer1Pieces() const;

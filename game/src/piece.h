@@ -37,6 +37,7 @@ private:
 
 public: 
 	Piece(Position initialPostion, PieceType type);
+	virtual ~Piece();
     virtual bool move(Position position);
 	PieceType getType() const { return type; }
 	Position getPosition() const;

@@ -5,6 +5,8 @@ Piece::Piece(Position initialPostion, PieceType type) : position(initialPostion)
 														type(type) {}
 
 
+Piece::~Piece() {}
+
 Position Piece::getPosition() const
 {
 	return this->position;

@@ -7,6 +7,7 @@ class Pawn : virtual public Piece
 {
 public:
 	Pawn(Position initialPosition);
+	~Pawn();
 	std::list<Position> getPossibleMovements(const BoardPositions &board) const;
     bool move(Position position);
 

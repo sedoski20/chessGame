@@ -6,11 +6,13 @@
 #include "iplayer.h"
 #include "pawn.h"
 #include "board.h"
-#include "boardengine_testcases_data.h"
+#include "testcases_data.h"
 
 class BoardMock : public IBoard
 {
     public:
+    BoardMock() {};
+    ~BoardMock() {};
     MOCK_METHOD(bool, isPieceSelected, (), (const, override));
     MOCK_METHOD(bool, select, (Position&), (override));
     MOCK_METHOD(bool, moveSelectedPiece, (Position), (override));
@@ -20,6 +22,8 @@ class BoardMock : public IBoard
 class PlayerMock : public IPlayer
 {
     public:
+    PlayerMock() {};
+    ~PlayerMock() {};
     MOCK_METHOD(Piece*, findPiece, (Position), (const));
     MOCK_METHOD(const std::list<const Piece *>, getPieces, (), (const));
     MOCK_METHOD(bool, capturePiece, (Position));
@@ -47,20 +51,19 @@ TEST(GameTestCase, FirstClickOnEmpty)
     PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
     PlayerManager * players = new PlayerManager(player1, player2, &turn);
 
-    BoardMock mock;
-    IBoard* board = &mock;
-    Game game(board, players);
+    BoardMock* const mock = new BoardMock;
+    Game game(mock, players);
     Position first_click(5, 5);
     
 
-    EXPECT_CALL(mock, isPieceSelected())
+    EXPECT_CALL(*mock, isPieceSelected())
     .WillOnce(Return(false));
 
-    EXPECT_CALL(mock, getSelectedPiece())
+    EXPECT_CALL(*mock, getSelectedPiece())
     .WillOnce(Return(nullptr))
     .WillOnce(Return(nullptr));
 
-    EXPECT_CALL(mock, select(first_click))
+    EXPECT_CALL(*mock, select(first_click))
     .WillOnce(Return(false));
 
     EXPECT_EQ(game.getHighlightedPositions().size(), 0);
@@ -80,9 +83,8 @@ TEST(GameTestCase, MoveTestCase1)
     PlayerTurn turn = PlayerTurn::TURN_PLAYER1;
     PlayerManager * players = new PlayerManager(player1, player2, &turn);
 
-    BoardMock mock;
-    IBoard* board = &mock;
-    Game game(board, players);
+    BoardMock* const mock = new BoardMock;
+    Game game(mock, players);
 
     EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     
@@ -90,18 +92,18 @@ TEST(GameTestCase, MoveTestCase1)
     Position second_click(3, 0);
     const Piece *selected_piece = new Pawn(first_click);
 
-    EXPECT_CALL(mock, isPieceSelected())
+    EXPECT_CALL(*mock, isPieceSelected())
     .WillOnce(Return(false))
     .WillOnce(Return(true));
 
-    EXPECT_CALL(mock, getSelectedPiece())
+    EXPECT_CALL(*mock, getSelectedPiece())
     .WillOnce(Return(selected_piece))
     .WillOnce(Return(nullptr));
 
-    EXPECT_CALL(mock, select(first_click))
+    EXPECT_CALL(*mock, select(first_click))
     .WillOnce(Return(true));
 
-    EXPECT_CALL(mock, moveSelectedPiece(second_click))
+    EXPECT_CALL(*mock, moveSelectedPiece(second_click))
     .WillOnce(Return(true));
     
     //Try to select a first pawn
@@ -115,11 +117,13 @@ TEST(GameTestCase, MoveTestCase1)
 
     EXPECT_EQ(game.getHighlightedPositions().size(), 0);
     EXPECT_EQ(game.getPlayerTurn(), PlayerTurn::TURN_PLAYER2);
+
+    delete selected_piece;
 }
 
 TEST(GameTestCase, EndingGame)
 {
-    using namespace checkMate;
+    CheckMate t;
 
     IPlayer *player1 = new Player(MovementDirection::MOVING_UP);
     IPlayer *player2 = new Player(MovementDirection::MOVING_DOWN);
@@ -127,28 +131,26 @@ TEST(GameTestCase, EndingGame)
     PlayerManager * players = new PlayerManager(player1, player2, &turn);
 
     // Creating a initial state game and checking status
-    Board board = Board(players);
-    IBoard* iboard = &board;
-    
-    Game game(iboard, players);
+    Board *board = new Board(players);
+    Game *game = new Game(board, players);
 
-    EXPECT_EQ(game.getGameStatus(), GameStatus::PLAYING);
+    EXPECT_EQ(game->getGameStatus(), GameStatus::PLAYING);
+
+    delete game;
 
     // Changing the state to check mate mocking the players objects
+    PlayerMock* const mock1 = new PlayerMock();
+    PlayerMock* const mock2 = new PlayerMock();
 
-    PlayerMock mock1;
-    PlayerMock mock2;
+    EXPECT_CALL(*mock1, getKingPosition()).WillRepeatedly(Return(t.king_position));
+    EXPECT_CALL(*mock1, getPieces()).WillRepeatedly(Return(t.current_player));
+    EXPECT_CALL(*mock2, getPieces()).WillRepeatedly(Return(t.opponent_player));
 
-    EXPECT_CALL(mock1, getPieces()).WillRepeatedly(Return(current_player));
-    EXPECT_CALL(mock2, getPieces()).WillRepeatedly(Return(opponent_player));
+    players = new PlayerManager(mock1, mock2, &turn);
+    board = new Board(players);
+    game = new Game(board, players);
 
-    player1 = &mock1;
-    player2 = &mock2;
+    EXPECT_EQ(game->getGameStatus(), GameStatus::ENDED);
 
-    players = new PlayerManager(player1, player2, &turn);
-    board = Board(players);
-    iboard = &board;
-    game = Game(iboard, players);
-
-    EXPECT_EQ(game.getGameStatus(), GameStatus::ENDED);
+    delete game;
 }

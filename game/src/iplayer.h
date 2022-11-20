@@ -7,6 +7,7 @@ class IPlayer
 private:
     
 public:
+    virtual ~IPlayer(){};
     virtual Piece* findPiece(Position location) const = 0;; 
     virtual const std::list<const Piece *> getPieces() const = 0;
     virtual bool capturePiece(Position target) = 0;
