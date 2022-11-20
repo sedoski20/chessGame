@@ -163,4 +163,3 @@ $ ./ChessGame_tst
 
 
 
-

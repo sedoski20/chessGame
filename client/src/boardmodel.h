@@ -4,6 +4,7 @@
 #include <QObject>
 #include "squaremodel.h"
 #include "igame.h"
+#include <QTimer>
 
 class BoardModel : public QObject
 {
@@ -14,22 +15,26 @@ class BoardModel : public QObject
 
 private:
     QList<SquareModel*> squares;
-    IGame *i_game = nullptr;
+    IGame *i_game;
     void updatePieces();
     void resetSquares();
     bool isPlayer1Turn;
-    bool isGameEnded = false;
+    bool isGameEnded;
     QString getPiecePath(PieceType type, bool isPlayer1);
+    QTimer *refreshTimer;
 
 
 public:
-    explicit BoardModel(IGame *game);
+    explicit BoardModel(IGame *game, QObject *parent = nullptr);
+    explicit BoardModel(QObject *parent = nullptr);
     ~BoardModel();
+    void setGameInterface(IGame *game);
     void reset();
     void setIsPlayer1Turn(bool value);
     void setIsGameEnded(bool value);
     bool getIsPlayer1Turn();
     bool getIsGameEnded();
+    bool isLoaded();
 
     Q_INVOKABLE QObject* findSquare(int row, int column) const;
     Q_INVOKABLE QObject* findSquare(int index) const;
@@ -38,6 +43,9 @@ public:
 signals:
     void isPlayer1TurnChanged();
     void isGameEndedChanged();
+
+public slots:
+    void update();
 
 
 

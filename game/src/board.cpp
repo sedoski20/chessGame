@@ -34,8 +34,8 @@ bool Board::isPieceSelected() const
 
 bool Board::moveSelectedPiece(Position position)  
 {
-    //  1. Check if is piece selected
-    //  2. If so, get the possible movements 
+    //  1. Check if there is no piece already selected
+    //  2. If not, get the possible movements 
     //  3. Check if the destination is a possible movement
     //  4. If so, move the piece
     //  5. Check if the movement is an attack

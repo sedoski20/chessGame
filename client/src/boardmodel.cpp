@@ -1,11 +1,11 @@
 #include "boardmodel.h"
 #include <QQmlEngine>
 #include "boardstatus.h"
+#include <QDebug>
 
-BoardModel::BoardModel(IGame *game)
+BoardModel::BoardModel(IGame *game, QObject *parent) : QObject(parent)
 {
     squares.clear();
-
 
     for(int i = 0; i < 8; i++)
     {
@@ -17,9 +17,31 @@ BoardModel::BoardModel(IGame *game)
 
     this->i_game = game;
     resetSquares();
-    updatePieces();
+    setIsGameEnded(false);
+    setIsPlayer1Turn(true);
 
-     setIsPlayer1Turn(true);
+    refreshTimer = new QTimer(this);
+    connect(this->refreshTimer, SIGNAL(timeout()), this, SLOT(update()));
+}
+
+BoardModel::BoardModel(QObject *parent) 
+{
+    squares.clear();
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            squares.append(new SquareModel(i,j));
+        }
+    }
+
+    this->i_game = nullptr;
+    resetSquares();
+    setIsGameEnded(false);
+    setIsPlayer1Turn(true);
+
+    refreshTimer = new QTimer(this);
+    connect(this->refreshTimer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 BoardModel::~BoardModel()
@@ -62,6 +84,9 @@ void BoardModel::reset()
 
 void BoardModel::setIsPlayer1Turn(bool value)
 {
+    if(!isLoaded())
+        return;
+        
     if(this->isPlayer1Turn == value)
         return;
 
@@ -90,10 +115,13 @@ bool BoardModel::getIsGameEnded()
 
 bool BoardModel::select(int index)
 {
+    if(!isLoaded())
+        return false;
+
     SquareModel *square = dynamic_cast<SquareModel*>(findSquare(index));
     i_game->selectPosition(Position(square->getRow(), square->getColumn()));
 
-    std::list<PositionStatus> board_status = i_game->getBoardStatus().getHighlightedPositions();
+    std::list<PositionStatus> board_status = i_game->getHighlightedPositions();
 
     resetSquares();
 
@@ -107,45 +135,48 @@ bool BoardModel::select(int index)
     }
 
     updatePieces();
-    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
-    setIsPlayer1Turn(is_player1_turn);
+    // bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    // bool is_player1_turn = true;
+    // setIsPlayer1Turn(is_player1_turn);
 
-    GameStatus status = i_game->getGameStatus();
-    setIsGameEnded((status == GameStatus::ENDED) ? true : false);
-
+    // GameStatus status = i_game->getGameStatus();
+    // setIsGameEnded((status == GameStatus::ENDED) ? true : false);
     return true;
 }
 
 
 void BoardModel::updatePieces()
 {
-    std::list<const Piece*> player1 = i_game->getBoardStatus().getPlayer1Pieces();
-    std::list<const Piece*> player2 = i_game->getBoardStatus().getPlayer2Pieces();
+    if(!isLoaded())
+        return;
+
+    std::list<PieceInfo> player1 = i_game->getPlayer1Pieces();
+    std::list<PieceInfo> player2 = i_game->getPlayer2Pieces();
 
     for(auto piece : player1)
     {
-        int row = piece->getPosition().row;
-        int column = piece->getPosition().column;
+        int row = piece.position().row;
+        int column = piece.position().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece->getType(), true);
+            QString path = getPiecePath(piece.type(), true);
             square->setIconPath(path);
         }
     }
 
     for(auto piece : player2)
     {
-        int row = piece->getPosition().row;
-        int column = piece->getPosition().column;
+        int row = piece.position().row;
+        int column = piece.position().column;
 
         SquareModel *square = dynamic_cast<SquareModel*>(findSquare(row, column));
 
         if(square != nullptr)
         {
-            QString path = getPiecePath(piece->getType(), false);
+            QString path = getPiecePath(piece.type(), false);
             square->setIconPath(path);
         }
     }
@@ -179,6 +210,40 @@ QString BoardModel::getPiecePath(PieceType type, bool isPlayer1)
     return path;
 }
 
+void BoardModel::update()
+{
+    if(!isLoaded())
+        return;
 
+    GameStatus status = i_game->getGameStatus();
+
+    if(status == GameStatus::INITIAL)
+        return;
+
+    setIsGameEnded((status == GameStatus::ENDED) ? true : false);
+    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+
+    if(is_player1_turn != this->getIsPlayer1Turn())
+    {
+        setIsPlayer1Turn(is_player1_turn);
+        resetSquares();
+        updatePieces();
+    }
+}
+
+bool BoardModel::isLoaded()
+{
+    return i_game != nullptr;
+}
+
+void BoardModel::setGameInterface(IGame *game)
+{
+    i_game = game;
+    this->updatePieces();
+
+    bool is_player1_turn = (i_game->getPlayerTurn() == PlayerTurn::TURN_PLAYER1) ? true : false;
+    setIsPlayer1Turn(is_player1_turn);
+    refreshTimer->start(500);
+}
 
 

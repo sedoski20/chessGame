@@ -1,11 +1,9 @@
 #include "pawn.h"
 #include <algorithm>
 
-Pawn::Pawn(Position initialPosition) : Piece(initialPosition)
+Pawn::Pawn(Position initialPosition) : Piece(initialPosition, PieceType::PAWN)
 {
 	this->isFirstMovement = true;
-	this->type = PieceType::PAWN;
-
 	if(initialPosition.row == 1)
 		this->direction = MovementDirection::MOVING_UP;
 	else
@@ -25,13 +23,14 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 
  std::list<Position> Pawn::getPawnMovements(const BoardPositions &board) const
 {
-	Position possibleMovement(position.row, position.column);
+	Position current_position = this->getPosition();
+	Position possibleMovement(current_position.row, current_position.column);
 	std::list<Position> movements;
 	int direction_factor = getDirectionFactor();
 
 	//1 step ahead
-	possibleMovement.row = position.row + (1 * direction_factor);
-	possibleMovement.column = position.column;
+	possibleMovement.row = current_position.row + (1 * direction_factor);
+	possibleMovement.column = current_position.column;
 
 	if (possibleMovement.isValidPosition())
 		if(!Position::find(board.getCurrentPlayerPositions(), possibleMovement))
@@ -41,8 +40,8 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 	//2 steps ahead
 	if (this->isFirstMovement)
 	{
-		possibleMovement.row = position.row + (2 * direction_factor);
-		possibleMovement.column = position.column;
+		possibleMovement.row = current_position.row + (2 * direction_factor);
+		possibleMovement.column = current_position.column;
 
 		if (possibleMovement.isValidPosition())
 			if (!Position::find(board.getCurrentPlayerPositions(), possibleMovement))
@@ -55,20 +54,21 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
 
  std::list<Position> Pawn::getPawnAtacks(const BoardPositions &board) const
  {
-	 Position possibleMovement(position.row, position.column);
+	 Position current_position = this->getPosition();
+	 Position possibleMovement(current_position.row, current_position.column);
 	 std::list<Position> movements;
 	 int direction_factor = getDirectionFactor();
 
 	 //First diagonal
-	 possibleMovement.row = position.row + (1 * direction_factor);
-	 possibleMovement.column = position.column - 1;
+	 possibleMovement.row = current_position.row + (1 * direction_factor);
+	 possibleMovement.column = current_position.column - 1;
 	 if (possibleMovement.isValidPosition())
 		 if(Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 			movements.push_back(possibleMovement);
 
 	 //Second diagonal
-	 possibleMovement.row = position.row + (1 * direction_factor);
-	 possibleMovement.column = position.column + 1;
+	 possibleMovement.row = current_position.row + (1 * direction_factor);
+	 possibleMovement.column = current_position.column + 1;
 	 if (possibleMovement.isValidPosition())
 		 if (Position::find(board.getOpponentPlayerPositions(), possibleMovement))
 			 movements.push_back(possibleMovement);
@@ -95,6 +95,6 @@ std::list<Position> Pawn::getPossibleMovements(const BoardPositions &board) cons
     if(this->isFirstMovement)
         this->isFirstMovement = false;
 
-    this->position = position;
+    Piece::move(position);
     return true;
  }

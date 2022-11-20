@@ -4,7 +4,7 @@
 #include "positionstatus.h"
 #include "boardpositions.h"
 #include "boardengine.h"
-#include "piece.h"
+#include "pieceinfo.h"
 #include <list>
 
 class BoardStatus
@@ -22,8 +22,8 @@ public:
     void reset();
     void update(const Piece *selectedPiece);
     std::list<PositionStatus> getHighlightedPositions() const;
-    std::list<const Piece*> getPlayer1Pieces() const;
-    std::list<const Piece*> getPlayer2Pieces() const;
+    std::list<PieceInfo> getPlayer1Pieces() const;
+    std::list<PieceInfo> getPlayer2Pieces() const;
 };
 
 

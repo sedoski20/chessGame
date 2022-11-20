@@ -4,18 +4,18 @@
 std::list<Position> Knight::getPossibleMovements(const BoardPositions &board) const
 {
     std::list<Position> movements;
+    Position current_position = this->getPosition();
+    movements.push_back(Position(current_position.row - 1, current_position.column - 2));
+    movements.push_back(Position(current_position.row + 1, current_position.column - 2));
 
-    movements.push_back(Position(position.row - 1, position.column - 2));
-    movements.push_back(Position(position.row + 1, position.column - 2));
+    movements.push_back(Position(current_position.row - 1, current_position.column + 2));
+    movements.push_back(Position(current_position.row + 1, current_position.column + 2));
 
-    movements.push_back(Position(position.row - 1, position.column + 2));
-    movements.push_back(Position(position.row + 1, position.column + 2));
+    movements.push_back(Position(current_position.row - 2, current_position.column - 1));
+    movements.push_back(Position(current_position.row - 2, current_position.column + 1));
 
-    movements.push_back(Position(position.row - 2, position.column - 1));
-    movements.push_back(Position(position.row - 2, position.column + 1));
-
-    movements.push_back(Position(position.row + 2, position.column - 1));
-    movements.push_back(Position(position.row + 2, position.column + 1));
+    movements.push_back(Position(current_position.row + 2, current_position.column - 1));
+    movements.push_back(Position(current_position.row + 2, current_position.column + 1));
 
     std::list<Position> result;
 

@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.20.0)
 project(ChessGame)
 set(CMAKE_CXX_STANDARD 14)
 
+add_subdirectory(interface)
 add_subdirectory(game)
-add_subdirectory(qt)
+add_subdirectory(server)
+add_subdirectory(client)
+
+enable_testing()
 
