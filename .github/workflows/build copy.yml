@@ -1,11 +1,13 @@
 name: CMake
 
-on: push
+on: 
+  push:
+  workflow_dispatch:
 
 env:
-  GRPC_INSTALL_PATH: ${{ runner.tool_cache }}
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  
 
 jobs:
   build-ubuntu:
@@ -22,7 +24,7 @@ jobs:
       uses: jurplel/install-qt-action@v3.0.0
 
     - name: Install protobuf and grpc
-      uses: sedoski20/setup-grpc
+      uses: eWaterCycle/setup-grpc@v5
       with:
         grpc-version: 1.43.0
 
@@ -62,25 +64,27 @@ jobs:
 
     steps:
 
-    name: Clone repository
+    - name: Clone repository
       uses: actions/checkout@v3
       with: 
         submodules: true
 
     - name: Install protobuf and grpc
+      env:
+        GRPC_INSTALL_PATH: "C:/Program Files/grpc/"
       run: |
         echo "Cloning grpc"
-        git clone --depth 1 --recurse-submodules --shallow-submodules -b -1.4.3 "https://github.com/grpc/grpc"
+        git clone --depth 1 --recurse-submodules --shallow-submodules -b v1.4.3 "https://github.com/grpc/grpc"
         cd grpc
+        cd cmake
         mkdir build
         cd build
-        cmake -DgRPC_INSTALL=ON -DgRPC_SSL_PROVIDER=package -DgRPC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=$env:GRPC_INSTALL_PATH ../
+        cmake -DgRPC_INSTALL=ON -DgRPC_SSL_PROVIDER=package -DgRPC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${{env.GRPC_INSTALL_PATH}} ../..
         echo "Building grpc"
-        make
-        echo "Installing grpc in $env:GRPC_INSTALL_PATH"
+        cmake --build ./
+        echo "Installing grpc in ${{env.GRPC_INSTALL_PATH}}"
         make install
-        export GRPC_ROOT=${{$env:GRPC_INSTALL_PATH}}/bin/
-        cd ../..
+        cd ../../..
       
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.0.0
